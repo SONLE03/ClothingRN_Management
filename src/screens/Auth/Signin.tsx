@@ -41,17 +41,16 @@ const LoginScreen: React.FC = () => {
     } else {
       const data = await loginUser(username, password);
       if (!data) {
-        Alert.alert('Đăng nhập không thành công');
+        Alert.alert('User login failed!');
       } else {
         try {
           await AsyncStorage.setItem('access_token', JSON.stringify(data.access));
           await AsyncStorage.setItem('refresh_token', JSON.stringify(data.refresh));
           await AsyncStorage.setItem('user_id', JSON.stringify(data.id));
           await AsyncStorage.setItem('role', JSON.stringify(data.role));
-          Alert.alert('Đăng nhập thành công');
           authEmitter.emit('loginStatusChanged');
         } catch (error) {
-          console.log('Error storing data: ', error);
+          console.log('Error signing in: ', error);
         }
       }
     }
