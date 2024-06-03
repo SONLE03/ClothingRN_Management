@@ -7,31 +7,31 @@ import {
     TouchableOpacity,
   } from 'react-native';
   import Ionicons from 'react-native-vector-icons/Ionicons';
-const CategoryMainScreen = ({navigation} : any) => {
+const ProductMainScreen = ({navigation} : any) => {
     return (
       <SafeAreaView style={styles.container}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <Ionicons name="arrow-back" size={24} color="#333" />
-          <Text style={styles.backButtonText}>Manage Category</Text>
+          <Text style={styles.backButtonText}>Manage Product</Text>
         </TouchableOpacity>
         <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("CategoryScreen" as never)}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("ProductScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Category</Text>
+            <Text style={styles.optionText}>Product</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
         <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("BranchScreen")}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("ColorScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Branch</Text>
+            <Text style={styles.optionText}>Color</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
         <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("GenderScreen")}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("SizeScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Product Gender</Text>
+            <Text style={styles.optionText}>Size</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
@@ -77,4 +77,4 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
-export default CategoryMainScreen;
+export default ProductMainScreen;

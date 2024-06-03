@@ -12,6 +12,12 @@ import EditBranchScreen from '../screens/Category/Branch/EditBranchScreen';
 import GenderScreen from '../screens/Category/Gender/GenderScreen';
 import AddGenderScreen from '../screens/Category/Gender/AddGenderScreen';
 import EditGenderScreen from '../screens/Category/Gender/EditGenderScreen';
+import ProductMainScreen from '../screens/Product/ProductMainScreen';
+import ColorScreen from '../screens/Product/Color/ColorScreen';
+import SizeScreen from '../screens/Product/Size/SizeScreen';
+import AddSizeScreen from '../screens/Product/Size/AddSizeScreen';
+import AddColorScreen from '../screens/Product/Color/AddColorScreen';
+import ProductScreen from '../screens/Product/Product/ProductScreen';
 type HomeStackParamList = {
   HomeScreen: undefined;
   ChangeProfile: undefined;
@@ -25,6 +31,12 @@ type HomeStackParamList = {
   EditBranchScreen: undefined;
   AddGenderScreen: undefined;
   EditGenderScreen: undefined;
+  ProductMainScreen: undefined;
+  ColorScreen: undefined;
+  SizeScreen: undefined;
+  AddSizeScreen: undefined;
+  AddColorScreen: undefined;
+  ProductScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -44,6 +56,12 @@ const HomeNavigator: React.FC = () => {
       <Stack.Screen name="EditBranchScreen" component={EditBranchScreen} />
       <Stack.Screen name="AddGenderScreen" component={AddGenderScreen} />
       <Stack.Screen name="EditGenderScreen" component={EditGenderScreen} />
+      <Stack.Screen name="ProductMainScreen" component={ProductMainScreen} />
+      <Stack.Screen name="ColorScreen" component={ColorScreen} />
+      <Stack.Screen name="SizeScreen" component={SizeScreen} />
+      <Stack.Screen name="AddSizeScreen" component={AddSizeScreen} />
+      <Stack.Screen name="AddColorScreen" component={AddColorScreen} />
+      <Stack.Screen name="ProductScreen" component={ProductScreen} />
     </Stack.Navigator>
   );
 };

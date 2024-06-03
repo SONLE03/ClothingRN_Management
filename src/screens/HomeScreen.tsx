@@ -202,21 +202,21 @@ const HomeScreen = ({navigation} : any) => {
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('CategoryMainScreen' as never)}
+                            onPress={() => navigation.navigate('CategoryMainScreen')}
                             source= {null}
                             text="Categories"
                         />
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('MyProduct' as never)}
+                            onPress={() => navigation.navigate('ProductMainScreen')}
                             source= {null}
                             text="Products"
                         />
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Order' as never)}
+                            onPress={() => navigation.navigate('Order')}
                             source= {null}
                             text="Orders"
                         />
@@ -226,21 +226,21 @@ const HomeScreen = ({navigation} : any) => {
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Promotion' as never)}
+                            onPress={() => navigation.navigate('Promotion')}
                             source= {null}
                             text="Promotions"
                         />
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Report' as never)}
+                            onPress={() => navigation.navigate('Report')}
                             source= {null}
                             text="Financial Report"
                         />
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('ManageUser' as never)}
+                            onPress={() => navigation.navigate('ManageUser')}
                             source= {null}
                             text="Manage User"
                         />
