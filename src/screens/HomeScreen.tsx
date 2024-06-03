@@ -17,13 +17,13 @@ import { CUSTOM_COLOR } from '../theme/theme';
 import FONT_FAMILY from '../consts/fonts';
 import ViewNow from '../components/ViewNow';
 import FunctionCard from '../components/FunctionCard';
-import { UserProps } from '../types/user/User';
+import { UserProps } from '../types/User';
 import { GetUserById } from '../api/users/GetUserById';
 import { useAuth } from '../util/AuthContext';
 import logoutUser from '../api/auth/logout';
 import Modal from 'react-native-modal';
-const HomeScreen: React.FC = () => {
-    const navigation = useNavigation();
+const HomeScreen = ({navigation} : any) => {
+    // const navigation = useNavigation();
     const { authEmitter } = useAuth();
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
     const [imageUrl, setImageUrl] = useState(null);
@@ -74,7 +74,7 @@ const HomeScreen: React.FC = () => {
                             <Text style={styles.storeText}> Real Clothes</Text>
                         </View>
                         <View style={{ width: 32, height: 37 }}>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("abc" as never)}>
+                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("ChangeProfile" as never)}>
                                 <FontAwesome name="user-o" size={24} color="black" />
                             </TouchableOpacity>
                         </View>
@@ -202,7 +202,7 @@ const HomeScreen: React.FC = () => {
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Categories' as never)}
+                            onPress={() => navigation.navigate('CategoryMainScreen' as never)}
                             source= {null}
                             text="Categories"
                         />

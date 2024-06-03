@@ -1,10 +1,30 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SignupScreen from '../screens/Auth/Signup';
+import ChangeProfile from '../screens/ChangeProfile';
 import HomeScreen from '../screens/HomeScreen';
+import CategoryMainScreen from '../screens/Category/CategoryMainScreen';
+import CategoryScreen from '../screens/Category/Category/CategoryScreen';
+import BranchScreen from '../screens/Category/Branch/BranchScreen';
+import AddCategoryScreen from '../screens/Category/Category/AddCategoryScreen';
+import EditCategoryScreen from '../screens/Category/Category/EditCategoryScreen';
+import AddBranchScreen from '../screens/Category/Branch/AddBranchScreen';
+import EditBranchScreen from '../screens/Category/Branch/EditBranchScreen';
+import GenderScreen from '../screens/Category/Gender/GenderScreen';
+import AddGenderScreen from '../screens/Category/Gender/AddGenderScreen';
+import EditGenderScreen from '../screens/Category/Gender/EditGenderScreen';
 type HomeStackParamList = {
   HomeScreen: undefined;
-  SignupScreen: undefined;
+  ChangeProfile: undefined;
+  CategoryMainScreen: undefined;
+  CategoryScreen: undefined;
+  BranchScreen: undefined;
+  GenderScreen: undefined;
+  AddCategoryScreen: undefined;
+  EditCategoryScreen: undefined;
+  AddBranchScreen: undefined;
+  EditBranchScreen: undefined;
+  AddGenderScreen: undefined;
+  EditGenderScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -13,6 +33,17 @@ const HomeNavigator: React.FC = () => {
   return (
     <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
       <Stack.Screen name="HomeScreen" component={HomeScreen} />
+      <Stack.Screen name="ChangeProfile" component={ChangeProfile} />
+      <Stack.Screen name="CategoryMainScreen" component={CategoryMainScreen} />
+      <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
+      <Stack.Screen name="BranchScreen" component={BranchScreen} />
+      <Stack.Screen name="GenderScreen" component={GenderScreen} />
+      <Stack.Screen name="AddCategoryScreen" component={AddCategoryScreen} />
+      <Stack.Screen name="EditCategoryScreen" component={EditCategoryScreen} />
+      <Stack.Screen name="AddBranchScreen" component={AddBranchScreen} />
+      <Stack.Screen name="EditBranchScreen" component={EditBranchScreen} />
+      <Stack.Screen name="AddGenderScreen" component={AddGenderScreen} />
+      <Stack.Screen name="EditGenderScreen" component={EditGenderScreen} />
     </Stack.Navigator>
   );
 };
