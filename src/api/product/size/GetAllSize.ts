@@ -2,10 +2,7 @@ import axios from 'axios';
 import { apiServer } from '../../config';
 import { ParseJSON } from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Size } from '../../../types/Product';
-
-
-
+import { Size } from '../../../types/Product'
 
 export const GetAllSize = async (): Promise<Size[]> => {
     const SizeURL = apiServer + '/size';

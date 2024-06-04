@@ -35,7 +35,7 @@ export interface ProductItemRequest {
   
 export interface CreateProductForm {
     productRequest: ProductRequest;
-    images: File[];
+    image: File[];
 }
 
 

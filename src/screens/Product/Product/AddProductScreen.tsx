@@ -1,490 +1,317 @@
 import React, { useState, useEffect } from 'react';
-import {
-    SafeAreaView,
-    View,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    TextInput,
-    ScrollView,
-  } from 'react-native';
-import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CUSTOM_COLOR } from '../../../theme/theme';
-import {Dropdown} from 'react-native-element-dropdown';
-import CustomButton from '../../../components/CustomButton';
-import { GetAllCategory } from "../../../api/category/category/GetAllCategory";
-import { GetAllBranch } from "../../../api/category/branch/GetAllBranch";
-import { GetAllSize } from "../../../api/product/size/GetAllSize";
-import { GetAllColor } from "../../../api/product/color/GetAllColor";
-import { Branch, Category } from "../../../types/Category";
-import { Color, Size } from "../../../types/Product";
-const AddProductScreen = ({navigation} : any) => {
-    const [sizes, setSizes] = useState<Size[]>([]);
-    const [colors, setColors] = useState<Color[]>([]);
-    const [branches, setBranches] = useState<Branch[]>([]);
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [price, setPrice] = useState('');
-    const [category, setCategory] = useState('');
-    const [branch, setBranch] = useState('');
-    const [color, setColor] = useState('');
-    const [size, setSize] = useState('');
-    const [isFocusCate, setIsFocusCate] = useState(false);  
-    const [isFocusBranch, setIsFocusBranch] = useState(false); 
-    const [isFocusSize, setIsFocusSize] = useState(false); 
-    const [isFocusColor, setIsFocusColor] = useState(false); 
-    useEffect(() => {
-        fetchData();
-      }, []);
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const sizeData = await GetAllSize();
-            const branchData = await GetAllBranch();
-            const cateData = await GetAllCategory();
-            const colorData = await GetAllColor();
-            setSizes(sizeData);
-            setColors(colorData);
-            setBranches(branchData);
-            setCategories(cateData);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setLoading(false);
-        }
-    };
-    const handleAddProduct = () => {
+import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, ActivityIndicator, Alert, SafeAreaView } from 'react-native';
+import { Select, SelectItem, IndexPath } from '@ui-kitten/components';
+import { DataTable, Dialog, Button } from 'react-native-paper';
+import { launchImageLibrary } from 'react-native-image-picker';
 
-    }
-    const handleDeleteItem = (index : any) => {
+import { GetAllCategory } from '../../../api/category/category/GetAllCategory';
+import { GetAllBranch } from '../../../api/category/branch/GetAllBranch';
+import { GetAllColor } from '../../../api/product/color/GetAllColor';
+import { GetAllSize } from '../../../api/product/size/GetAllSize';
+import { AddProduct } from '../../../api/product/product/AddNewProduct';
 
-    }
-    const renderAttributeItem = ({ item , index } : any) => (
-        <View style={styles.attributeItem}>
-          <Text>Size: {item.size}</Text>
-          <Text>Color: {item.color}</Text>
-          <TouchableOpacity onPress={() => handleDeleteItem(index)}>
-            <Text style={styles.deleteButton}>Delete</Text>
-          </TouchableOpacity>
-        </View>
-    );
-    return(
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
-                <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Add Product</Text>
-            </TouchableOpacity>
-            <ScrollView>
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Name Of Product</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
-                    style={{flex: 1, fontSize: 17}}
-                    onChangeText={text => {
-                        setName(text);
-                    }}
-                    value={name}
-                  />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
-              </View>
-            </>
-            <View style={styles.spaceContainer} />
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Description</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
-                    style={{flex: 1, fontSize: 17}}
-                    onChangeText={text => {
-                        setDescription(text);
-                    }}
-                    value={description}
-                  />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
-              </View>
-            </>
-            <View style={styles.spaceContainer} />
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Price</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
-                    style={{flex: 1, fontSize: 17}}
-                    onChangeText={text => {
-                        setPrice(text);
-                    }}
-                    keyboardType='phone-pad'
-                    value={price}
-                  />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
-              </View>
-            </>
-            <View style={styles.spaceContainer} />
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Category</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <Dropdown 
-                    style={[
-                        styles.comboType,
-                        isFocusCate && {borderColor: 'blue'},
-                        ]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={categories}
-                        maxHeight={200}
-                        labelField="name"
-                        valueField="id"
-                        placeholder={!isFocusCate ? 'Select item' : '...'}
-                        value={category}
-                        onFocus={() => setIsFocusCate(true)}
-                        onBlur={() => setIsFocusCate(false)}
-                        onChange={item => {
-                            setCategory(item.id as never);
-                            setIsFocusCate(false);
-                        }}
-                    />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
-              </View>
-            </>
-            <View style={styles.spaceContainer} />
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Branch</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <Dropdown 
-                    style={[
-                        styles.comboType,
-                        isFocusBranch && {borderColor: 'blue'},
-                        ]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={branches}
-                        maxHeight={200}
-                        labelField="name"
-                        valueField="id"
-                        placeholder={!isFocusBranch ? 'Select item' : '...'}
-                        value={branch}
-                        onFocus={() => setIsFocusBranch(true)}
-                        onBlur={() => setIsFocusBranch(false)}
-                        onChange={item => {
-                            setBranch(item.id as never);
-                            setIsFocusBranch(false);
-                        }}
-                    />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
-              </View>
-            </>
-            <View style={styles.spaceContainer} />
-            <>
-                <View style={[styles.inputContainer, { height: 200 }]}>
-                    <View style={{ width: '100%', height: 10 }} />
-                    <View style={{ flex: 1, flexDirection: 'row' }}>
-                    <View style={[styles.unitTitleContainer, { justifyContent: 'flex-start' }]}>
-                        <View style={{ width: '5%', height: '100%' }} />
-                        <Text style={styles.titleInputStyle}>Attribute (Color and Size)</Text>
-                        <Text style={[styles.titleInputStyle, { color: CUSTOM_COLOR.Red }]}>*</Text>
-                    </View>
-                    </View>
+import { Category, Branch } from '../../../types/Category';
+import { Color, Size, CreateProductForm, ProductItemRequest, ProductRequest } from '../../../types/Product';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-                    <View style={{ flex: 2, flexDirection: 'row' }}>
-                    <View style={{ width: '5%', height: '100%' }} />
-                    <Dropdown
-                        style={[
-                        styles.comboType,
-                        isFocusColor && { borderColor: 'blue' },
-                        ]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={colors}
-                        maxHeight={200}
-                        labelField="name"
-                        valueField="id"
-                        placeholder={!isFocusColor ? 'Select item' : '...'}
-                        value={color}
-                        onFocus={() => setIsFocusColor(true)}
-                        onBlur={() => setIsFocusColor(false)}
-                        onChange={item => {
-                        setColor(item.id as never);
-                        setIsFocusColor(false);
-                        }}
-                    />
-                    <View style={{ width: '5%', height: '100%' }} />
-                    </View>
-
-                    <View style={{ flex: 2, flexDirection: 'row' }}>
-                    <View style={{ width: '5%', height: '100%' }} />
-                    <Dropdown
-                        style={[
-                        styles.comboType,
-                        isFocusSize && { borderColor: 'blue' },
-                        ]}
-                        placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
-                        iconStyle={styles.iconStyle}
-                        data={sizes}
-                        maxHeight={200}
-                        labelField="name"
-                        valueField="id"
-                        placeholder={!isFocusSize ? 'Select item' : '...'}
-                        value={size}
-                        onFocus={() => setIsFocusSize(true)}
-                        onBlur={() => setIsFocusSize(false)}
-                        onChange={item => {
-                        setSize(item.id as never);
-                        setIsFocusSize(false);
-                        }}
-                    />
-                    <View style={{ width: '5%', height: '100%' }} />
-                    </View>
-
-                    <TouchableOpacity style={[styles.button, { alignSelf: 'center' }]} onPress={handleAddProduct}>
-                    <Text style={styles.buttonText}>Add Item</Text>
-                    </TouchableOpacity>
-                </View>
-                </>
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <CustomButton label={'Save'} onPress={handleAddProduct} />
-            </ScrollView>
-        </SafeAreaView>
-    )
+// Define a type that extends File with a uri property for image handling
+interface ImageFile extends File {
+  uri: string;
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      padding: 20,
-    },
-    backButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    backButtonText: {
-      marginLeft: 10,
-      fontSize: 24,
-      color: '#333',
-    },
-    spaceContainer: {
-        width: '100%',
-        height: 10,
-      },
-    inputContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 0.5,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'column',
-      },
-      unitTitleContainer: {
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-      },
-      titleInputStyle: {},
-      comboxContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 0.5,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'row',
-      },
-      unitComboContainer: {
-        height: '100%',
-        alignItems: 'center',
-        flexDirection: 'row',
-      },
-      comboType: {
-        width: '85%',
-        height: '70%',
-        borderColor: CUSTOM_COLOR.MineShaft,
-        borderWidth: 0.5,
-        borderRadius: 1,
-        paddingHorizontal: '5%',
-      },
-      placeholderStyle: {
-        fontSize: 16,
-      },
-      selectedTextStyle: {
-        fontSize: 16,
-      },
-      iconStyle: {
-        width: 20,
-        height: 20,
-      },
-      button: {
-        width: 120,
-        height: 40,
-        backgroundColor: CUSTOM_COLOR.LightBlue,
-        borderRadius: 5,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
-      buttonText: {
-        color: '#fff',
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
-      attributeItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 10,
-        backgroundColor: 'lightgrey',
-        borderRadius: 5,
-        marginBottom: 5,
-      },
-      deleteButton: {
-        color: 'red',
-      },
 
-})
+const AddProductScreen = ({ navigation }: any) => {
+  const [productName, setProductName] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState<IndexPath>(new IndexPath(0));
+  const [selectedBranch, setSelectedBranch] = useState<IndexPath>(new IndexPath(0));
+  const [selectedColor, setSelectedColor] = useState<IndexPath>(new IndexPath(0));
+  const [selectedSize, setSelectedSize] = useState<IndexPath>(new IndexPath(0));
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [branches, setBranches] = useState<Branch[]>([]);
+  const [colors, setColors] = useState<Color[]>([]);
+  const [sizes, setSizes] = useState<Size[]>([]);
+  const [images, setImages] = useState<ImageFile[]>([]);
+  const [productItems, setProductItems] = useState<ProductItemRequest[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [message, setMessage] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [isProductAdded, setIsProductAdded] = useState(false);
+  const [isAttempted, setIsAttempted] = useState(false);
+
+  const hideDialog = () => setVisible(false);
+
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    try {
+      const fetchedCategories = await GetAllCategory();
+      const fetchedBranches = await GetAllBranch();
+      const fetchedColors = await GetAllColor();
+      const fetchedSizes = await GetAllSize();
+      setCategories(fetchedCategories);
+      setBranches(fetchedBranches);
+      setColors(fetchedColors);
+      setSizes(fetchedSizes);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const pickImage = async () => {
+    const result = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 4,
+      quality: 1,
+    });
+
+    if (!result.didCancel && result.assets) {
+      const selectedImages = result.assets.slice(0, 4).map(asset => ({
+        uri: asset.uri || '', // Ensuring uri is a string
+        name: asset.fileName || 'image.jpg',
+        type: asset.type || 'image/jpeg',
+      })) as ImageFile[];
+      setImages([...images, ...selectedImages].slice(0, 4));
+    }
+  };
+
+  const addProductItem = () => {
+    if (selectedColor && selectedSize) {
+      const newProductItem: ProductItemRequest = {
+        color: colors[selectedColor.row].id,
+        size: sizes[selectedSize.row].id,
+      };
+      setProductItems([...productItems, newProductItem]);
+    }
+  };
+
+  const removeProductItem = (index: number) => {
+    const updatedProductItems = [...productItems];
+    updatedProductItems.splice(index, 1);
+    setProductItems(updatedProductItems);
+  };
+
+  const handleAddProduct = async () => {
+    if (!categories[selectedCategory.row] || !branches[selectedBranch.row]) {
+      setMessage('Please select category and branch.');
+      return;
+    }
+
+    const productRequest: ProductRequest = {
+      product_Name: productName,
+      description,
+      price: parseFloat(price),
+      category: categories[selectedCategory.row].id,
+      branch: branches[selectedBranch.row].id,
+      productItemRequests: productItems,
+    };
+
+    const data: CreateProductForm = {
+      productRequest,
+      image: images as unknown as File[], // Type casting to File[]
+    };
+
+    
+    setLoading(true);
+    try {
+      const response = await AddProduct(data);
+
+      setVisible(true);
+      //Alert.alert('Product added successfully!');
+      setLoading(false);
+      
+      setIsProductAdded(true);
+
+      setProductName('');
+      setDescription('');
+      setPrice('');
+      setSelectedCategory(new IndexPath(0));
+      setSelectedBranch(new IndexPath(0));
+      setSelectedColor(new IndexPath(0));
+      setSelectedSize(new IndexPath(0));
+      setImages([]);
+      setProductItems([]);
+    } catch (error) {
+      console.error(error);
+      //Alert.alert('Failed to add product');
+      setVisible(false);
+      //setIsProductAdded(false);
+    }
+    //setLoading(false);
+    setIsAttempted(true);
+  };
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
+  }
+
+  return (
+    <SafeAreaView>
+      <ScrollView className="p-4">
+        <View className="flex flex-row justify-center items-center space-x-2 my-4 p-3 bg-white shadow-xl rounded-xl border border-gray-300"> 
+          <MaterialIcons name="dashboard-customize" size={24} color="black"/>
+          <Text className="text-lg font-bold">Add Product</Text>
+        </View>
+        <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
+          <Text className="text-lg font-bold mb-2">Upload Images</Text>
+          <TouchableOpacity className="flex flex-row justify-center items-center space-x-2 bg-gray-200 p-4 rounded-lg border border-orange-400 border-dotted" onPress={pickImage}>
+            <MaterialIcons name="add-to-photos" size={24} color="orange" />
+            <Text className="text-center font-medium">Choose Images (Max 4)</Text>
+          </TouchableOpacity>
+          <View className="flex-row mt-4">
+            {images.map((image, index) => (
+              <View key={index} className="relative mr-2">
+                <Image className='border border-gray-700 rounded-lg' source={{ uri: image.uri }} style={{ width: 50, height: 50 }} />
+                <TouchableOpacity
+                  className="absolute top-0 right-0 bg-red-600 rounded-full w-4 h-4"
+                  onPress={() => setImages(images.filter((_, i) => i !== index))}
+                >
+                  <MaterialCommunityIcons name="close" size={16} color="white" />
+                </TouchableOpacity>
+              </View>
+            ))}
+          </View>
+        </View>
+            
+        <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
+          <Text className="text-lg font-bold mb-2">Product Details</Text>   
+          <TextInput
+            className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white"
+            placeholder="Product Name"
+            value={productName}
+            onChangeText={setProductName}
+          />
+          <TextInput
+            className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white h-16"
+            placeholder="Description"
+            multiline
+            value={description}
+            onChangeText={setDescription}
+          />
+          <TextInput
+            className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white"
+            placeholder="Price"
+            value={price}
+            onChangeText={setPrice}
+            keyboardType="numeric"
+          />
+        </View>
+
+        <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
+        <Text className="text-lg font-bold">Category and Branch</Text>
+          {categories.length > 0 && (
+            <Select 
+              status='warning'
+              selectedIndex={selectedCategory}
+              onSelect={index => setSelectedCategory(index as IndexPath)}
+              value={categories[selectedCategory.row]?.name}
+              className="border border-gray-400 bg-white hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+            >
+              {categories.map((category, index) => (
+                <SelectItem title={category.name} key={index} />
+              ))}
+            </Select>
+          )}
+
+          {branches.length > 0 && (
+            <Select
+              status='warning'
+              selectedIndex={selectedBranch}
+              onSelect={index => setSelectedBranch(index as IndexPath)}
+              value={branches[selectedBranch.row]?.name}
+              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+            >
+              {branches.map((branch, index) => (
+                <SelectItem title={branch.name} key={index} />
+              ))}
+            </Select>
+          )}
+        </View>
+
+        <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
+        <Text className="text-lg font-bold">Colors and Sizes</Text>
+          {colors.length > 0 && (
+            <Select 
+              status='warning'
+              selectedIndex={selectedColor}
+              onSelect={index => setSelectedColor(index as IndexPath)}
+              value={colors[selectedColor.row]?.name}
+              className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+            >
+              {colors.map((color, index) => (
+                <SelectItem title={color.name} key={index}>
+                  
+                </SelectItem>
+              ))}
+            </Select>
+          )}
+
+          {sizes.length > 0 && (
+            <Select
+              status='warning'
+              selectedIndex={selectedSize}
+              onSelect={index => setSelectedSize(index as IndexPath)}
+              value={sizes[selectedSize.row]?.name}
+              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+            >
+              {sizes.map((size, index) => (
+                <SelectItem title={size.name} key={index} />
+              ))}
+            </Select>
+          )}
+        </View>
+
+        <Button className='mt-3 bg-orange-500 rounded-xl border border-orange-800 text-white font-semibold' textColor='white' onPress={addProductItem} icon='sticker-plus-outline'> Add Item </Button>
+
+        <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg '>
+          <DataTable.Header>
+            <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Color</DataTable.Title>
+            <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Size</DataTable.Title>
+            <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Action</DataTable.Title>
+          </DataTable.Header>
+
+          {productItems.map((item, index) => (
+            <DataTable.Row className='border border-gray-400 rounded-xl' key={index}>
+              <DataTable.Cell>{colors.find(color => color.id === item.color)?.name}</DataTable.Cell>
+              <DataTable.Cell>{sizes.find(size => size.id === item.size)?.name}</DataTable.Cell>
+              <DataTable.Cell>
+                <Button textColor='orange'  onPress={() => removeProductItem(index)}> Remove </Button>
+              </DataTable.Cell>
+            </DataTable.Row>
+          ))}
+        </DataTable>
+
+        <Button className='mt-4 bg-orange-500 rounded-xl border border-orange-800 text-white font-semibold' textColor='white' onPress={handleAddProduct} disabled={loading}> Add New Product </Button>
+        <View className="mt-10"></View>
+        {loading && <Text>Loading...</Text>}
+        {/* {message && <Text>{message}</Text> } */}
+
+        
+          <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
+            <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
+            <Dialog.Title className="text-center text-green-600 font-semibold">Product added successfully!</Dialog.Title>
+            <Dialog.Content>
+              <Text className='text-center text-green-600' >Congratulation! You have successfully added a new product!</Text>
+            </Dialog.Content>
+          </Dialog>
+        
+          {/*<Dialog style={{ backgroundColor: '#FED7D7' }} visible={true} onDismiss={hideDialog}>
+            <Dialog.Icon icon="alert" size={35} color='red' />
+            <Dialog.Title className="text-center text-red-600 font-semibold">Product added failed!</Dialog.Title>
+            <Dialog.Content>
+              <Text className='text-center text-red-600' >Sorry! Something went wrong, Please try again!</Text>
+            </Dialog.Content>
+        </Dialog> */}
+        
+      </ScrollView>
+    </SafeAreaView>
+  );
+};
+
 export default AddProductScreen;
