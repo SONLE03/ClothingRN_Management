@@ -18,6 +18,7 @@ import SizeScreen from '../screens/Product/Size/SizeScreen';
 import AddSizeScreen from '../screens/Product/Size/AddSizeScreen';
 import AddColorScreen from '../screens/Product/Color/AddColorScreen';
 import ProductScreen from '../screens/Product/Product/ProductScreen';
+import AddProductScreen from '../screens/Product/Product/AddProductScreen';
 type HomeStackParamList = {
   HomeScreen: undefined;
   ChangeProfile: undefined;
@@ -37,6 +38,7 @@ type HomeStackParamList = {
   AddSizeScreen: undefined;
   AddColorScreen: undefined;
   ProductScreen: undefined;
+  AddProductScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -62,6 +64,7 @@ const HomeNavigator: React.FC = () => {
       <Stack.Screen name="AddSizeScreen" component={AddSizeScreen} />
       <Stack.Screen name="AddColorScreen" component={AddColorScreen} />
       <Stack.Screen name="ProductScreen" component={ProductScreen} />
+      <Stack.Screen name="AddProductScreen" component={AddProductScreen} />
     </Stack.Navigator>
   );
 };

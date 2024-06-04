@@ -76,7 +76,6 @@ const ProductScreen = ({navigation} : any) => {
     
         return (
             <TouchableOpacity>
-                <View style={styles.spaceContainer} />
                 <View style={styles.accountContainer}>
                     <View style={styles.infoContainer}>
                         <View style={{ width: 10, height: '100%' }} />
@@ -132,13 +131,11 @@ const ProductScreen = ({navigation} : any) => {
                 <Text style={styles.actionButtonText}>Delete</Text>
               </TouchableOpacity>
                     </View>
-                    <View>
-                    </View>
                 </View>
+                <View style={styles.spaceContainer} />
             </TouchableOpacity>
         );
       };
-        
       return (
         <SafeAreaView style={styles.container}>
             <TouchableOpacity style={styles.backButton}>
@@ -282,6 +279,7 @@ const styles = StyleSheet.create({
       spaceContainer: {
         width: '100%',
         height: 5,
+        backgroundColor: CUSTOM_COLOR.LightGray,
       },
       actionButtonEdit: {
         backgroundColor: CUSTOM_COLOR.LightGray,
