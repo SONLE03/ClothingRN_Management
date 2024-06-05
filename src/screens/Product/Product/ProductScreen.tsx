@@ -12,8 +12,12 @@ import {
 import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
 import { GetAllProducts } from '../../../api/product/product/GetAllProducts';
 import { Product } from '../../../types/Product';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LoaderKit from 'react-native-loader-kit'
+
+
 
 const ProductScreen = ({ navigation }: any) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -72,7 +76,7 @@ const ProductScreen = ({ navigation }: any) => {
           <Ionicons name="arrow-back" size={30} color="#333" />
           <Text className="text-xl ml-2 text-gray-700">Product List</Text>
         </TouchableOpacity>
-        <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-16">
+        <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
           <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
           <TextInput
             placeholder="Find your products here..."
@@ -86,7 +90,14 @@ const ProductScreen = ({ navigation }: any) => {
           </TouchableOpacity>
         </View>
         {loading ? (
-           <ActivityIndicator size="large" color="#0000ff" />
+
+           <View className="flex justify-center items-center h-screen">
+              <LoaderKit
+                style={{ width: 100, height: 100 }}
+                name={'BallGridPulse'} 
+                color={'orange'} 
+              />
+           </View>
         ) : (
           <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center '>
             <DataTable.Header>
@@ -128,15 +139,15 @@ const ProductScreen = ({ navigation }: any) => {
                     visible={visible && selectedProduct?.id === item.id}
                     onDismiss={closeMenu}
                     anchor={
-                      <TouchableOpacity className='border border-gray-400 rounded-2xl p-1' onPress={() => openMenu(item)}>
-                        <Ionicons  name="ellipsis-vertical" size={24} color="#333" />
+                      <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
+                        <Ionicons  name="ellipsis-vertical" size={20} color="#333" />
                       </TouchableOpacity>
                     }
                   >
-                    <Menu.Item leadingIcon='pencil' 
+                    <Menu.Item 
                       onPress={() => handleEdit(item)} title="Edit" />
                     <Divider />
-                    <Menu.Item leadingIcon='trash-outline' 
+                    <Menu.Item 
                       onPress={() => {
                         handleDelete(item.id);
                         closeMenu();

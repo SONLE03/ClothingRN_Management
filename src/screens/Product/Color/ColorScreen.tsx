@@ -1,271 +1,163 @@
 import React, { useState, useEffect } from 'react';
 import {
-    SafeAreaView,
-    View,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    Alert,
-    TextInput,
-    FlatList
-  } from 'react-native';
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+  ScrollView,
+} from 'react-native';
+import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
 import { Color } from '../../../types/Product';
 import { GetAllColor } from '../../../api/product/color/GetAllColor';
+
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { CUSTOM_COLOR, COLORS, FONTSIZE, SPACING, FONTFAMILY, BORDERRADIUS } from '../../../theme/theme';
-const ColorScreen = ({navigation} : any) => {
-    const [colors, setColors] = useState<Color[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [searchText, setSearchText] = useState('');
-    useEffect(() => {
-        fetchData();
-      }, []);
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const data = await GetAllColor();
-            setColors(data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setLoading(false);
-        }
-    };
-    const filteredColor = colors.filter(colors =>
-        colors.name.toLowerCase().includes(searchText)
-    );
-    const deleteBranch = async (id : string) => {
-        // // const result = await DeleteBranch(id);
-        // Alert.alert(result);
-    }
-    const handleAddColor = () => {
-        navigation.navigate("AddColorScreen")   
-    }
-    const renderItem = ({ item }: { item: Color }) => {
-        const handleEdit = () => {
-          navigation.navigate('EditColorScreen', {item: item});
-        };
-    
-        const handleDelete = () => {
-          Alert.alert(
-            'Confirm Delete',
-            `Are you sure you want to delete ${item.name}?`,
-            [
-              {
-                text: 'Cancel',
-                style: 'cancel',
-              },
-              {
-                text: 'Delete',
-                style: 'destructive',
-                onPress: () => {
-                //   deleteBranch(item.id)
-                },
-              },
-            ]
-          );
-        };
-    
-        return (
-          <View style={styles.row}>
-            <Text style={styles.categoryName}>{item.name}</Text>
-            <View style={styles.actionContainer}>
-              <TouchableOpacity
-                style={styles.actionButtonEdit}
-                onPress={handleEdit}
-              >
-                <Text style={styles.actionButtonText}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionButtonDelete}
-                onPress={handleDelete}
-              >
-                <Text style={styles.actionButtonText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      };
-        
-      return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
-                <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Color List</Text>
-            </TouchableOpacity>
-            <View style={styles.InputContainerComponent}>
-                <TouchableOpacity>
-                    <MaterialComunityIcons
-                    name="home-search"
-                    size={25}
-                    style={styles.InputIcon}
-                    />
-                </TouchableOpacity>
+import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import LoaderKit from 'react-native-loader-kit'
 
-                <TextInput placeholder='Find your colors here...' 
-                    value={searchText}
-                    onChangeText={text => {
-                    setSearchText(text);
-                    }}
-                    placeholderTextColor={COLORS.primaryLightGreyHex}
-                    style={styles.TextInputContainer}
-                />
-                <TouchableOpacity onPress={() => fetchData()}>
-                    <MaterialComunityIcons
-                    name="refresh"
-                    size={25}
-                    style={styles.InputIcon}
-                    />
-                </TouchableOpacity>
-        </View>
-          {loading ? (
-            <Text>Loading...</Text>
-          ) : (
-            
-            <View style={styles.table}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Color Name</Text>
-                    <Text style={styles.headerText}>Action</Text>
-                </View>
-                <FlatList
-                    data={filteredColor}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id.toString()}
-                />
-            </View>
-          )}
-            <TouchableOpacity style={styles.addButton} onPress={handleAddColor}>
-                <Ionicons name="add" size={32} color="#fff" />
-            </TouchableOpacity>
-        </SafeAreaView>
-      );
-    };
+const ColorScreen = ({ navigation }: any) => {
+  const [colors, setColors] = useState<Color[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [selectedColor, setSelectedColor] = useState<Color | null>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const data = await GetAllColor();
+      setColors(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+
+  const filteredColors = colors.filter((color) =>
+    color.name.toLowerCase().includes(searchText)
+  );
+
+  const handleAddColor = () => {
+    navigation.navigate('AddColorScreen');
+  };
+
+  const handleEdit = (item: Color) => {
     
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-        padding: 20,
-      },
-      inputContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 3,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'column',
-      },
-      backButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
-      },
-      backButtonText: {
-        marginLeft: 10,
-        fontSize: 24,
-        color: '#333',
-      },
-      table: {
-        flex: 1,
-      },
-      header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-        marginBottom: 10,
-      },
-      headerText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
-      row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-      },
-      actionContainer: {
-        flexDirection: 'row',
-      },
-      categoryList: {
-        flexGrow: 1,
-      },
-      categoryItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-      },
-      categoryName: {
-        fontSize: 18,
-        color: '#333',
-        fontWeight: 'bold',
-      },
-      actionButtonEdit: {
-        backgroundColor: CUSTOM_COLOR.LightGray,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        marginLeft: 10,
-    },
-      actionButtonDelete: {
-        backgroundColor: CUSTOM_COLOR.Red,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        marginLeft: 10,
-    },
-    actionButtonText: {
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-    addButton: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        backgroundColor:'#0066FF',    
-        borderRadius: 30,
-        width: 60,
-        height: 60,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
+  };
+
+  const handleDelete = (id: number) => {
+    Alert.alert(
+      'Confirm Delete',
+      `Are you sure you want to delete this color?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            // deleteBranch(id);
+          },
         },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 2,
-      },
-      addButtonIcon: {
-        color: '#fff',
-        fontSize: 24,
-      },TextInputContainer: {
-        flex: 1,
-        height: SPACING.space_20 * 3,
-        fontFamily: FONTFAMILY.poppins_medium,
-        fontSize: FONTSIZE.size_14,
-        color: COLORS.primaryLightGreyHex,
-      },
-    
-      InputContainerComponent: {
-        flexDirection: 'row',
-        borderRadius: BORDERRADIUS.radius_20,
-        backgroundColor: CUSTOM_COLOR.LightGray,
-        alignItems: 'center',
-      },
-    
-      InputIcon: {
-        marginHorizontal: SPACING.space_20,
-      },
-    
+      ]
+    );
+  };
 
-});
+  const openMenu = (color: Color) => {
+    setSelectedColor(color);
+    setVisible(true);
+  };
+
+  const closeMenu = () => setVisible(false);
+
+  return (
+    <Provider>
+      <SafeAreaView className="flex-1 bg-white p-5">
+        <ScrollView>
+        <TouchableOpacity
+          onPress={() => navigation.goBack()}
+          className="flex-row items-center mb-5"
+        >
+          <Ionicons name="arrow-back" size={24} color="#333" />
+          <Text className="text-lg ml-2 text-gray-700">Color List</Text>
+        </TouchableOpacity>
+        <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14 space-x-0">
+          <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
+          <TextInput
+            placeholder="Find your colors here..."
+            value={searchText}
+            onChangeText={(text) => setSearchText(text)}
+            placeholderTextColor="#B0B0B0"
+            className="flex-1 text-base h-10"
+          />
+          <TouchableOpacity onPress={fetchData}>
+            <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
+          </TouchableOpacity>
+        </View>
+        {loading ? (
+          <View className="flex justify-center items-center h-screen">
+          <LoaderKit
+            style={{ width: 90, height: 90 }}
+            name={'BallGridPulse'} 
+            color={'orange'} 
+          />
+          </View>
+        ) : (
+          <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+            <DataTable.Header>
+              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Color</DataTable.Title>
+              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
+              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Actions</DataTable.Title>
+            </DataTable.Header>
+            {filteredColors.map((item) => (
+              <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
+                <DataTable.Cell>
+                  <View
+                    className="w-8 h-8 rounded-full"
+                    style={{ backgroundColor: item.name.toLowerCase()}}
+                  />
+                </DataTable.Cell>
+                <DataTable.Cell>{item.name}</DataTable.Cell>
+                <DataTable.Cell className='flex justify-center items-center'>
+                  <Menu 
+                    visible={visible && selectedColor?.id === item.id}
+                    onDismiss={closeMenu}
+                    anchor={
+                      <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
+                        <Ionicons name="ellipsis-vertical" size={20} color="#333" />
+                      </TouchableOpacity>
+                    }
+                  >
+                    <Menu.Item onPress={() => handleEdit(item)} title="Edit" />
+                    <Divider />
+                    <Menu.Item
+                      onPress={() => {
+                        handleDelete(item.id);
+                        closeMenu();
+                      }}
+                      title="Delete"
+                    />
+                  </Menu>
+                </DataTable.Cell>
+              </DataTable.Row>
+            ))}
+          </DataTable>
+        )}
+        <TouchableOpacity
+          onPress={handleAddColor}
+          className="absolute bottom-5 right-5 bg-orange-400 rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
+        >
+          <Ionicons name="add" size={32} color="#fff" />
+        </TouchableOpacity>
+        </ScrollView>
+      </SafeAreaView>
+    </Provider>
+  );
+};
+
 export default ColorScreen;
