@@ -15,6 +15,7 @@ import { GetAllColor } from '../../../api/product/color/GetAllColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const ColorScreen = ({ navigation }: any) => {
   const [colors, setColors] = useState<Color[]>([]);
@@ -79,13 +80,13 @@ const ColorScreen = ({ navigation }: any) => {
     <Provider>
       <SafeAreaView className="flex-1 bg-white p-5">
         <ScrollView>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          className="flex-row items-center mb-5"
-        >
-          <Ionicons name="arrow-back" size={24} color="#333" />
-          <Text className="text-lg ml-2 text-gray-700">Color List</Text>
-        </TouchableOpacity>
+          <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+            <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
+              <MaterialCommunityIcons className='mr-2' name="format-color-fill" size={30} color="#333" />
+              Manage Colors</Text>
+            <View style={{ width: 24 }} />  
+          </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14 space-x-0">
           <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
           <TextInput
@@ -93,7 +94,7 @@ const ColorScreen = ({ navigation }: any) => {
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
-            className="flex-1 text-base h-10"
+            className="flex-1 text-base h-10 mt-1"
           />
           <TouchableOpacity onPress={fetchData}>
             <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
@@ -109,13 +110,13 @@ const ColorScreen = ({ navigation }: any) => {
           </View>
         ) : (
           <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
-            <DataTable.Header>
+            <DataTable.Header className='border-b-gray-500'>
               <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Color</DataTable.Title>
               <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Actions</DataTable.Title>
+              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Actions</DataTable.Title>
             </DataTable.Header>
             {filteredColors.map((item) => (
-              <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
+              <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2 text-lg' key={item.id}>
                 <DataTable.Cell>
                   <View
                     className="w-8 h-8 rounded-full"

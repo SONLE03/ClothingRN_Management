@@ -7,31 +7,36 @@ import {
     TouchableOpacity,
   } from 'react-native';
   import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const ProductMainScreen = ({navigation} : any) => {
     return (
       <SafeAreaView style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
-          <Ionicons name="arrow-back" size={24} color="#333" />
-          <Text style={styles.backButtonText}>Manage Product</Text>
-        </TouchableOpacity>
-        <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("ProductScreen")}>
+        <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+            <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
+              <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
+              <Text className='ml-2'>Manage Products</Text>
+            </Text>
+            <View style={{ width: 24 }} />  
+          </TouchableOpacity>
+        <View className='flex mx-2 bg-gray-400 rounded-3xl' />
+        <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("ProductScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Product</Text>
+            <Text className='focus:text-orange-500 font-semibold' style={styles.optionText}>Product</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
-        <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("ColorScreen")}>
+        <View className='flex mx-2 bg-gray-400 rounded-3xl'  />
+        <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("ColorScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Color</Text>
+            <Text className='focus:text-orange-500 font-semibold' style={styles.optionText}>Color</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
-        <View style={styles.spaceContainer} />
-        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate("SizeScreen")}>
+        <View className='flex mx-2 bg-gray-400 rounded-3xl' />
+        <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("SizeScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Size</Text>
+            <Text className='focus:text-orange-500 font-semibold' style={styles.optionText}>Size</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
@@ -45,11 +50,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ffffff',
     padding: 20,
   },
-  spaceContainer: {
-    height: 10,
-    backgroundColor: '#d3d3d3',
-    marginBottom: 10,
-  },
+  
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -65,7 +66,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#d3d3d3',
     paddingVertical: 10,
   },
   optionContent: {

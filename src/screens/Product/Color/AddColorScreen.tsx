@@ -12,8 +12,16 @@ import { AddColors } from '../../../api/product/color/AddColor';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CUSTOM_COLOR } from '../../../theme/theme';
 import CustomButton from '../../../components/CustomButton';
+
+import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; 
+import { Button, Dialog } from 'react-native-paper';
+
 const AddColorScreen = ({navigation} : any) => {
     const [name, setCateName] = useState('');
+    const [visible, setVisible] = useState(false);
+
+    const hideDialog = () => setVisible(false);
+
 
     const handleAddColor = async () => {
         try {
@@ -21,100 +29,56 @@ const AddColorScreen = ({navigation} : any) => {
                 Alert.alert('Lack of information');
             }else{
                 await AddColors(name);
-                Alert.alert('Color created successfully');
+                setVisible(true);
+                setCateName('');
+                //Alert.alert('Color created successfully');
             }
         } catch (error) {
           console.error('Failed to create color:', error);
           Alert.alert('Failed to create color');
         }
+
       };
     return(
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
+        <SafeAreaView className='flex-1 bg-gray-100 p-4'>
+            <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
                 <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Add Color</Text>
+                <Text className='flex-row text-2xl font-semibold space-x-2'>
+                  <MaterialComunityIcons className='mr-2' name="format-color-fill" size={30} color="#333" />
+                  Add Color</Text>
+                <View style={{ width: 24 }} />  
             </TouchableOpacity>
             <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Name Of Color</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
+              <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
+                <View className='flex flex-row'>
+                  <Text className='font-semibold text-lg' >Name of Color <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
                 <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
+                  
+                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
                     style={{flex: 1, fontSize: 17}}
+                    placeholder='Enter color name..'
+                    placeholderTextColor='#D1D5DB'
                     onChangeText={text => {
                         setCateName(text);
                     }}
                     value={name}
                   />
-                  <View style={{width: '5%', height: '100%'}} />
+                  
                 </View>
               </View>
             </>
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <CustomButton label={'Save'} onPress={handleAddColor} />
+          
+            <Button className='mt-6 bg-orange-500 rounded-xl border border-orange-800 text-white text-xl font-semibold' textColor='white'  icon="format-color-fill" onPress={handleAddColor}>Save color</Button>
+            <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
+              <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
+              <Dialog.Title className="text-center text-green-600 font-semibold">Color added successfully!</Dialog.Title>
+              <Dialog.Content>
+                <Text className='text-center text-green-600' >Congratulation! You have successfully added a new color!</Text>
+              </Dialog.Content>
+            </Dialog>
         </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      padding: 20,
-    },
-    backButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    backButtonText: {
-      marginLeft: 10,
-      fontSize: 24,
-      color: '#333',
-    },
-    spaceContainer: {
-        width: '100%',
-        height: 10,
-      },
-    inputContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 0.5,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'column',
-      },
-      unitTitleContainer: {
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-      },
-      titleInputStyle: {},
-})
+
 export default AddColorScreen;

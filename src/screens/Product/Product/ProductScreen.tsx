@@ -16,6 +16,8 @@ import { Product } from '../../../types/Product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
 
@@ -69,13 +71,14 @@ const ProductScreen = ({ navigation }: any) => {
     <Provider>
       <SafeAreaView className="flex-1 bg-white p-2">
         <ScrollView>
-        <TouchableOpacity
-          onPress={() => navigation.goBack()}
-          className="flex-row items-center mb-5"
-        >
-          <Ionicons name="arrow-back" size={30} color="#333" />
-          <Text className="text-xl ml-2 text-gray-700">Product List</Text>
-        </TouchableOpacity>
+          <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+            <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
+              <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
+              <Text className='ml-2'>Products List</Text>
+            </Text>
+            <View style={{ width: 24 }} />  
+          </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
           <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
           <TextInput
@@ -100,11 +103,11 @@ const ProductScreen = ({ navigation }: any) => {
            </View>
         ) : (
           <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center '>
-            <DataTable.Header>
+            <DataTable.Header className='border-b-gray-500'>
               <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Image</DataTable.Title>
               <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }} >Price</DataTable.Title>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
+              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }} >Price</DataTable.Title>
+              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
             </DataTable.Header>
 
             {filteredProduct.map((item) => (
