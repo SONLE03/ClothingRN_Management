@@ -22,21 +22,21 @@ const CategoryMainScreen = ({navigation} : any) => {
         <View className='flex mx-2 bg-gray-400 rounded-3xl' />
         <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("CategoryScreen" as never)}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Category</Text>
+            <Text className='font-semibold' style={styles.optionText}>Category</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity >
         <View className='flex mx-2 bg-gray-400 rounded-3xl' />
         <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("BranchScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Branch</Text>
+            <Text className='font-semibold' style={styles.optionText}>Branch</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
         <View className='flex mx-2 bg-gray-400 rounded-3xl' />
         <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("GenderScreen")}>
           <View style={styles.optionContent}>
-            <Text style={styles.optionText}>Product Gender</Text>
+            <Text className='font-semibold' style={styles.optionText}>Product Gender</Text>
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>

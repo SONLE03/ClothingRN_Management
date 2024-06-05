@@ -79,7 +79,6 @@ const ColorScreen = ({ navigation }: any) => {
   return (
     <Provider>
       <SafeAreaView className="flex-1 bg-white p-5">
-        <ScrollView>
           <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
@@ -109,45 +108,47 @@ const ColorScreen = ({ navigation }: any) => {
           />
           </View>
         ) : (
-          <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
-            <DataTable.Header className='border-b-gray-500'>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Color</DataTable.Title>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
-              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Actions</DataTable.Title>
-            </DataTable.Header>
-            {filteredColors.map((item) => (
-              <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2 text-lg' key={item.id}>
-                <DataTable.Cell>
-                  <View
-                    className="w-8 h-8 rounded-full"
-                    style={{ backgroundColor: item.name.toLowerCase()}}
-                  />
-                </DataTable.Cell>
-                <DataTable.Cell>{item.name}</DataTable.Cell>
-                <DataTable.Cell className='flex justify-center items-center'>
-                  <Menu 
-                    visible={visible && selectedColor?.id === item.id}
-                    onDismiss={closeMenu}
-                    anchor={
-                      <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
-                        <Ionicons name="ellipsis-vertical" size={20} color="#333" />
-                      </TouchableOpacity>
-                    }
-                  >
-                    <Menu.Item onPress={() => handleEdit(item)} title="Edit" />
-                    <Divider />
-                    <Menu.Item
-                      onPress={() => {
-                        handleDelete(item.id);
-                        closeMenu();
-                      }}
-                      title="Delete"
+          <ScrollView>
+            <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+              <DataTable.Header className='border-b-gray-500'>
+                <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Color</DataTable.Title>
+                <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
+                <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold', textAlign: 'center' }}>Actions</DataTable.Title>
+              </DataTable.Header>
+              {filteredColors.map((item) => (
+                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2 text-lg' key={item.id}>
+                  <DataTable.Cell>
+                    <View
+                      className="w-8 h-8 rounded-full"
+                      style={{ backgroundColor: item.name.toLowerCase()}}
                     />
-                  </Menu>
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
+                  </DataTable.Cell>
+                  <DataTable.Cell>{item.name}</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center'>
+                    <Menu 
+                      visible={visible && selectedColor?.id === item.id}
+                      onDismiss={closeMenu}
+                      anchor={
+                        <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
+                          <Ionicons name="ellipsis-vertical" size={20} color="#333" />
+                        </TouchableOpacity>
+                      }
+                    >
+                      <Menu.Item onPress={() => handleEdit(item)} title="Edit" />
+                      <Divider />
+                      <Menu.Item
+                        onPress={() => {
+                          handleDelete(item.id);
+                          closeMenu();
+                        }}
+                        title="Delete"
+                      />
+                    </Menu>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+            </DataTable>
+          </ScrollView>
         )}
         <TouchableOpacity
           onPress={handleAddColor}
@@ -155,7 +156,6 @@ const ColorScreen = ({ navigation }: any) => {
         >
           <Ionicons name="add" size={32} color="#fff" />
         </TouchableOpacity>
-        </ScrollView>
       </SafeAreaView>
     </Provider>
   );

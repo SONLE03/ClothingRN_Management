@@ -70,7 +70,6 @@ const ProductScreen = ({ navigation }: any) => {
   return (
     <Provider>
       <SafeAreaView className="flex-1 bg-white p-2">
-        <ScrollView>
           <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
@@ -102,66 +101,68 @@ const ProductScreen = ({ navigation }: any) => {
               />
            </View>
         ) : (
-          <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center '>
-            <DataTable.Header className='border-b-gray-500'>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Image</DataTable.Title>
-              <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
-              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }} >Price</DataTable.Title>
-              <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
-            </DataTable.Header>
+          <ScrollView>
+            <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center '>
+              <DataTable.Header className='border-b-gray-500'>
+                <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Image</DataTable.Title>
+                <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
+                <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }} >Price</DataTable.Title>
+                <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
+              </DataTable.Header>
 
-            {filteredProduct.map((item) => (
-              <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
-                <DataTable.Cell>
-                  {item.image ? (
-                    <Image
-                      source={{ uri: item.image }}
-                      style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: 25,
-                        resizeMode: 'cover',
-                      }}
-                    />
-                  ) : (
-                    <Image
-                      source={require('../../../assets/user-128-128.png')}
-                      style={{
-                        width: 50,
-                        height: 50,
-                        borderRadius: 25,
-                        resizeMode: 'cover',
-                      }}
-                    />
-                  )}
-                </DataTable.Cell>
-                <DataTable.Cell>{item.product_Name}</DataTable.Cell>
-                <DataTable.Cell numeric>{item.price} VND</DataTable.Cell>
-                <DataTable.Cell className='flex justify-center items-center'>
-                  <Menu 
-                    visible={visible && selectedProduct?.id === item.id}
-                    onDismiss={closeMenu}
-                    anchor={
-                      <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
-                        <Ionicons  name="ellipsis-vertical" size={20} color="#333" />
-                      </TouchableOpacity>
-                    }
-                  >
-                    <Menu.Item 
-                      onPress={() => handleEdit(item)} title="Edit" />
-                    <Divider />
-                    <Menu.Item 
-                      onPress={() => {
-                        handleDelete(item.id);
-                        closeMenu();
-                      }}
-                      title="Delete"
-                    />
-                  </Menu>
-                </DataTable.Cell>
-              </DataTable.Row>
-            ))}
-          </DataTable>
+              {filteredProduct.map((item) => (
+                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
+                  <DataTable.Cell>
+                    {item.image ? (
+                      <Image
+                        source={{ uri: item.image }}
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: 25,
+                          resizeMode: 'cover',
+                        }}
+                      />
+                    ) : (
+                      <Image
+                        source={require('../../../assets/user-128-128.png')}
+                        style={{
+                          width: 50,
+                          height: 50,
+                          borderRadius: 25,
+                          resizeMode: 'cover',
+                        }}
+                      />
+                    )}
+                  </DataTable.Cell>
+                  <DataTable.Cell>{item.product_Name}</DataTable.Cell>
+                  <DataTable.Cell numeric>{item.price} VND</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center'>
+                    <Menu 
+                      visible={visible && selectedProduct?.id === item.id}
+                      onDismiss={closeMenu}
+                      anchor={
+                        <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
+                          <Ionicons  name="ellipsis-vertical" size={20} color="#333" />
+                        </TouchableOpacity>
+                      }
+                    >
+                      <Menu.Item 
+                        onPress={() => handleEdit(item)} title="Edit" />
+                      <Divider />
+                      <Menu.Item 
+                        onPress={() => {
+                          handleDelete(item.id);
+                          closeMenu();
+                        }}
+                        title="Delete"
+                      />
+                    </Menu>
+                  </DataTable.Cell>
+                </DataTable.Row>
+              ))}
+            </DataTable>
+          </ScrollView>
         )}
         <TouchableOpacity
           onPress={handleAddProduct}
@@ -187,7 +188,7 @@ const ProductScreen = ({ navigation }: any) => {
         >
           <Ionicons name="add" size={32} color="#fff" />
         </TouchableOpacity>
-        </ScrollView>
+        
       </SafeAreaView>
     </Provider>
   );

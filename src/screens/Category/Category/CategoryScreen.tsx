@@ -1,276 +1,157 @@
 import React, { useState, useEffect } from 'react';
 import {
-    SafeAreaView,
-    View,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    Alert,
-    TextInput,
-    FlatList
-  } from 'react-native';
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  TextInput,
+  ScrollView,
+} from 'react-native';
+import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
 import { Category } from '../../../types/Category';
 import { GetAllCategory } from '../../../api/category/category/GetAllCategory';
 import { GetAllGender } from '../../../api/category/gender/GetAllGender';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
-import { CUSTOM_COLOR, COLORS, FONTSIZE, SPACING, FONTFAMILY, BORDERRADIUS } from '../../../theme/theme';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DeleteCategory } from '../../../api/category/category/DeleteCategory';
-const CategoryScreen = ({navigation} : any) => {
-    // const navigation = useNavigation();
-    const [categories, setCategories] = useState<Category[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [searchText, setSearchText] = useState('');
-    useEffect(() => {
-        fetchData();
-      }, []);
-    const fetchData = async () => {
-        setLoading(true);
-        try {
-            const data = await GetAllCategory();
-            const genderData = await GetAllGender();
-            setCategories(data);
-            setLoading(false);
-        } catch (error) {
-            console.error('Error fetching data:', error);
-            setLoading(false);
-        }
-    };
-    const filteredCategory = categories.filter(category =>
-        category.name.toLowerCase().includes(searchText)
-    );
-    const handleAddCategory = () => {
-        navigation.navigate("AddCategoryScreen" as never)   
-    }
-    const deleteCategory = async (id : string) => {
-        const result = await DeleteCategory(id);
-        Alert.alert(result);
-    }
-    const renderItem = ({ item }: { item: Category }) => {
-        const handleEdit = () => {
-          navigation.navigate('EditCategoryScreen', {item: item});
-        };
-    
-        const handleDelete = () => {
-          Alert.alert(
-            'Confirm Delete',
-            `Are you sure you want to delete ${item.name}?`,
-            [
-              {
-                text: 'Cancel',
-                style: 'cancel',
-              },
-              {
-                text: 'Delete',
-                style: 'destructive',
-                onPress: () => {
-                  deleteCategory(item.id)
-                },
-              },
-            ]
-          );
-        };
-    
-        return (
-          <View style={styles.row}>
-            <Text style={styles.categoryName}>{item.name}</Text>
-            <View style={styles.actionContainer}>
-              <TouchableOpacity
-                style={styles.actionButtonEdit}
-                onPress={handleEdit}
-              >
-                <Text style={styles.actionButtonText}>Edit</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.actionButtonDelete}
-                onPress={handleDelete}
-              >
-                <Text style={styles.actionButtonText}>Delete</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        );
-      };
-        
-      return (
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
-                <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Category List</Text>
-            </TouchableOpacity>
-            <View style={styles.InputContainerComponent}>
-                <TouchableOpacity>
-                    <MaterialComunityIcons
-                    name="home-search"
-                    size={25}
-                    style={styles.InputIcon}
-                    />
-                </TouchableOpacity>
 
-                <TextInput placeholder='Find your categories here...' 
-                    value={searchText}
-                    onChangeText={text => {
-                    setSearchText(text);
-                    }}
-                    placeholderTextColor={COLORS.primaryLightGreyHex}
-                    style={styles.TextInputContainer}
-                />
-                <TouchableOpacity onPress={() => fetchData()}>
-                    <MaterialComunityIcons
-                    name="refresh"
-                    size={25}
-                    style={styles.InputIcon}
-                    />
-                </TouchableOpacity>
-        </View>
+const CategoryScreen = ({ navigation }: any) => {
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [searchText, setSearchText] = useState('');
+  const [visible, setVisible] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<Category | null>(null);
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    setLoading(true);
+    try {
+      const data = await GetAllCategory();
+      const genderData = await GetAllGender();
+      setCategories(data);
+      setLoading(false);
+    } catch (error) {
+      console.error('Error fetching data:', error);
+      setLoading(false);
+    }
+  };
+
+  const filteredCategory = categories.filter((category) =>
+    category.name.toLowerCase().includes(searchText)
+  );
+
+  const handleAddCategory = () => {
+    navigation.navigate('AddCategoryScreen');
+  };
+
+  const deleteCategory = async (id: string) => {
+    const result = await DeleteCategory(id);
+    Alert.alert(result);
+  };
+
+  const handleEdit = (item: Category) => {
+    navigation.navigate('EditCategoryScreen', { item: item });
+  };
+
+  const handleDelete = (id: string) => {
+    Alert.alert(
+      'Confirm Delete',
+      `Are you sure you want to delete this category?`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Delete',
+          style: 'destructive',
+          onPress: () => {
+            deleteCategory(id);
+          },
+        },
+      ]
+    );
+  };
+
+  const openMenu = (category: Category) => {
+    setSelectedCategory(category);
+    setVisible(true);
+  };
+
+  const closeMenu = () => setVisible(false);
+
+  return (
+    <Provider>
+      <SafeAreaView className="flex-1 bg-white p-5">
+          <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+              <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+              <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
+                <MaterialCommunityIcons className='mr-2' name="developer-board" size={30} color="#333" />
+                Category List</Text>
+              <View style={{ width: 24 }} />  
+            </TouchableOpacity>
+          <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14 space-x-0">
+            <MaterialCommunityIcons name="home-search" size={25} className="mr-2" />
+            <TextInput
+              placeholder="Find your categories here..."
+              value={searchText}
+              onChangeText={(text) => setSearchText(text)}
+              placeholderTextColor="#B0B0B0"
+              className="flex-1 text-base h-10 mt-1"
+            />
+            <TouchableOpacity onPress={fetchData}>
+              <MaterialCommunityIcons name="refresh" size={25} className="ml-2" />
+            </TouchableOpacity>
+          </View>
           {loading ? (
             <Text>Loading...</Text>
           ) : (
-            
-            <View style={styles.table}>
-                <View style={styles.header}>
-                    <Text style={styles.headerText}>Category Name</Text>
-                    <Text style={styles.headerText}>Action</Text>
-                </View>
-                <FlatList
-                    data={filteredCategory}
-                    renderItem={renderItem}
-                    keyExtractor={(item) => item.id}
-                />
-            </View>
+            <ScrollView>
+              <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+                <DataTable.Header className='border-b-gray-500'>
+                  <DataTable.Title className='flex justify-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Category Name</DataTable.Title>
+                  <DataTable.Title className='flex justify-end' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
+                </DataTable.Header>
+                {filteredCategory.map((item) => (
+                  <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2 text-lg'  key={item.id}>
+                    <DataTable.Cell className='flex justify-center'>{item.name}</DataTable.Cell>
+                    <DataTable.Cell className='flex justify-end'>
+                      <Menu
+                        visible={visible && selectedCategory?.id === item.id}
+                        onDismiss={closeMenu}
+                        anchor={
+                          <TouchableOpacity className='border border-gray-400 rounded-full p-1' onPress={() => openMenu(item)}>
+                            <Ionicons name="ellipsis-vertical" size={24} color="#333" />
+                          </TouchableOpacity>
+                        }
+                      >
+                        <Menu.Item onPress={() => handleEdit(item)} title="Edit" />
+                        <Divider />
+                        <Menu.Item
+                          onPress={() => {
+                            handleDelete(item.id);
+                            closeMenu();
+                          }}
+                          title="Delete"
+                        />
+                      </Menu>
+                    </DataTable.Cell>
+                  </DataTable.Row>
+                ))}
+              </DataTable>
+            </ScrollView>
           )}
-            <TouchableOpacity style={styles.addButton} onPress={handleAddCategory}>
-                <Ionicons name="add" size={32} color="#fff" />
-            </TouchableOpacity>
-        </SafeAreaView>
-      );
-    };
-    
-    const styles = StyleSheet.create({
-      container: {
-        flex: 1,
-        backgroundColor: '#ffffff',
-        padding: 20,
-      },
-      inputContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 3,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'column',
-      },
-      backButton: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
-      },
-      backButtonText: {
-        marginLeft: 10,
-        fontSize: 24,
-        color: '#333',
-      },
-      table: {
-        flex: 1,
-      },
-      header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-        marginBottom: 10,
-      },
-      headerText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-      },
-      row: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-      },
-      actionContainer: {
-        flexDirection: 'row',
-      },
-      categoryList: {
-        flexGrow: 1,
-      },
-      categoryItem: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        borderBottomWidth: 1,
-        borderBottomColor: '#d3d3d3',
-        paddingVertical: 10,
-      },
-      categoryName: {
-        fontSize: 18,
-        color: '#333',
-        fontWeight: 'bold',
-      },
-      actionButtonEdit: {
-        backgroundColor: CUSTOM_COLOR.LightGray,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        marginLeft: 10,
-    },
-      actionButtonDelete: {
-        backgroundColor: CUSTOM_COLOR.Red,
-        paddingHorizontal: 10,
-        paddingVertical: 5,
-        borderRadius: 5,
-        marginLeft: 10,
-    },
-    actionButtonText: {
-        fontSize: 14,
-        fontWeight: 'bold',
-    },
-    addButton: {
-        position: 'absolute',
-        bottom: 20,
-        right: 20,
-        backgroundColor:'#0066FF',    
-        borderRadius: 30,
-        width: 60,
-        height: 60,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: '#000',
-        shadowOffset: {
-          width: 0,
-          height: 2,
-        },
-        shadowOpacity: 0.2,
-        shadowRadius: 2,
-        elevation: 2,
-      },
-      addButtonIcon: {
-        color: '#fff',
-        fontSize: 24,
-      },TextInputContainer: {
-        flex: 1,
-        height: SPACING.space_20 * 3,
-        fontFamily: FONTFAMILY.poppins_medium,
-        fontSize: FONTSIZE.size_14,
-        color: COLORS.primaryLightGreyHex,
-      },
-    
-      InputContainerComponent: {
-        flexDirection: 'row',
-        borderRadius: BORDERRADIUS.radius_20,
-        backgroundColor: CUSTOM_COLOR.LightGray,
-        alignItems: 'center',
-      },
-    
-      InputIcon: {
-        marginHorizontal: SPACING.space_20,
-      },
-    
+          <TouchableOpacity
+            onPress={handleAddCategory}
+            className="absolute bottom-5 right-5 bg-orange-400 rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
+          >
+            <Ionicons name="add" size={32} color="#fff" />
+          </TouchableOpacity>
 
-});
-    
+      </SafeAreaView>
+    </Provider>
+  );
+};
+
 export default CategoryScreen;
