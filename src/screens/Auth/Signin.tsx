@@ -53,12 +53,14 @@ const LoginScreen: React.FC = () => {
         Alert.alert('User login failed!');
       } else {
         try {
+          Alert.alert('User login successfully!');
           await AsyncStorage.setItem('access_token', JSON.stringify(data.access_token));
           await AsyncStorage.setItem('refresh_token', JSON.stringify(data.refresh_token));
           await AsyncStorage.setItem('user_id', JSON.stringify(data.id));
           await AsyncStorage.setItem('role', JSON.stringify(data.role));
           console.log(AsyncStorage.getItem('access_token'));
           authEmitter.emit('loginStatusChanged');
+          
           //navigation.navigate('HomeScreen' as never);
         } catch (error) {
           console.log('Error signing in: ', error);

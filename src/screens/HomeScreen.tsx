@@ -227,7 +227,7 @@ const HomeScreen = ({navigation} : any) => {
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Promotion')}
+                            onPress={() => navigation.navigate('PromotionScreen')}
                             source= {null}
                             text="Promotions"
                         />

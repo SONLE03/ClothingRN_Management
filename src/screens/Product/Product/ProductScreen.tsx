@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   TextInput,
   Image,
-  ActivityIndicator,
   ScrollView,
 } from 'react-native';
 import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
@@ -16,7 +15,6 @@ import { Product } from '../../../types/Product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 
