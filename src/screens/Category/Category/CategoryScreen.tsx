@@ -16,6 +16,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DeleteCategory } from '../../../api/category/category/DeleteCategory';
 
+import LoaderKit from 'react-native-loader-kit'
+
 const CategoryScreen = ({ navigation }: any) => {
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -105,7 +107,13 @@ const CategoryScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
           {loading ? (
-            <Text>Loading...</Text>
+            <View className="flex justify-center items-center h-screen">
+            <LoaderKit
+              style={{ width: 90, height: 90 }}
+              name={'BallGridPulse'} 
+              color={'orange'} 
+            />
+            </View>
           ) : (
             <ScrollView>
               <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>

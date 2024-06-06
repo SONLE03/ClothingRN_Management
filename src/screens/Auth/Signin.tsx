@@ -14,13 +14,20 @@ import {
   Text,
   TouchableOpacity,
   Alert,
+  ImageBackground,
 } from 'react-native';
+import { Button, TextInput } from 'react-native-paper';
+
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { Sae } from 'react-native-textinput-effects';
+
 
 const LoginScreen: React.FC = () => {
   const navigation = useNavigation();
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const { authEmitter } = useAuth();
+  const [secureEntry, setSecureEntry] = useState(true);
 
   useEffect(() => {
     setUserName('');
@@ -32,7 +39,7 @@ const LoginScreen: React.FC = () => {
   };
 
   const handleForgotPassword = () => {
-    navigation.navigate('ForgotPassword' as never);
+    navigation.navigate('ForgotPasswordScreen' as never);
   };
 
   const handleLogin = async () => {
@@ -40,15 +47,19 @@ const LoginScreen: React.FC = () => {
       Alert.alert('Lack of information');
     } else {
       const data = await loginUser(username, password);
+      console.log(data);
+      console.log(username, password);
       if (!data) {
         Alert.alert('User login failed!');
       } else {
         try {
-          await AsyncStorage.setItem('access_token', JSON.stringify(data.access));
-          await AsyncStorage.setItem('refresh_token', JSON.stringify(data.refresh));
+          await AsyncStorage.setItem('access_token', JSON.stringify(data.access_token));
+          await AsyncStorage.setItem('refresh_token', JSON.stringify(data.refresh_token));
           await AsyncStorage.setItem('user_id', JSON.stringify(data.id));
           await AsyncStorage.setItem('role', JSON.stringify(data.role));
+          console.log(AsyncStorage.getItem('access_token'));
           authEmitter.emit('loginStatusChanged');
+          //navigation.navigate('HomeScreen' as never);
         } catch (error) {
           console.log('Error signing in: ', error);
         }
@@ -57,105 +68,83 @@ const LoginScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-      <View style={{ paddingHorizontal: 25 }}>
-        <Text
-          style={{
-            fontFamily: 'Roboto-Medium',
-            fontSize: 28,
-            fontWeight: '500',
-            color: '#333',
-            marginBottom: 30,
-          }}>
-          Login
-        </Text>
-
-        <InputField
-          label={'Email'}
-          icon={
+    
+      <ImageBackground source={require('../../assets/login-bg.png')} className='flex-1 h-screen justify-center items-center'>
+        <View className='flex flex-col mt-32 rounded-2xl border-2 border-orange-300 p-2 bg-white shadow-2xl'>
+          <View className='flex flex-row justify-center items-center bg-white space-x-1 p-1 mb-8 w-80 h-16 border border-gray-600 rounded-2xl'>
             <MaterialIcons
-              name="alternate-email"
-              size={20}
-              color="#666"
-              style={{ marginRight: 5 }}
-            />
-          }
-          marginBottom={30}
-          keyboardType="email-address"
-          onChangeText={(email) => setUserName(email)}
-        />
+                  name="email"
+                  size={30}
+                  color="#666"
+                  style={{ marginRight: 5 }}
+                />
+            <View className='flex flex-col'>
+              <Sae className='bg-white w-60 h-10'
+                label={'Email Address'}
+                labelStyle={{ color: '#000' }}
+                keyboardType="email-address"
+                inputPadding={10}
+                inputStyle={{ color: 'black' }}
+                labelHeight={20}
+                iconClass={FontAwesomeIcon}
+                iconName={'pencil'}
+                iconColor={'#000'}
+                borderHeight={2}
+                height={35}
+                // TextInput props
+                autoCapitalize={'none'}
+                autoCorrect={false}
+                onChangeText={(email) => setUserName(email)}
+                
+              />
+              <View className='mt-4'></View>
+            </View>
+            </View>
 
-        <PasswordInput
-          label={'Password'}
-          icon={
-            <Ionicons
-              name="lock-closed-outline"
-              size={20}
-              color="#666"
-              style={{ marginRight: 5 }}
-            />
-          }
-          marginBottom={30}
-          onChangeText={(password) => setPassword(password)}
-        />
-        <TouchableOpacity onPress={handleForgotPassword} style={{ alignSelf: 'flex-end' }}>
-          <Text style={{ color: '#AD40AF', fontWeight: '700' }}>Forgot Password?</Text>
-        </TouchableOpacity>
+            <View className='flex flex-row justify-center items-center text-black bg-white space-x-1 p-1 mb-4 w-80 h-16 border border-gray-600 rounded-2xl'>
+              <Ionicons
+                  name="shield-checkmark"
+                  size={30}
+                  color="#666"
+                  style={{ marginRight: 5 }}
+                />
+                <View className='flex flex-col'>
+                  <View className='flex flex-row items-center'>
+                    <Sae className='bg-white w-60 h-10 text-black'
+                      secureTextEntry={secureEntry}
+                      label={'Password'}
+                      labelStyle={{ color: '#000' }}
+                      
+                      //keyboardType="password"
+                      inputStyle={{ color: 'black' }}
+                      inputPadding={10}
+                      labelHeight={20}
+                      iconClass={FontAwesomeIcon}
+                      iconName={'pencil'}
+                      iconColor={'#000'}
+                      borderHeight={2}
+                      height={35}
 
-        <CustomButton label={'Login'} onPress={handleLogin} />
-
-        <Text style={{ textAlign: 'center', color: '#666', marginBottom: 30 }}>
-          Or, login with ...
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}></TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}></TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}></TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 30,
-          }}>
-          <Text style={{ color: '#000000' }}>New to the app?</Text>
-          <TouchableOpacity onPress={handleRegister}>
-            <Text style={{ color: '#AD40AF', fontWeight: '700' }}> Register</Text>
+                      onChangeText={(password) => setPassword(password)}
+                    />
+                    {password ? (
+                      <TouchableOpacity onPress={() => setSecureEntry((prev) => !prev)}>
+                        <Ionicons className='mt-4' name={secureEntry ? 'eye-off' : 'eye'} size={24} color="black" />
+                      </TouchableOpacity>
+                    ) : null}
+                  </View>
+                  
+                  <View className='mt-4'></View>
+              </View>
+            </View>
+          <TouchableOpacity onPress={handleForgotPassword} style={{ alignSelf: 'flex-end' }}>
+            <Text className='underline' style={{ color: 'red', fontWeight: '700' }}>Forgot Password?</Text>
           </TouchableOpacity>
+
+          <Button className='flex justify-center items-center mt-8 bg-orange-400 h-12 text-xl ' textColor='white' onPress={handleLogin}>Login</Button>
         </View>
-      </View>
-    </SafeAreaView>
+      </ImageBackground>
+    
   );
 };
 

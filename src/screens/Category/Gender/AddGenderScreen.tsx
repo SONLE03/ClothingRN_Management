@@ -26,7 +26,9 @@ const AddGenderScreen = ({navigation} : any) => {
                 Alert.alert('Lack of information');
             }else{
                 await AddPG(name);
-                Alert.alert('Product gender created successfully');
+                //Alert.alert('Product gender created successfully');
+                setVisible(true);
+                setName('');
             }
         } catch (error) {
           console.error('Failed to create product gender:', error);
@@ -74,38 +76,5 @@ const AddGenderScreen = ({navigation} : any) => {
       </SafeAreaView>
     )
 }
-const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      padding: 20,
-    },
-    backButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    backButtonText: {
-      marginLeft: 10,
-      fontSize: 24,
-      color: '#333',
-    },
-    spaceContainer: {
-        width: '100%',
-        height: 10,
-      },
-    inputContainer: {
-        width: '100%',
-        elevation: 1.5,
-        borderRadius: 0.5,
-        shadowColor: CUSTOM_COLOR.Black,
-        flexDirection: 'column',
-      },
-      unitTitleContainer: {
-        flex: 1,
-        alignItems: 'center',
-        flexDirection: 'row',
-      },
-      titleInputStyle: {},
-})
+
 export default AddGenderScreen;

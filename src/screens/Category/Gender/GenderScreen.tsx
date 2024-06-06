@@ -18,6 +18,8 @@ import { DeletePG } from '../../../api/category/gender/DeletePGender';
 import { BORDERRADIUS, COLORS, CUSTOM_COLOR, FONTFAMILY, FONTSIZE, SPACING } from '../../../theme/theme';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
+import LoaderKit from 'react-native-loader-kit'
+
 const GenderScreen = ({ navigation }: any) => {
     const [productGenders, setproductGenders] = useState<Gender[]>([]);
     const [loading, setLoading] = useState(true);
@@ -106,7 +108,13 @@ const GenderScreen = ({ navigation }: any) => {
                         </TouchableOpacity>
                     </View>
                     {loading ? (
-                        <Text>Loading...</Text>
+                        <View className="flex justify-center items-center h-screen">
+                        <LoaderKit
+                          style={{ width: 90, height: 90 }}
+                          name={'BallGridPulse'} 
+                          color={'orange'} 
+                        />
+                        </View>
                     ) : (
                       <ScrollView>
                           <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>

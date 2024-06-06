@@ -15,6 +15,9 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CUSTOM_COLOR } from '../../../theme/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import CustomButton from '../../../components/CustomButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { Dialog } from 'react-native-paper';
 const AddCategoryScreen = ({navigation} : any) => {
     // const navigation = useNavigation();
     const [name, setCateName] = useState('');
@@ -22,6 +25,10 @@ const AddCategoryScreen = ({navigation} : any) => {
     const [genders, setGenders] = useState<Gender[]>([]);
     const [loading, setLoading] = useState(true);
     const [isFocus, setIsFocus] = useState(false);  
+
+    const [visible, setVisible] = useState(false);
+
+    const hideDialog = () => setVisible(false);
 
     useEffect(() => {
         fetchData();
@@ -44,7 +51,10 @@ const AddCategoryScreen = ({navigation} : any) => {
             }else{
                 await CreateCategory(name, productGender);
                 fetchData();
-                Alert.alert('Category created successfully');
+                //Alert.alert('Category created successfully');
+                setVisible(true);
+                setCateName('');
+                //setProductGender('');
             }
         } catch (error) {
           console.error('Failed to create category:', error);
@@ -52,65 +62,45 @@ const AddCategoryScreen = ({navigation} : any) => {
         }
       };
     return(
-        <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
-                <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Add Category</Text>
-            </TouchableOpacity>
-            <>
-              <View style={[styles.inputContainer, {height: 90}]}>
-                <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-start'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Name Of Category</Text>
-                    <Text
-                      style={[
-                        styles.titleInputStyle,
-                        {color: CUSTOM_COLOR.Red},
-                      ]}>
-                      {' '}
-                      *
-                    </Text>
-                  </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
-                </View>
-                {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
-                    style={{flex: 1, fontSize: 17}}
-                    onChangeText={text => {
-                        setCateName(text);
-                    }}
-                    value={name}
-                  />
-                  <View style={{width: '5%', height: '100%'}} />
-                </View>
+        <SafeAreaView className='flex-1 bg-gray-100 p-4'>
+          <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+            <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
+              <MaterialCommunityIcons className='mr-2' name="developer-board" size={30} color="#333" />
+              Add Category</Text>
+            <View style={{ width: 24 }} />  
+          </TouchableOpacity>
+          <>
+            <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
+              <View className='flex flex-row'>
+                <Text className='font-semibold text-lg' >Name of category <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
-            </>
-            <View style={styles.spaceContainer} />
+              <View style={{flex: 2, flexDirection: 'row'}}>
+                
+                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                  style={{flex: 1, fontSize: 17}}
+                  placeholder='Enter category name..'
+                  placeholderTextColor='#D1D5DB'
+                  onChangeText={text => {
+                      setCateName(text);
+                  }}
+                  value={name}
+                />
+                
+              </View>
+            </View>
+          </>
             <>
-              <View style={[styles.inputContainer, {height: 90}]}>
+              <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-28 bg-white mt-8'>
                 <View style={{width: '100%', height: 10}} />
-                <View style={{flex: 1, flexDirection: 'row'}}>
+                <View className='flex flex-row'>
                   <View
                     style={[
                       styles.unitTitleContainer,
                       {justifyContent: 'flex-start'},
                     ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Product Gender</Text>
+                    
+                    <Text className='font-semibold text-lg'>Product Gender</Text>
                     <Text
                       style={[
                         styles.titleInputStyle,
@@ -120,17 +110,10 @@ const AddCategoryScreen = ({navigation} : any) => {
                       *
                     </Text>
                   </View>
-                  <View
-                    style={[
-                      styles.unitTitleContainer,
-                      {justifyContent: 'flex-end'},
-                    ]}>
-                    <View style={{width: '10%', height: '100%'}} />
-                  </View>
+                  
                 </View>
                 {/* <View style={{width: '100%', height: 5}} /> */}
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                  <View style={{width: '5%', height: '100%'}} />
+                <View className='flex flex-row mt-2 w-full justify-center items-center'>
                   <Dropdown 
                     style={[
                         styles.comboType,
@@ -152,37 +135,26 @@ const AddCategoryScreen = ({navigation} : any) => {
                             setIsFocus(false);
                         }}
                     />
-                  <View style={{width: '5%', height: '100%'}} />
+                 
                 </View>
               </View>
             </>
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <CustomButton label={'Save'} onPress={handleAddCategory} />
+            <View className='flex w-full mt-8'>
+              <CustomButton  label={'Save'} onPress={handleAddCategory} />
+            </View>
+            
+
+            <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
+              <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
+              <Dialog.Title className="text-center text-green-600 font-semibold">Category added successfully!</Dialog.Title>
+              <Dialog.Content>
+                <Text className='text-center text-green-600' >Congratulation! You have successfully added a new category!</Text>
+              </Dialog.Content>
+            </Dialog>
         </SafeAreaView>
     )
 }
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#ffffff',
-      padding: 20,
-    },
-    backButton: {
-      flexDirection: 'row',
-      alignItems: 'center',
-      marginBottom: 20,
-    },
-    backButtonText: {
-      marginLeft: 10,
-      fontSize: 24,
-      color: '#333',
-    },
-    spaceContainer: {
-        width: '100%',
-        height: 10,
-      },
     inputContainer: {
         width: '100%',
         elevation: 1.5,
@@ -210,10 +182,10 @@ const styles = StyleSheet.create({
       },
       comboType: {
         width: '85%',
-        height: '70%',
+        height: '85%',
         borderColor: CUSTOM_COLOR.MineShaft,
         borderWidth: 0.5,
-        borderRadius: 1,
+        borderRadius: 30,
         paddingHorizontal: '5%',
       },
       placeholderStyle: {
@@ -248,11 +220,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         // alignItems: 'center',
       },
-      buttonContainer: {
-        width: '100%',
-        height: 55,
-        justifyContent: 'center',
-        alignItems: 'center',
-      },
+      
 })
 export default AddCategoryScreen;

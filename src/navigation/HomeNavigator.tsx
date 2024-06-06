@@ -20,6 +20,7 @@ import AddColorScreen from '../screens/Product/Color/AddColorScreen';
 import ProductScreen from '../screens/Product/Product/ProductScreen';
 import AddProductScreen from '../screens/Product/Product/AddProductScreen';
 
+
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
@@ -43,6 +44,7 @@ type HomeStackParamList = {
   AddColorScreen: undefined;
   ProductScreen: undefined;
   AddProductScreen: undefined;
+
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -70,6 +72,7 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="AddColorScreen" component={AddColorScreen} />
         <Stack.Screen name="ProductScreen" component={ProductScreen} />
         <Stack.Screen name="AddProductScreen" component={AddProductScreen} />
+        
       </Stack.Navigator>
     </ApplicationProvider>
   );

@@ -22,6 +22,7 @@ import { GetUserById } from '../api/users/GetUserById';
 import { useAuth } from '../util/AuthContext';
 import logoutUser from '../api/auth/logout';
 import Modal from 'react-native-modal';
+
 const HomeScreen = ({navigation} : any) => {
     // const navigation = useNavigation();
     const { authEmitter } = useAuth();

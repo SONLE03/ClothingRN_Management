@@ -15,6 +15,8 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { DeleteBranch } from '../../../api/category/branch/DeleteBranch';
 
+import LoaderKit from 'react-native-loader-kit'
+
 const BranchScreen = ({ navigation }: any) => {
   const [branches, setBranches] = useState<Branch[]>([]);
   const [loading, setLoading] = useState(true);
@@ -104,7 +106,13 @@ const BranchScreen = ({ navigation }: any) => {
             </TouchableOpacity>
           </View>
           {loading ? (
-            <Text>Loading...</Text>
+            <View className="flex justify-center items-center h-screen">
+            <LoaderKit
+              style={{ width: 90, height: 90 }}
+              name={'BallGridPulse'} 
+              color={'orange'} 
+            />
+            </View>
           ) : (
             <ScrollView>
               <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1">
