@@ -5,7 +5,7 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Image,
+  Alert,
   ScrollView,
 } from 'react-native';
 import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
@@ -59,6 +59,7 @@ const PromotionScreen = ({navigation} : any) => {
         try {
           await DeleteCoupon(id);
           setDeleteModalVisible(false);
+          Alert.alert("Coupon was deleted successfully");
           fetchData();
         } catch (error) {
           console.error('Error deleting data:', error);

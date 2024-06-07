@@ -22,6 +22,8 @@ import AddProductScreen from '../screens/Product/Product/AddProductScreen';
 import PromotionScreen from '../screens/Promotion/PromotionScreen';
 import AddEditPromotionScreen from '../screens/Promotion/AddEditPromotionScreen';
 import CouponDetailScreen from '../screens/Promotion/CouponDetailScreen';
+import AddExistedProductScreen from '../screens/Product/Product/AddExistedProductScreen';
+import ProductDetailScreen from '../screens/Product/Product/ProductDetailScreen';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
@@ -48,7 +50,8 @@ type HomeStackParamList = {
   PromotionScreen: undefined;
   AddEditPromotionScreen: undefined;
   CouponDetailScreen: undefined;
-
+  AddExistedProductScreen: undefined;
+  ProductDetailScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -79,6 +82,8 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="PromotionScreen" component={PromotionScreen} />
         <Stack.Screen name="AddEditPromotionScreen" component={AddEditPromotionScreen} />
         <Stack.Screen name="CouponDetailScreen" component={CouponDetailScreen} />
+        <Stack.Screen name="AddExistedProductScreen" component={AddExistedProductScreen} />
+        <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

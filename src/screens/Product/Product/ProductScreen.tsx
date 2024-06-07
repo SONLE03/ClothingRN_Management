@@ -7,16 +7,17 @@ import {
   TextInput,
   Image,
   ScrollView,
+  Alert,
 } from 'react-native';
 import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
 import { GetAllProducts } from '../../../api/product/product/GetAllProducts';
 import { Product } from '../../../types/Product';
-
+import { DeleteProduct } from '../../../api/product/product/DeleteProduct';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
+import Modal from 'react-native-modal';
 
 
 const ProductScreen = ({ navigation }: any) => {
@@ -25,7 +26,7 @@ const ProductScreen = ({ navigation }: any) => {
   const [searchText, setSearchText] = useState('');
   const [visible, setVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-
+  const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   useEffect(() => {
     fetchData();
   }, []);
@@ -51,11 +52,21 @@ const ProductScreen = ({ navigation }: any) => {
   };
 
   const handleEdit = (item: Product) => {
-    navigation.navigate('EditProductScreen', { item: item });
+    navigation.navigate('AddExistedProductScreen', { item: item });
   };
-
-  const handleDelete = (id: string) => {
-    // Delete logic
+  const handleViewDetailProduct = (item: Product) => {
+    navigation.navigate('ProductDetailScreen', {item: item});
+  }
+  const handleDelete = async (id: string) => {
+    try {
+      await DeleteProduct(id);
+      setDeleteModalVisible(false);
+      Alert.alert("Product was deleted successfully");
+      fetchData();
+    } catch (error) {
+      console.error('Error deleting data:', error);
+      setLoading(false);
+    }
   };
 
   const openMenu = (product: Product) => {
@@ -109,7 +120,7 @@ const ProductScreen = ({ navigation }: any) => {
               </DataTable.Header>
 
               {filteredProduct.map((item) => (
-                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
+                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailProduct(item)}>
                   <DataTable.Cell>
                     {item.image ? (
                       <Image
@@ -146,15 +157,26 @@ const ProductScreen = ({ navigation }: any) => {
                       }
                     >
                       <Menu.Item 
-                        onPress={() => handleEdit(item)} title="Edit" />
+                        onPress={() => handleEdit(item)} title="Add Product Item" />
                       <Divider />
                       <Menu.Item 
                         onPress={() => {
-                          handleDelete(item.id);
+                          setDeleteModalVisible(true);
                           closeMenu();
                         }}
                         title="Delete"
                       />
+                      <Modal isVisible={deleteModalVisible}>
+                        <View className= 'bg-white p-4 rounded-md items-center'>
+                          <Text className= 'text-lg font-bold mb-4 text-black'>Do you want to delete this coupon?</Text>
+                          <TouchableOpacity className= 'bg-red-500 px-4 py-2 rounded-md mb-2' onPress={() => handleDelete(item.id)}>
+                            <Text className=  'text-white text-lg font-bold'>Đồng ý</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity className= 'bg-gray-600 px-4 py-2 rounded-md' onPress={() => setDeleteModalVisible(false)}>
+                            <Text className= 'text-white text-lg font-bold'>Hủy</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </Modal>
                     </Menu>
                   </DataTable.Cell>
                 </DataTable.Row>

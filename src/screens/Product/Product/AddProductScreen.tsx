@@ -151,7 +151,7 @@ const AddProductScreen = ({ navigation }: any) => {
 
   return (
     <SafeAreaView>
-      <ScrollView className="p-4">
+    
       <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
@@ -159,6 +159,7 @@ const AddProductScreen = ({ navigation }: any) => {
               Add product</Text>
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
+          <ScrollView className="p-4">
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
               <Text className="text-lg font-bold mb-2">Upload Images</Text>
               <TouchableOpacity className="flex flex-row justify-center items-center space-x-2 bg-gray-200 p-4 rounded-lg border border-orange-400 border-dotted" onPress={pickImage}>
