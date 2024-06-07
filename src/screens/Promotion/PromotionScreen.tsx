@@ -15,14 +15,15 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-
-
+import { DeleteCoupon } from '../../api/coupon/DeleteCoupon';
+import Modal from 'react-native-modal';
 const PromotionScreen = ({navigation} : any) => {
     const [coupons, setCoupons] = useState<Coupon[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchText, setSearchText] = useState('');
     const [visible, setVisible] = useState(false);
     const [selectedCoupon, setSelectedCoupon] = useState<Coupon | null>(null);
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     useEffect(() => {
         fetchData();
       }, []);
@@ -44,16 +45,26 @@ const PromotionScreen = ({navigation} : any) => {
       );
     
       const handleAddCoupon = () => {
-        navigation.navigate('AddCouponScreen');
+        navigation.navigate('AddEditPromotionScreen', {item: null});
       };
     
       const handleEdit = (item: Coupon) => {
-        navigation.navigate('EditCouponScreen', { item: item });
+        navigation.navigate('AddEditPromotionScreen', { item: item });
       };
+      const handleViewDetailCoupon = (item: Coupon) => {
+        navigation.navigate('CouponDetailScreen', { item: item });
+      }
     
-      const handleDelete = (id: string) => {
-        // Delete logic
-      };
+      const handleDelete = async (id: string) => {
+        try {
+          await DeleteCoupon(id);
+          setDeleteModalVisible(false);
+          fetchData();
+        } catch (error) {
+          console.error('Error deleting data:', error);
+          setLoading(false);
+        }
+      }
     
       const openMenu = (coupon: Coupon) => {
         setSelectedCoupon(coupon);
@@ -68,14 +79,14 @@ const PromotionScreen = ({navigation} : any) => {
                 <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
                 <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
                   <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-                  <Text className='ml-2'>Products List</Text>
+                  <Text className='ml-2'>Coupons List</Text>
                 </Text>
                 <View style={{ width: 24 }} />  
               </TouchableOpacity>
             <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
               <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
               <TextInput
-                placeholder="Find your products here..."
+                placeholder="Find your coupon here..."
                 value={searchText}
                 onChangeText={(text) => setSearchText(text)}
                 placeholderTextColor="#B0B0B0"
@@ -99,16 +110,16 @@ const PromotionScreen = ({navigation} : any) => {
                 <DataTable className='mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center '>
                   <DataTable.Header className='border-b-gray-500'>
                     <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Name</DataTable.Title>
-                    <DataTable.Title textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Value</DataTable.Title>
+                    <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Value</DataTable.Title>
                     <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }} >Quantity</DataTable.Title>
                     <DataTable.Title className='flex justify-center items-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Actions</DataTable.Title>
                   </DataTable.Header>
     
                   {filteredProduct.map((item) => (
-                    <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id}>
+                    <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailCoupon(item)}>
                       <DataTable.Cell>{item.name}</DataTable.Cell>
-                      <DataTable.Cell numeric>{item.discountValue}%</DataTable.Cell>
-                      <DataTable.Cell numeric>{item.quantity}</DataTable.Cell>
+                      <DataTable.Cell className='flex justify-center items-center' numeric>{item.discountValue}%</DataTable.Cell>
+                      <DataTable.Cell className='flex justify-center items-center' numeric>{item.quantity}</DataTable.Cell>
                       <DataTable.Cell className='flex justify-center items-center'>
                         <Menu 
                           visible={visible && selectedCoupon?.id === item.id}
@@ -120,16 +131,30 @@ const PromotionScreen = ({navigation} : any) => {
                           }
                         >
                           <Menu.Item 
+                            onPress={() => handleViewDetailCoupon(item)} title="View" />
+                          <Divider />
+                          <Menu.Item 
                             onPress={() => handleEdit(item)} title="Edit" />
                           <Divider />
                           <Menu.Item 
                             onPress={() => {
-                              handleDelete(item.id);
+                              setDeleteModalVisible(true);
                               closeMenu();
                             }}
                             title="Delete"
                           />
                         </Menu>
+                        <Modal isVisible={deleteModalVisible}>
+                        <View className= 'bg-white p-4 rounded-md items-center'>
+                          <Text className= 'text-lg font-bold mb-4 text-black'>Do you want to delete this coupon?</Text>
+                          <TouchableOpacity className= 'bg-red-500 px-4 py-2 rounded-md mb-2' onPress={() => handleDelete(item.id)}>
+                            <Text className=  'text-white text-lg font-bold'>Đồng ý</Text>
+                          </TouchableOpacity>
+                          <TouchableOpacity className= 'bg-gray-600 px-4 py-2 rounded-md' onPress={() => setDeleteModalVisible(false)}>
+                            <Text className= 'text-white text-lg font-bold'>Hủy</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </Modal>
                       </DataTable.Cell>
                     </DataTable.Row>
                   ))}

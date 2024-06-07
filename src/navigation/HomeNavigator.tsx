@@ -20,7 +20,8 @@ import AddColorScreen from '../screens/Product/Color/AddColorScreen';
 import ProductScreen from '../screens/Product/Product/ProductScreen';
 import AddProductScreen from '../screens/Product/Product/AddProductScreen';
 import PromotionScreen from '../screens/Promotion/PromotionScreen';
-
+import AddEditPromotionScreen from '../screens/Promotion/AddEditPromotionScreen';
+import CouponDetailScreen from '../screens/Promotion/CouponDetailScreen';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
@@ -45,6 +46,8 @@ type HomeStackParamList = {
   ProductScreen: undefined;
   AddProductScreen: undefined;
   PromotionScreen: undefined;
+  AddEditPromotionScreen: undefined;
+  CouponDetailScreen: undefined;
 
 };
 
@@ -74,6 +77,8 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="ProductScreen" component={ProductScreen} />
         <Stack.Screen name="AddProductScreen" component={AddProductScreen} />
         <Stack.Screen name="PromotionScreen" component={PromotionScreen} />
+        <Stack.Screen name="AddEditPromotionScreen" component={AddEditPromotionScreen} />
+        <Stack.Screen name="CouponDetailScreen" component={CouponDetailScreen} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

@@ -8,3 +8,13 @@ export interface Coupon{
     quantity : number,
     eventStatus: string
 }
+
+export interface NewCoupon {
+    name: string;
+    startDate: string;
+    endDate: string;
+    discountValue: number;
+    minimumBill: number;
+    quantity: number;
+    status: number;
+}
