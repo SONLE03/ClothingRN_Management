@@ -258,7 +258,7 @@ const HomeScreen = ({navigation} : any) => {
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('ManageUser')}
+                            onPress={() => navigation.navigate('UserScreen')}
                             source= {null}
                             text="Manage User"
                         />
