@@ -1,11 +1,11 @@
-import axios from 'axios';
-import { apiServer } from '../config';
-import { ParseJSON } from '../ParseJSON';
+import axios from "axios";
+import { apiServer } from "../config";
+import { ParseJSON } from "../ParseJSON";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const GetMe = async () => {
+export const UpdateOrderStatus = async (orderId: string, status: number) => {
 
-    const GetMeUrl = apiServer + '/auth/me';
+    const UpdateOrderStatusUrl = apiServer + `/orders/${orderId}/${status}`;
 
     const accessToken = await AsyncStorage.getItem('access_token');
     if (!accessToken) {
@@ -15,18 +15,18 @@ export const GetMe = async () => {
     const parseToken = ParseJSON(accessToken);
 
     const config = {
-        method: 'get',
+        method: 'put',
         maxBodyLength: Infinity,
-        url: GetMeUrl,
+        url: UpdateOrderStatusUrl,
         headers: {
-            'Authorization': `Bearer ${parseToken}`,
-        },
-    };  
+            'Authorization': `Bearer ${parseToken}`
+        }
+    };
     try {
         const response = await axios.request(config);
         return response.data;
-    } catch (error) {
+    }
+    catch (error) {
         console.error(error);
     }
-
 }

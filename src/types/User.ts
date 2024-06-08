@@ -9,3 +9,14 @@ export interface UserProps {
     enabled: boolean;
     image: string | null;
 }
+export interface UserPropsDetail {
+    createdAt: string;
+    id: string;
+    fullname: string;
+    phone: string;
+    email: string;
+    password: string;
+    role: string;
+    enabled: boolean;
+    image: string | null;
+}

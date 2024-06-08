@@ -40,6 +40,13 @@ const ProductMainScreen = ({navigation} : any) => {
           </View>
           <Ionicons name="chevron-forward" size={24} color="#333" />
         </TouchableOpacity>
+        <View className='flex mx-2 bg-gray-400 rounded-3xl' />
+        <TouchableOpacity className='border border-orange-500 rounded-xl mt-4 p-2' style={styles.option} onPress={() => navigation.navigate("ImportProductScreen")}>
+          <View style={styles.optionContent}>
+            <Text className='focus:text-orange-500 font-semibold' style={styles.optionText}>Import</Text>
+          </View>
+          <Ionicons name="chevron-forward" size={24} color="#333" />
+        </TouchableOpacity>
       </SafeAreaView>
     );
 }

@@ -1,6 +1,5 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import ChangeProfile from '../screens/ChangeProfile';
 import HomeScreen from '../screens/HomeScreen';
 import CategoryMainScreen from '../screens/Category/CategoryMainScreen';
 import CategoryScreen from '../screens/Category/Category/CategoryScreen';
@@ -24,12 +23,17 @@ import AddEditPromotionScreen from '../screens/Promotion/AddEditPromotionScreen'
 import CouponDetailScreen from '../screens/Promotion/CouponDetailScreen';
 import AddExistedProductScreen from '../screens/Product/Product/AddExistedProductScreen';
 import ProductDetailScreen from '../screens/Product/Product/ProductDetailScreen';
+import ImportProductScreen from '../screens/Import/ImportProductScreen';
+import AddImportProductScreen from '../screens/Import/AddImportProductScreen';
+import OrderHistoryScreen from '../screens/Order/OrderHistoryScreen';
+import ChangePasswordScreen from '../screens/Auth/ChangePassword';
+import ProfileScreen from '../screens/Profile/Profile';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
 type HomeStackParamList = {
   HomeScreen: undefined;
-  ChangeProfile: undefined;
+  ChangePasswordScreen: undefined;
   CategoryMainScreen: undefined;
   CategoryScreen: undefined;
   BranchScreen: undefined;
@@ -52,6 +56,10 @@ type HomeStackParamList = {
   CouponDetailScreen: undefined;
   AddExistedProductScreen: undefined;
   ProductDetailScreen: undefined;
+  ImportProductScreen: undefined;
+  AddImportProductScreen: undefined;
+  OrderHistoryScreen: undefined;
+  ProfileScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -61,7 +69,6 @@ const HomeNavigator: React.FC = () => {
     <ApplicationProvider {...eva} theme={eva.light}>
       <Stack.Navigator initialRouteName="HomeScreen" screenOptions={{ headerShown: false }}>
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="ChangeProfile" component={ChangeProfile} />
         <Stack.Screen name="CategoryMainScreen" component={CategoryMainScreen} />
         <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
         <Stack.Screen name="BranchScreen" component={BranchScreen} />
@@ -84,6 +91,11 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="CouponDetailScreen" component={CouponDetailScreen} />
         <Stack.Screen name="AddExistedProductScreen" component={AddExistedProductScreen} />
         <Stack.Screen name="ProductDetailScreen" component={ProductDetailScreen} />
+        <Stack.Screen name="ImportProductScreen" component={ImportProductScreen} />
+        <Stack.Screen name="AddImportProductScreen" component={AddImportProductScreen} />
+        <Stack.Screen name="OrderHistoryScreen" component={OrderHistoryScreen} />
+        <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
+        <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

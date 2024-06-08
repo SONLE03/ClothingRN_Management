@@ -8,7 +8,8 @@ import {
     Text,
     TouchableOpacity,
     Alert,
-    Image
+    Image,
+    Modal
   } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -21,7 +22,6 @@ import { UserProps } from '../types/User';
 import { GetUserById } from '../api/users/GetUserById';
 import { useAuth } from '../util/AuthContext';
 import logoutUser from '../api/auth/logout';
-import Modal from 'react-native-modal';
 
 const HomeScreen = ({navigation} : any) => {
     // const navigation = useNavigation();
@@ -75,13 +75,13 @@ const HomeScreen = ({navigation} : any) => {
                             <Text style={styles.storeText}> Real Clothes</Text>
                         </View>
                         <View style={{ width: 32, height: 37 }}>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("ChangeProfile" as never)}>
+                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("ProfileScreen")}>
                                 <FontAwesome name="user-o" size={24} color="black" />
                             </TouchableOpacity>
                         </View>
                         <View style={{ width: 10, height: '100%' }} />
                         <View style={{ width: 30, height: 30 }}>
-                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("abc" as never)}>
+                            <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("abc")}>
                                 <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
                             </TouchableOpacity>
                         </View>
@@ -90,15 +90,32 @@ const HomeScreen = ({navigation} : any) => {
                             <TouchableOpacity style={styles.iconContainer} onPress={() => setLogoutModalVisible(true)}>
                                 <MaterialIcons name="logout" size={24} color="black" />
                             </TouchableOpacity>
-                            <Modal isVisible={logoutModalVisible}>
-                                <View style={styles.modalContainer}>
-                                    <Text style={styles.modalText}>Đăng xuất khỏi tài khoản này?</Text>
-                                    <TouchableOpacity style={styles.modalButtonOK} onPress={handleLogout}>
-                                        <Text style={styles.modalButtonText}>Đăng xuất</Text>
-                                    </TouchableOpacity>
-                                    <TouchableOpacity style={styles.modalButtonCancel} onPress={() => setLogoutModalVisible(false)}>
-                                        <Text style={styles.modalButtonText}>Hủy</Text>
-                                    </TouchableOpacity>
+                            <Modal visible={logoutModalVisible} animationType="slide" transparent={true}>
+                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    padding: 20,
+                                    width: '80%', // Control width
+                                    borderRadius: 10, // Optional: for rounded corners
+                                    shadowColor: '#000', // Optional: for shadow
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5
+                                }}>
+                                    <Text className="text-lg mb-4 text-center p-1"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure you want to log out?</Text>
+                                    <View className="flex-row w-full justify-center items-center space-x-4 mt-4">
+                                        <TouchableOpacity className='flex justify-center items-center border border-orange-500 rounded-xl w-1/2 h-12' onPress={() => setLogoutModalVisible(false)}>
+                                            <Text className="text-lg font-semibold text-orange-600">Cancel</Text>
+                                        </TouchableOpacity>
+                                        <TouchableOpacity className='flex justify-center items-center bg-orange-500 rounded-xl w-1/2 h-12' onPress={handleLogout}>
+                                            <Text className="text-lg font-semibold text-white">OK</Text>
+                                        </TouchableOpacity>            
+                                    </View>
+                                    </View>
                                 </View>
                             </Modal>
                         </View>
@@ -217,7 +234,7 @@ const HomeScreen = ({navigation} : any) => {
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Order')}
+                            onPress={() => navigation.navigate('OrderHistoryScreen')}
                             source= {null}
                             text="Orders"
                         />
@@ -234,9 +251,9 @@ const HomeScreen = ({navigation} : any) => {
                         </View>
                         <View style={styles.unitContainer}>
                         <FunctionCard
-                            onPress={() => navigation.navigate('Report')}
+                            onPress={() => navigation.navigate('ImportProductScreen')}
                             source= {null}
-                            text="Financial Report"
+                            text="Report"
                         />
                         </View>
                         <View style={styles.unitContainer}>

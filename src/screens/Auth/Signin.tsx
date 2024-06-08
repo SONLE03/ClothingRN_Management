@@ -22,8 +22,7 @@ import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { Sae } from 'react-native-textinput-effects';
 
 
-const LoginScreen: React.FC = () => {
-  const navigation = useNavigation();
+const LoginScreen = ({navigation} : any) => {
   const [username, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const { authEmitter } = useAuth();

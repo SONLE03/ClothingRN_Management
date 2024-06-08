@@ -2,10 +2,10 @@ import axios, { AxiosResponse } from 'axios';
 import { apiServer } from '../config';
 import { ParseJSON } from '../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Coupon } from '../../types/Coupon';
+import { ImportInvoice } from '../../types/Import';
 
-export const GetAllCoupon = async (): Promise<Coupon[]> => {
-    const CouponURL = apiServer + '/coupons';
+export const GetAllImport = async (): Promise<ImportInvoice[]> => {
+    const ImportURL = apiServer + '/imports';
     const accessToken = await AsyncStorage.getItem('access_token')
       if (!accessToken) {
           throw new Error('No access token found');
@@ -17,16 +17,16 @@ export const GetAllCoupon = async (): Promise<Coupon[]> => {
           const config = {
               method: 'get',
               maxBodyLength: Infinity,
-              url: CouponURL,
+              url: ImportURL,
               headers: {
                 "Authorization": `Bearer ${parseToken}`,
               }
             };
           
-            const response: AxiosResponse<Coupon[]> = await axios.request(config);
+            const response: AxiosResponse<ImportInvoice[]> = await axios.request(config);
             return response.data;
       } catch (error) {
           console.error(error);
-          throw new Error('Get all coupons failed');
+          throw new Error('Get all import invoices failed');
       }
 }
