@@ -28,8 +28,7 @@ export const AddBranch = async (branchName: string) => {
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        console.error(error);
-        throw new Error("Add branch failed");
+        return false;
     }
     
     

@@ -48,8 +48,8 @@ const LoginScreen = ({navigation} : any) => {
       const data = await loginUser(username, password);
       console.log(data);
       console.log(username, password);
-      if (!data) {
-        Alert.alert('User login failed!');
+      if (!data) {  
+        
       } else {
         try {
           Alert.alert('User login successfully!');

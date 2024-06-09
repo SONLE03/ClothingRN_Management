@@ -90,9 +90,6 @@ const AddImport = ({navigation}: any) => {
             //Alert.alert('Success', 'Import added successfully');
             setVisible(true);
             setLoading(false);
-            setTimeout(() => {
-                navigation.navigate('ListImports');
-            }, 1500);
         } catch (error) {
             Alert.alert('Error', 'Failed to add import');
         } finally {
@@ -180,9 +177,9 @@ const AddImport = ({navigation}: any) => {
 
             <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
               <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
-              <Dialog.Title className="text-center text-green-600 font-semibold">Category added successfully!</Dialog.Title>
+              <Dialog.Title className="text-center text-green-600 font-semibold">Import added successfully!</Dialog.Title>
               <Dialog.Content>
-                <Text className='text-center text-green-600' >Congratulation! You have successfully added a new category!</Text>
+                <Text className='text-center text-green-600' >Congratulation! You have successfully added a new import!</Text>
               </Dialog.Content>
             </Dialog>
 

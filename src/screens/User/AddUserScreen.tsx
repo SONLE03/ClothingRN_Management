@@ -33,9 +33,15 @@ const AddUserScreen = ({ navigation }: any) => {
             
             } else {
                 const response = await AddStaff(email, fullName, phone, password);
-                setVisible(true);
-                clearFields();
-                setLoading(false);
+                if(!response){
+                    Alert.alert("Failed to create staff");
+                    clearFields();
+                }else{
+                    console.log(response)
+                    setVisible(true);
+                    clearFields();
+                    setLoading(false);
+                }
             }
           } catch (error: unknown) {
             if (error instanceof Error) {
@@ -116,7 +122,7 @@ const AddUserScreen = ({ navigation }: any) => {
                 />
                 {/* {password === '' && <Text style={styles.errorText}>Password is required</Text>} */}
             </View>
-            <Button loading={loading}
+            <Button
                 mode="contained"
                 style={{ marginTop: 20 }}
                 onPress={handleAddStaff}

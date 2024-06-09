@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export const AddNewImport = async (items: AddImportItem[]) => {
     const url = apiServer + '/imports';
 
-    const accessToken = await AsyncStorage.getItem('accessToken');
+    const accessToken = await AsyncStorage.getItem('access_token');
 
     if (!accessToken) {
         throw new Error('No access token found');
@@ -26,7 +26,7 @@ export const AddNewImport = async (items: AddImportItem[]) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${parseToken}`,
             },
-            data: items,
+            data: JSON.stringify(items) ,
 
         };
         try {

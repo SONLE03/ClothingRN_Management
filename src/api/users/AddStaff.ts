@@ -2,6 +2,7 @@ import axios from "axios";
 import { apiServer } from "../config";
 import { ParseJSON } from "../ParseJSON";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Alert } from "react-native";
 
 export const AddStaff = async(email: string, fullName: string, phone: string, password: string):Promise<any> => {
     const AddStaffUrl = apiServer + '/users';
@@ -32,7 +33,6 @@ export const AddStaff = async(email: string, fullName: string, phone: string, pa
         const response = await axios.request(config);
         return response.data;
     } catch (error) {
-        return error;
-        console.error(error);
+        return false;
     }
 }

@@ -26,10 +26,17 @@ const HomeScreen = ({navigation} : any) => {
     const { authEmitter } = useAuth();
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
     const [user, setUser] = useState<UserProps | null>(null);
-
+    const [isAdmin, setIsAdmin] = useState(true);
     useEffect(() => {
         const fetchUserData = async () => {
             const userId = await AsyncStorage.getItem('user_id');
+            const role = await AsyncStorage.getItem('role');
+            if (role != null){
+                if (JSON.parse(role) == "STAFF") { 
+                    setIsAdmin(false);
+                }
+            }
+            
             if (userId) {
                 const data = await GetMe();
                 setUser(data);
@@ -238,23 +245,26 @@ const HomeScreen = ({navigation} : any) => {
                         
                         
                         </View>
-                        <View style={styles.unitContainer}>
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1'
-                            onPress={() => navigation.navigate('DailyReportScreen')}
-                        >
-                            <Ionicons name="pie-chart" size={24} color="#c2410c" />
-                            <Text className="text-sm font-semibold text-orange-600">Reports</Text>
-                        </TouchableOpacity>
-                        </View>
-                        <View style={styles.unitContainer}>
-                        
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1'
-                            onPress={() => navigation.navigate('UserScreen')}
-                        >
-                            <MaterialIcons name="supervisor-account" size={24} color="#c2410c" />
-                            <Text className="text-sm font-semibold text-orange-600">Users</Text>
-                        </TouchableOpacity>
-                        </View>
+                        {isAdmin && (
+                            <><View style={styles.unitContainer}>
+                                    <TouchableOpacity
+                                        className="flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1"
+                                        onPress={() => navigation.navigate('DailyReportScreen')}
+                                    >
+                                        <Ionicons name="pie-chart" size={24} color="#c2410c" />
+                                        <Text className="text-sm font-semibold text-orange-600">Reports</Text>
+                                    </TouchableOpacity>
+                                </View><View style={styles.unitContainer}>
+                                        <TouchableOpacity
+                                            className="flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1"
+                                            onPress={() => navigation.navigate('UserScreen')}
+                                            disabled={false}
+                                        >
+                                            <MaterialIcons name="supervisor-account" size={24} color="#c2410c" />
+                                            <Text className="text-sm font-semibold text-orange-600">Users</Text>
+                                        </TouchableOpacity>
+                                    </View></>
+                        )}
 
                     </View>
                 </View>
