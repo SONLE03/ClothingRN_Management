@@ -29,6 +29,7 @@ import OrderHistoryScreen from '../screens/Order/OrderHistoryScreen';
 import ChangePasswordScreen from '../screens/Auth/ChangePassword';
 import ProfileScreen from '../screens/Profile/Profile';
 import UserScreen from '../screens/User/UserScreen';
+import DailyReportScreen from '../screens/Report/DailyReport';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
@@ -62,6 +63,7 @@ type HomeStackParamList = {
   OrderHistoryScreen: undefined;
   ProfileScreen: undefined;
   UserScreen: undefined;
+  DailyReportScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -99,6 +101,7 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="ProfileScreen" component={ProfileScreen} />
         <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
         <Stack.Screen name="UserScreen" component={UserScreen} />
+        <Stack.Screen name="DailyReportScreen" component={DailyReportScreen} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

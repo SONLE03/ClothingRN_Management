@@ -3,26 +3,18 @@ import React from 'react';
 import { CUSTOM_COLOR } from '../theme/theme';
 const ViewNow = (props: any) => {
   return (
-    <View style={styles.container}>
-      <View style={styles.button}>
-        <Text>+{props.number}</Text>
+    <View className='w-24 h-24 justify-center items-center'>
+      <View className='border border-orange-500 rounded-xl p-1' style={styles.button}>
+        <Text className='font-semibold'>+{props.number}</Text>
         <Text>{props.status}</Text>
       </View>
     </View>
   );
 };
 const styles = StyleSheet.create({
-  container: {
-    width: 100,
-    height: 80,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   button: {
-    backgroundColor: CUSTOM_COLOR.LightGray,
     width: 70,
     height: 70,
-    borderRadius: 10,
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',

@@ -55,13 +55,13 @@ const HomeScreen = ({navigation} : any) => {
     };
 
     return(
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView className='flex-1 bg-gray-200'>
             <>
-                <>
-                    <View style={styles.menuContainer}>
-                        <View style={styles.storeContainer}>
+                
+                    <View className='bg-orange-500 h-24' style={styles.menuContainer}>
+                        <View  style={styles.storeContainer}>
                             <Image
-                                source={require('../assets/logo.png')}
+                                source={require('../assets/logo2.png')}
                                 style={{
                                     width: '15%',
                                     height: '15%',
@@ -72,23 +72,23 @@ const HomeScreen = ({navigation} : any) => {
                                     borderWidth: 1,
                                 }}
                                 />
-                            <Text style={styles.storeText}> Real Clothes</Text>
+                            <Text className='text-xl font-bold text-white'> Real Clothes</Text>
                         </View>
-                        <View style={{ width: 32, height: 37 }}>
+                        <View  className='mr-2' style={{ width: 32, height: 37 }}>
                             <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("ProfileScreen")}>
-                                <FontAwesome name="user-o" size={24} color="black" />
+                                <FontAwesome name="user-o" size={24} color="white" />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ width: 10, height: '100%' }} />
+                        
                         <View style={{ width: 30, height: 30 }}>
                             <TouchableOpacity style={styles.iconContainer} onPress={() => navigation.navigate("abc")}>
-                                <Ionicons name="chatbubble-ellipses-outline" size={24} color="black" />
+                                <Ionicons name="chatbubble-ellipses-outline" size={24} color="white" />
                             </TouchableOpacity>
                         </View>
-                        <View style={{ width: 5, height: '100%' }} />
-                        <View style={{ width: 32, height: 32, marginHorizontal: 5 }}>
+                        
+                        <View className='mr-2' style={{ width: 32, height: 32, marginHorizontal: 5 }}>
                             <TouchableOpacity style={styles.iconContainer} onPress={() => setLogoutModalVisible(true)}>
-                                <MaterialIcons name="logout" size={24} color="black" />
+                                <MaterialIcons name="logout" size={24} color="white" />
                             </TouchableOpacity>
                             <Modal visible={logoutModalVisible} animationType="slide" transparent={true}>
                                 <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -119,14 +119,14 @@ const HomeScreen = ({navigation} : any) => {
                                 </View>
                             </Modal>
                         </View>
-                        <View style={{ width: 10, height: '100%' }} />
+                        
                     </View>
-                </>
-                <View style={styles.spaceContainer} />
-                <>
-                    <View style={styles.accountContainer}>
+                
+               
+                <View className='flex flex-row w-full justify-start items-center p-2 h-36 rounded-xl'>
+                    <View className='bg-white rounded-xl border border-gray-400' style={styles.accountContainer}>
                         <View style={styles.infoContainer}>
-                            <View style={{ width: 10, height: '100%' }} />
+            
                             <View style={styles.avataContainer}>
                             {imageUrl ? (
                                 <Image
@@ -137,8 +137,8 @@ const HomeScreen = ({navigation} : any) => {
                                     aspectRatio: 1,
                                     borderRadius: 60,
                                     resizeMode: 'center',
-                                    borderColor: CUSTOM_COLOR.Black,
-                                    borderWidth: 1,
+                                    borderColor: 'orange',
+                                    borderWidth: 2,
                                 }}
                                 />
                                 ) : (
@@ -150,28 +150,27 @@ const HomeScreen = ({navigation} : any) => {
                                     aspectRatio: 1,
                                     borderRadius: 60,
                                     resizeMode: 'center',
-                                    borderColor: CUSTOM_COLOR.Black,
-                                    borderWidth: 1,
+                                    borderColor: 'orange',
+                                    borderWidth: 2,
                                 }}
                                 />
                             )}
                             </View>
-                            <View style={{ width: 15, height: '100%' }} />
+                            
                             <View style={{ flexDirection: 'column', justifyContent: 'center' }}>
                                 <Text style={[styles.textViewStyles, { fontSize: 20 }]}>
                                     {user?.fullName}
                                 </Text>
                                 <View style={{ width: '100%', height: 5 }} />
-                                    <Text style={[styles.textViewStyles, { fontSize: 15 }]}>
+                                    <Text className='text-sm text-orange-600 p-1 border border-orange-600 rounded-xl'>
                                         {user?.email}
                                     </Text>
                                 </View>
                             </View>
                     </View>
-                </>
-                <View style={styles.spaceContainer} />
-                <>
-                    <View style={styles.oderContainer}>
+                </View>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-48 rounded-xl'>
+                    <View className='bg-white mb-1 rounded-xl border border-gray-400' style={styles.oderContainer}>
                     <View style={{ width: '100%', height: '5%' }} />
                     <View style={styles.textContainer}>
                         <View
@@ -180,7 +179,7 @@ const HomeScreen = ({navigation} : any) => {
                             justifyContent: 'center',
                             alignItems: 'flex-start',
                         }}>
-                        <Text style={styles.textViewStyles}>Order New</Text>
+                        <Text className='text-lg text-orange-600 font-semibold underline'>Order News</Text>
                         </View>
                         <TouchableOpacity
                         style={{
@@ -189,8 +188,8 @@ const HomeScreen = ({navigation} : any) => {
                             alignItems: 'flex-end',
                         }}>
                         <Text
-                            style={styles.textViewStyles}
-                            onPress={() => navigation.navigate('Order' as never)}>
+                            className='text-lg text-orange-600 font-semibold underline'
+                            onPress={() => navigation.navigate('OrderHistoryScreen')}>
                             View Now{' '}
                         </Text>
                         </TouchableOpacity>
@@ -209,73 +208,81 @@ const HomeScreen = ({navigation} : any) => {
 
                         <ViewNow number={0} status={"Confirm"} />
                         <ViewNow number={0} status={"On wait"} />
-                        <ViewNow number={0} status={"Delovering"} />
                         <ViewNow number={0} status={"Delivered"} />
+                        <ViewNow number={0} status={"Cancel"} />
                     </View>
                     </View>
-                </>
-                <View style={styles.spaceContainer} />
-                <>
-                    <View style={styles.functionContainer}>
+                </View>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-[350] rounded-xl'>
+                    <View className='bg-gray-50 mb-1 rounded-xl border border-gray-400' style={styles.functionContainer}>
+                        <Text className='text-lg text-orange-600 font-semibold underline text-center'>Management Features</Text>
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
+                        
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
                             onPress={() => navigation.navigate('CategoryMainScreen')}
-                            source= {null}
-                            text="Categories"
-                        />
+                        >
+                            <Ionicons name="file-tray-stacked" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Category</Text>
+                        </TouchableOpacity>
                         </View>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
                             onPress={() => navigation.navigate('ProductMainScreen')}
-                            source= {null}
-                            text="Products"
-                        />
+                        >
+                            <Ionicons name="cube" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Products</Text>
+                        </TouchableOpacity>
                         </View>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
+                    
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
                             onPress={() => navigation.navigate('OrderHistoryScreen')}
-                            source= {null}
-                            text="Orders"
-                        />
+                        >
+                            <Ionicons name="documents" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Orders</Text>
+                        </TouchableOpacity>
                         </View>
 
                     </View>
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
                             onPress={() => navigation.navigate('PromotionScreen')}
-                            source= {null}
-                            text="Promotions"
-                        />
+                        >
+                            <Ionicons name="ticket" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Promotion</Text>
+                        </TouchableOpacity>
+                        
+                        
                         </View>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
-                            onPress={() => navigation.navigate('ImportProductScreen')}
-                            source= {null}
-                            text="Report"
-                        />
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
+                            onPress={() => navigation.navigate('DailyReportScreen')}
+                        >
+                            <Ionicons name="pie-chart" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Reports</Text>
+                        </TouchableOpacity>
                         </View>
                         <View style={styles.unitContainer}>
-                        <FunctionCard
+                        
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
                             onPress={() => navigation.navigate('UserScreen')}
-                            source= {null}
-                            text="Manage User"
-                        />
+                        >
+                            <MaterialIcons name="supervisor-account" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Users</Text>
+                        </TouchableOpacity>
                         </View>
 
                     </View>
                 </View>
-            </>
+            </View>
         </>                    
       </SafeAreaView>
     )
 };
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: CUSTOM_COLOR.White,
-    },
+    
     storeContainer: {
         flexDirection: 'row',
         flex: 1,
@@ -292,7 +299,7 @@ const styles = StyleSheet.create({
       backgroundColor: CUSTOM_COLOR.SlateGray,
     },
     menuContainer: {
-      flex: 2,
+      flex: 1,
       flexDirection: 'row',
       justifyContent: 'flex-end',
       alignItems: 'center',
