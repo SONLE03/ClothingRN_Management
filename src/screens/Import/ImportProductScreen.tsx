@@ -8,21 +8,29 @@ import {
   Image,
   ScrollView,
   Alert,
+  Modal
 } from 'react-native';
 import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit'
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Modal from 'react-native-modal';
+//import Modal from 'react-native-modal';
 import { GetAllImport } from '../../api/import/GetAllImport';
-import { ImportInvoice } from '../../types/Import';
+import { ImportDetailResponse, ImportInvoice } from '../../types/Import';
+import { GetUserById } from '../../api/users/GetUserById';
+import { UserProps } from '../../types/User';
+import { GetImportById } from '../../api/import/GetImportDetais';
 
 const ImportProductScreen = ({ navigation }: any) => {
   const [imports, setImports] = useState<ImportInvoice[]>([]);
+  const [selectedImport, setSelectedImport] = useState<ImportInvoice | null>(null);
+  const [user, setUser] = useState<UserProps | null>(null);
+  const [importDetails, setImportDetails] = useState<ImportDetailResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [visible, setVisible] = useState(false);
+  const [drawerVisible, setDrawerVisible] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<ImportInvoice | null>(null);
   useEffect(() => {
     fetchData();
@@ -44,13 +52,25 @@ const ImportProductScreen = ({ navigation }: any) => {
     invoice.createdAt.includes(searchText)
   );
 
+  const handleViewDetails = async (record: ImportInvoice) => {
+    try {
+        const userData = await GetUserById(record.createdBy);
+        setUser(userData);
+        const importData = await GetImportById(record.id);
+        setImportDetails(importData.data);
+        setSelectedImport(record);
+        setDrawerVisible(true);
+    } catch (error) {
+        console.error('Failed to fetch import details:', error);
+    }
+};
+
+
   const handleAddImport = () => {
     navigation.navigate('AddImportProductScreen');
   };
 
-  const handleViewDetail = (item: ImportInvoice) => {
-    navigation.navigate('ImportDetail', { item: item });
-  };
+  
   const openMenu = (product: ImportInvoice) => {
     setSelectedProduct(product);
     setVisible(true);
@@ -101,7 +121,7 @@ const ImportProductScreen = ({ navigation }: any) => {
               </DataTable.Header>
 
               {filteredImport.map((item) => (
-                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetail(item)}>
+                <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetails(item)}>
                   <DataTable.Cell className='flex justify-center items-center' >{item.createdAt}</DataTable.Cell>
                   <DataTable.Cell className='flex justify-center items-center' numeric>{item.total} VND</DataTable.Cell>
                   <DataTable.Cell className='flex justify-center items-center'>
@@ -115,7 +135,7 @@ const ImportProductScreen = ({ navigation }: any) => {
                       }
                     >
                       <Menu.Item 
-                        onPress={() => handleViewDetail(item)} title="View detail" />
+                        onPress={() => handleViewDetails(item)} title="View detail" />
                       <Divider />
                     </Menu>
                   </DataTable.Cell>
@@ -148,6 +168,69 @@ const ImportProductScreen = ({ navigation }: any) => {
         >
           <Ionicons name="add" size={32} color="#fff" />
         </TouchableOpacity>
+
+        <Modal visible={drawerVisible} animationType="slide">
+                <View className="p-4 flex-1">
+                    <View className="flex-row justify-center items-center bg-orange-500 h-12 rounded-2xl p-2">
+                        <Text className="text-xl font-bold text-center text-white "><Ionicons name="sparkles" size={25} color="white" /> Import Details</Text>
+                    </View>  
+                    
+                    {selectedImport && (
+                        <>
+                            <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white mt-16">
+                                <Text className="font-bold text-lg"><Ionicons name="calendar-outline" size={20} color="black" />  Import Date:</Text>
+                                <Text className="text-gray-600 text-lg">
+                                    {new Intl.DateTimeFormat('default', {
+                                        year: 'numeric',
+                                        month: '2-digit',
+                                        day: '2-digit',
+                                        hour: '2-digit',
+                                        minute: '2-digit',
+                                        second: '2-digit',
+                                        hour12: false // Use 24-hour format
+                                    }).format(new Date(selectedImport.createdAt))}
+                                </Text>
+                            </View>
+
+                            <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
+                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="text-gray-600 text-lg">{user ? user.fullName : selectedImport.createdBy}</Text>
+                            </View>
+
+                            <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
+                                <Text className="font-bold text-lg"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="text-gray-600 text-lg">{selectedImport.total}</Text>
+                            </View>
+                        </>
+                    )}
+                    <DataTable className='mt-8 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+                        <DataTable.Header>
+                           
+                            <DataTable.Title className='flex justify-start' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Product Name</DataTable.Title>
+                            <DataTable.Title className='flex justify-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Quantity</DataTable.Title>
+                            <DataTable.Title className='flex justify-center' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Price</DataTable.Title>
+                            <DataTable.Title className='flex justify-end' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Total</DataTable.Title>
+                        </DataTable.Header>
+                        {importDetails && importDetails.importItemResponseList?.map((item, index) => (
+                            <DataTable.Row key={index}>
+                                
+                                <DataTable.Cell>{item.productItem}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-center'>{item.quantity}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-center'>{item.price}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-end'>{item.total}</DataTable.Cell>
+                            </DataTable.Row>
+                        ))}
+                    </DataTable>
+                    
+                    
+                    <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8'  onPress={() => setDrawerVisible(false)} >
+                        <Text className="text-white font-bold text-lg">Close</Text>
+                    </TouchableOpacity>
+                    
+                    </View>
+                    
+            
+            </Modal>
         
       </SafeAreaView>
     </Provider>

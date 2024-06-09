@@ -1,3 +1,4 @@
+import { ProductItem } from "./Product"
 export interface ImportInvoice{
     createdAt: string,
     updatedAt: string,
@@ -22,4 +23,23 @@ export interface ImportItem{
 export interface ImportDetailResponse{
     importResponse: ImportResponse,
     importItemResponseList: ImportItem[]
+}
+
+export interface AddImportItem {
+    productItemId: string;
+    quantity: number;
+    price: number;
+    total: number;
+}
+
+export interface ImportDetail {
+    id: {
+        importId: string;
+        productItemId: string;
+    };
+    importInvoice: ImportInvoice;
+    productItem: ProductItem[];
+    quantity: number;
+    price: number;
+    total: number;
 }

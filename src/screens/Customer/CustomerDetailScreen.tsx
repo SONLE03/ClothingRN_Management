@@ -1,9 +1,12 @@
-import { getOrdersAnalysisByCustomer } from '../../api/order/getOrdersAnalysisByCustomer';
+import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+import { getOrdersAnalysisByCustomer } from '../../api/order/GetOrdersAnalysisByCustomer';
 import { OrdersAnalysis } from '../../types/Order';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import React, { useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native';
+
+
 
 const CustomerDetailScreen = ({navigation, route} : any) => {
     const { item } = route.params
