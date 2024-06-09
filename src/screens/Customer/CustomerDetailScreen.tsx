@@ -41,7 +41,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Email <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Email </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
@@ -54,7 +54,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Full name <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Full name </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
@@ -67,7 +67,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Phone <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Phone </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
@@ -80,7 +80,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Số sản phẩm tiếp cận <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Total reached products </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
@@ -93,7 +93,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Tổng số sản phẩm đã mua <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Total bought products </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
@@ -106,7 +106,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Số tiền đã mua hàng <Text className='text-red-500 font-semibold'>*</Text></Text>
+                    <Text className='font-semibold text-lg' >Total order amount </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     

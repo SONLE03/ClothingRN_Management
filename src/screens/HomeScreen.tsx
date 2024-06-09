@@ -201,7 +201,7 @@ const HomeScreen = ({navigation} : any) => {
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
                         
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-2'
                             onPress={() => navigation.navigate('CustomerScreen')}
                         >
                             <Ionicons name="accessibility" size={24} color="#c2410c" />
@@ -209,7 +209,7 @@ const HomeScreen = ({navigation} : any) => {
                         </TouchableOpacity>
                         </View>
                         <View style={styles.unitContainer}>
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-2'
                             onPress={() => navigation.navigate('ProductMainScreen')}
                         >
                             <Ionicons name="cube" size={24} color="#c2410c" />
@@ -218,7 +218,7 @@ const HomeScreen = ({navigation} : any) => {
                         </View>
                         <View style={styles.unitContainer}>
                     
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-2'
                             onPress={() => navigation.navigate('OrderHistoryScreen')}
                         >
                             <Ionicons name="documents" size={24} color="#c2410c" />
@@ -229,7 +229,7 @@ const HomeScreen = ({navigation} : any) => {
                     </View>
                     <View style={styles.unitContainer}>
                         <View style={styles.unitContainer}>
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1'
                             onPress={() => navigation.navigate('PromotionScreen')}
                         >
                             <Ionicons name="ticket" size={24} color="#c2410c" />
@@ -239,7 +239,7 @@ const HomeScreen = ({navigation} : any) => {
                         
                         </View>
                         <View style={styles.unitContainer}>
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1'
                             onPress={() => navigation.navigate('DailyReportScreen')}
                         >
                             <Ionicons name="pie-chart" size={24} color="#c2410c" />
@@ -248,7 +248,7 @@ const HomeScreen = ({navigation} : any) => {
                         </View>
                         <View style={styles.unitContainer}>
                         
-                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-1'
+                        <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-24 h-20 p-1'
                             onPress={() => navigation.navigate('UserScreen')}
                         >
                             <MaterialIcons name="supervisor-account" size={24} color="#c2410c" />

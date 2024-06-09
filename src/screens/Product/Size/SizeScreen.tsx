@@ -48,7 +48,7 @@ const SizeScreen = ({ navigation }: any) => {
   };
 
   const handleEdit = (item: Size) => {
-    navigation.navigate('EditSizeScreen', { item: item });
+    //navigation.navigate('EditSizeScreen', { item: item });
   };
 
   const handleDelete = (id: number) => {

@@ -193,7 +193,7 @@ const ImportProductScreen = ({ navigation }: any) => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Importer:</Text>
                                 <Text className="text-gray-600 text-lg">{user ? user.fullName : selectedImport.createdBy}</Text>
                             </View>
 
@@ -201,9 +201,14 @@ const ImportProductScreen = ({ navigation }: any) => {
                                 <Text className="font-bold text-lg"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedImport.total}</Text>
                             </View>
+
+                            <View className="flex-row justify-between items-center mt-8 border border-b-gray-300 border-x-white border-t-white">
+                                <Text className="font-bold text-lg text-center"> List of products imported</Text>
+                                
+                            </View>
                         </>
                     )}
-                    <DataTable className='mt-8 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+                    <DataTable className='mt-2 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
                         <DataTable.Header>
                            
                             <DataTable.Title className='flex justify-start' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Product Name</DataTable.Title>

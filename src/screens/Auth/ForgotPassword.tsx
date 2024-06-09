@@ -62,6 +62,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
 
     return (
         <ImageBackground className="flex-1 justify-center items-center bg-white p-4" source={require('../../assets/auth-bg.png')}>
+            <TouchableOpacity className="mb-4 absolute top-0 left-0 p-4" onPress={() => navigation.goBack()}><Ionicons name="caret-back-circle-outline" size={40} color="#c05621" /></TouchableOpacity>
             {!otpSent ? (
                 <View className="w-full max-w-md p-5 bg-white rounded-xl border-2 border-orange-400 flex">
                     <Text className="text-xl font-semibold mb-4 text-center">Verify Email</Text>
@@ -81,7 +82,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
                             <Ionicons name="mail-unread-outline" size={25} color="white" />
                         </View>
                     </TouchableOpacity>
-                    <Link to="/LoginScreen" style={{ color: 'orange', alignSelf: 'center', marginTop: 10, fontWeight: 'bold', textDecorationLine: 'underline' }}>Back to login</Link>
+                    {/* <Link to="/LoginScreen" style={{ color: 'orange', alignSelf: 'center', marginTop: 10, fontWeight: 'bold', textDecorationLine: 'underline' }}>Back to login</Link> */}
                 </View>
             ) : (
                 <View className="w-full max-w-md p-5 bg-white rounded-xl border-2 border-orange-400">
@@ -108,7 +109,7 @@ const ForgotPasswordScreen = ({ navigation }: any) => {
                             <Ionicons name="checkmark-circle-outline" size={25} color="white" />
                         </View>
                     </TouchableOpacity>
-                    <Link to="/ChangePasswordScreen" style={{ color: 'orange', alignSelf: 'center', marginTop: 10, fontWeight: 'bold', textDecorationLine: 'underline' }}>test</Link>
+                    {/* <Link to="/ChangePasswordScreen" style={{ color: 'orange', alignSelf: 'center', marginTop: 10, fontWeight: 'bold', textDecorationLine: 'underline' }}>test</Link> */}
                 </View>
             )}
         </ImageBackground>

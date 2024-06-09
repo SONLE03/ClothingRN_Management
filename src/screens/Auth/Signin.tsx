@@ -142,7 +142,9 @@ const LoginScreen = ({navigation} : any) => {
             <Text className='underline' style={{ color: 'red', fontWeight: '700' }}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          <Button className='flex justify-center items-center mt-8 bg-orange-400 h-12 text-xl ' textColor='white' onPress={handleLogin}>Login</Button>
+          <TouchableOpacity className='flex justify-center items-center mt-8 bg-orange-400 h-12 w-80 text-xl rounded-2xl' onPress={handleLogin}>
+            <Text className='text-white text-lg font-bold'>Login </Text>
+          </TouchableOpacity>
         </View>
       </ImageBackground>
     

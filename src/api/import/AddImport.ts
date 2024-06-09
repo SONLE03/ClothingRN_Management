@@ -26,7 +26,7 @@ export const AddNewImport = async (items: AddImportItem[]) => {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${parseToken}`,
             },
-            data: JSON.stringify(items),
+            data: items,
 
         };
         try {

@@ -290,7 +290,7 @@ const AddProductScreen = ({ navigation }: any) => {
             </DataTable>
 
             <Button className='mt-4 bg-orange-500 rounded-xl border border-orange-800 text-white font-semibold' textColor='white' onPress={handleAddProduct} loading={loading}> Add New Product </Button>
-            <View className="mt-10"></View>
+            <View className="mt-28"></View>
             {loading && <Text>Loading...</Text>}
             {/* {message && <Text>{message}</Text> } */}
 

@@ -13,6 +13,8 @@ import { AddImportItem } from '../../types/Import';
 import { Dropdown } from 'react-native-element-dropdown';
 import HeaderBar from '../../components/HeaderBar';
 import { Dialog } from 'react-native-paper';
+import Ionicons from 'react-native-vector-icons/Ionicons';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddImport = ({navigation}: any) => {
     const [products, setProducts] = useState<Product[]>([]);
@@ -48,7 +50,7 @@ const AddImport = ({navigation}: any) => {
             setSelectedProductItem(null);
             setQuantity(null);
             setPrice(null);
-            setVisible(true);
+            //setVisible(true);
         } catch (error) {
             Alert.alert('Error', 'Failed to fetch product details');
         }
@@ -85,7 +87,9 @@ const AddImport = ({navigation}: any) => {
           console.log(importItems);
             await AddNewImport(importItems);
 
-            Alert.alert('Success', 'Import added successfully');
+            //Alert.alert('Success', 'Import added successfully');
+            setVisible(true);
+            setLoading(false);
             setTimeout(() => {
                 navigation.navigate('ListImports');
             }, 1500);
@@ -98,7 +102,13 @@ const AddImport = ({navigation}: any) => {
 
     return (
         <View className='flex-1 bg-gray-100'>
-          <HeaderBar title="Import products" />
+          <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+            <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
+              <MaterialCommunityIcons className='mr-2' name="developer-board" size={30} color="#333" />
+              Import products</Text>
+            <View style={{ width: 24 }} />  
+          </TouchableOpacity>
           <View className='flex-1 p-2'>
           <View className='mb-2 flex w-full p-2 h-12 border border-orange-500 rounded-xl'>
             <Dropdown 
@@ -144,13 +154,18 @@ const AddImport = ({navigation}: any) => {
             <FlatList className='border border-orange-500 rounded-xl p-2 mt-2 mb-4'
                 data={importItems}
                 keyExtractor={item => item.productItemId}
+                ListEmptyComponent={() => <Text className='text-center font-semibold'><Ionicons name="sad-outline" size={20} color="#333" /> No items added</Text>}
                 renderItem={({ item, index }) => (
-                    <View className='flex-col'>
-                        <Text>Product Item: {item.productItemId}</Text>
-                        <Text>Quantity: {item.quantity}</Text>
-                        <Text>Price: {item.price}</Text>
-                        <Text>Total: {item.total}</Text>
-                        <Button title="Remove" onPress={() => handleRemoveItem(index)} />
+                    <View className='flex-col border border-orange-500 rounded-xl p-2'>
+                        <Text className='mb-1 font-semibold'>Product Item: {item.productItemId}</Text>
+                        <Text className='mb-1 font-semibold'>Quantity: {item.quantity}</Text>
+                        <Text className='mb-1 font-semibold'>Price: {item.price}</Text>
+                        <Text className='mb-1 font-semibold'>Total: {item.total}</Text>
+                        
+                        <TouchableOpacity className=' bg-orange-500 rounded-xl mt-1 p-2 w-full h-10 flex justify-center items-center'  onPress={() => handleRemoveItem(index)} >
+                            <Text className='text-white font-semibold'>Remove</Text>
+                        </TouchableOpacity>
+
                     </View>
                 )}
             />

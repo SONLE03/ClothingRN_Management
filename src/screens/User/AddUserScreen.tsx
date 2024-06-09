@@ -1,149 +1,169 @@
-import React, { useState, useEffect } from 'react';
-import {
-    SafeAreaView,
-    View,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    Alert,
-    TextInput,
-  } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { Avatar, IconButton } from 'react-native-paper';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import { Button, Dialog } from 'react-native-paper';
-import ImagePicker from 'react-native-image-crop-picker';
 import { AddStaff } from '../../api/users/AddStaff';
-const AddUserScreen = ({navigation} : any) => {
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { GetUser } from '../../api/users/GetUser';
+import { UserProps } from '../../types/User';
+
+const AddUserScreen = ({ navigation }: any) => {
     const [fullName, setFullName] = useState('');
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [visible, setVisible] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [users, setUsers] = useState<UserProps[]>([]);
     const hideDialog = () => setVisible(false);
 
-
-    const clear = async() => {
+    const clearFields = () => {
         setFullName('');
         setPhone('');
         setEmail('');
         setPassword('');
-    }
-    const handleAddStaff = async() => {
+    };
+
+    const handleAddStaff = async () => {
+        setLoading(true);
         try {
-            if (email === '' || fullName === '' || phone === '' || password ==='' ) {
+            if (email === '' || fullName === '' || phone === '' || password === '') {
                 Alert.alert('Lack of information');
-            }else{
+            
+            } else {
                 const response = await AddStaff(email, fullName, phone, password);
                 setVisible(true);
-                clear();
+                clearFields();
+                setLoading(false);
             }
-        } catch (error) {
-            Alert.alert('Failed to create staff');
-            console.error('Failed to create staff:', error);
+          } catch (error: unknown) {
+            if (error instanceof Error) {
+                Alert.alert(error.message);
+                console.error('Failed to create staff:', error);
+            } else {
+                console.error('An unknown error occurred:', error);
+            }
+            setLoading(false);
         }
-    }
-    return(
-      
-        <SafeAreaView className='flex-1 bg-gray-100 p-4'>
-        <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+    };
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email) || !email.endsWith('@gmail.com')) {
+            return true; // Invalid email
+        }
+        return false; // Valid email
+    };
+
+    const validatePhone = (phone: string) => {
+        const phoneRegex = /^0\d{9}$/;
+        if (!phoneRegex.test(phone)) {
+            return true; // Invalid phone number
+        }
+        return false; // Valid phone number
+    };
+
+    return (
+        <SafeAreaView style={{ flex: 1, backgroundColor: '#f0f0f0', padding: 16 }}>
+            <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-            <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
-              <MaterialComunityIcons className='mr-2' name="format-color-fill" size={30} color="#333" />
-              Add Staff</Text>
+            <View className='flex-row space-x-2 space-y-0 '>
+              <MaterialIcons className='mr-2 mt-2' name="person-add" size={30} color="#333" />
+              <Text className='ml-2  text-2xl font-semibold text-black'>Add Staff</Text>
+            </View>
             <View style={{ width: 24 }} />  
-        </TouchableOpacity>
-        <>
-          <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
-            <View className='flex flex-row'>
-              <Text className='font-semibold text-lg' >Email <Text className='text-red-500 font-semibold'>*</Text></Text>
+          </TouchableOpacity>
+          <View className='flex-col mb-6 h-[600] w-full border border-gray-400 rounded-xl p-4 bg-white'>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Email <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput
+                    style={[styles.input, validateEmail(email) && styles.errorInput]}
+                    placeholder="Enter email.."
+                    onChangeText={(text) => setEmail(text)}
+                    value={email}
+                />
+                {validateEmail(email) && <Text style={styles.errorText}>Note: Email must have tag @gmail.com</Text>}
             </View>
-            <View style={{flex: 2, flexDirection: 'row'}}>
-              
-              <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
-                style={{flex: 1, fontSize: 17}}
-                placeholder='Enter email..'
-                placeholderTextColor='#D1D5DB'
-                onChangeText={text => {
-                    setEmail(text);
-                }}
-                value={email}
-              />
-              
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Full name <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput className='border border-orange-500 rounded-lg p-2'
+                    //style={[styles.input, fullName === '' && styles.errorInput]}
+                    placeholder="Enter full name.."
+                    onChangeText={(text) => setFullName(text)}
+                    value={fullName}
+                />
+                {/* {fullName === '' && <Text style={styles.errorText}>Full name is required</Text>} */}
             </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Phone <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput
+                    style={[styles.input, validatePhone(phone) && styles.errorInput]}
+                    placeholder="Enter phone.."
+                    onChangeText={(text) => setPhone(text)}
+                    keyboardType="numeric"
+                    value={phone}
+                />
+                {validatePhone(phone) && <Text style={styles.errorText}>Note: Phone must begin with 0 and min 10 digits</Text>}
+            </View>
+            <View style={styles.inputContainer}>
+                <Text style={styles.label}>Password <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput className='border border-orange-500 rounded-lg p-2'
+                    //style={[styles.input, password === '' && styles.errorInput]}
+                    placeholder="Enter password.."
+                    onChangeText={(text) => setPassword(text)}
+                    value={password}
+                />
+                {/* {password === '' && <Text style={styles.errorText}>Password is required</Text>} */}
+            </View>
+            <Button loading={loading}
+                mode="contained"
+                style={{ marginTop: 20 }}
+                onPress={handleAddStaff}
+                className='bg-orange-500'
+            >
+                Save staff
+            </Button>
+            <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
+                <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
+                <Dialog.Title style={{ textAlign: 'center', color: 'green', fontWeight: 'bold' }}>
+                    Staff added successfully!
+                </Dialog.Title>
+                <Dialog.Content>
+                    <Text style={{ textAlign: 'center', color: 'green' }}>
+                        Congratulation! You have successfully added a new staff!
+                    </Text>
+                </Dialog.Content>
+            </Dialog>
           </View>
-        </>
-        <>
-          <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
-            <View className='flex flex-row'>
-              <Text className='font-semibold text-lg' >Full name <Text className='text-red-500 font-semibold'>*</Text></Text>
-            </View>
-            <View style={{flex: 2, flexDirection: 'row'}}>
-              
-              <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
-                style={{flex: 1, fontSize: 17}}
-                placeholder='Enter full name..'
-                placeholderTextColor='#D1D5DB'
-                onChangeText={text => {
-                    setFullName(text);
-                }}
-                value={fullName}
-              />
-              
-            </View>
-          </View>
-        </>
-        <>
-          <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
-            <View className='flex flex-row'>
-              <Text className='font-semibold text-lg' >Phone <Text className='text-red-500 font-semibold'>*</Text></Text>
-            </View>
-            <View style={{flex: 2, flexDirection: 'row'}}>
-              
-              <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
-                style={{flex: 1, fontSize: 17}}
-                placeholder='Enter phone..'
-                placeholderTextColor='#D1D5DB'
-                onChangeText={text => {
-                    setPhone(text);
-                }}
-                keyboardType='numeric'
-                value={phone}
-              />
-              
-            </View>
-          </View>
-        </>
-        <>
-          <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
-            <View className='flex flex-row'>
-              <Text className='font-semibold text-lg' >Password <Text className='text-red-500 font-semibold'>*</Text></Text>
-            </View>
-            <View style={{flex: 2, flexDirection: 'row'}}>
-              
-              <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
-                style={{flex: 1, fontSize: 17}}
-                placeholder='Enter password..'
-                placeholderTextColor='#D1D5DB'
-                onChangeText={text => {
-                    setPassword(text);
-                }}
-                value={password}
-              />
-              
-            </View>
-          </View>
-        </>
-      
-        <Button className='mt-6 bg-orange-500 rounded-xl border border-orange-800 text-white text-xl font-semibold' textColor='white'  icon="format-color-fill" onPress={handleAddStaff}>Save staff</Button>
-          <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
-            <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
-            <Dialog.Title className="text-center text-green-600 font-semibold">Staff added successfully!</Dialog.Title>
-            <Dialog.Content>
-              <Text className='text-center text-green-600' >Congratulation! You have successfully added a new staff!</Text>
-            </Dialog.Content>
-          </Dialog>
         </SafeAreaView>
-      )
-  }
+    );
+};
+
+const styles = StyleSheet.create({
+    inputContainer: {
+        marginBottom: 20,
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginBottom: 8,
+    },
+    input: {
+        borderWidth: 1,
+        borderColor: '#ccc',
+        borderRadius: 5,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontSize: 16,
+    },
+    errorInput: {
+        borderColor: 'red',
+    },
+    errorText: {
+        color: 'red',
+        marginTop: 4,
+    },
+});
+
 export default AddUserScreen;
