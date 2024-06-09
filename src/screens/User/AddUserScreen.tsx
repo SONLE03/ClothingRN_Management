@@ -19,31 +19,13 @@ const AddUserScreen = ({navigation} : any) => {
     const [phone, setPhone] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [image, setImage] = useState<{ uri: string, type: string, name: string } | null>(null);
     const [visible, setVisible] = useState(false);
     const hideDialog = () => setVisible(false);
 
-    const pickImage = async () => {
-        ImagePicker.openPicker({
-            width: 300,
-            height: 300,
-            cropping: true
-        }).then(image => {
-            setImage({
-                uri: image.path,
-                type: image.mime,
-                name: image.filename || 'profile.jpg',
-            });
-        }).catch(error => {
-            console.error(error);
-            Alert.alert('Error', 'Could not pick the image.');
-        });
-    };
 
     const clear = async() => {
         setFullName('');
         setPhone('');
-        setImage(null);
         setEmail('');
         setPassword('');
     }
@@ -52,7 +34,7 @@ const AddUserScreen = ({navigation} : any) => {
             if (email === '' || fullName === '' || phone === '' || password ==='' ) {
                 Alert.alert('Lack of information');
             }else{
-                const response = await AddStaff(email, fullName, phone, password, image || undefined);
+                const response = await AddStaff(email, fullName, phone, password);
                 setVisible(true);
                 clear();
             }
@@ -71,29 +53,6 @@ const AddUserScreen = ({navigation} : any) => {
               Add Staff</Text>
             <View style={{ width: 24 }} />  
         </TouchableOpacity>
-        <>
-            <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
-                <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Avatar </Text>
-                </View>
-                <View style={{flex: 2, flexDirection: 'row'}}>
-                
-                <View className="relative h-20 w-20 ">
-                    <Avatar.Image 
-                        size={65} 
-                        source={image ? { uri: image } : require("../../assets/user-128-128.png")} 
-                    />
-                    <IconButton 
-                        icon="pencil" 
-                        size={15} 
-                        onPress={pickImage} 
-                        className="absolute bottom-0 right-0 bg-orange-500 text-white"
-                    />
-                </View>
-                
-                </View>
-            </View>
-        </>
         <>
           <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
             <View className='flex flex-row'>

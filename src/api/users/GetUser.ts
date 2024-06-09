@@ -4,9 +4,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserProps } from "../../types/User";
 import { ParseJSON } from '../ParseJSON';
 
-export const GetUser = async (): Promise<UserProps[]> => {
+export const GetUser = async (role: number): Promise<UserProps[]> => {
     
-    const GetUserURL = apiServer + '/users/all/2';
+    const GetUserURL = apiServer + `/users/all/${role}`;
     const accessToken  = await AsyncStorage.getItem('access_token')
 
     if (!accessToken) {

@@ -31,6 +31,10 @@ import ProfileScreen from '../screens/Profile/Profile';
 import UserScreen from '../screens/User/UserScreen';
 import DailyReportScreen from '../screens/Report/DailyReport';
 import AddUserScreen from '../screens/User/AddUserScreen';
+import UserDetailScreen from '../screens/User/UserDetailScreen';
+import CustomerScreen from '../screens/Customer/CustomerScreen';
+import CustomerDetailScreen from '../screens/Customer/CustomerDetailScreen';
+import CustomerOrderScreen from '../screens/Customer/CustomerOrderScreen';
 import { ApplicationProvider, Layout, Text } from '@ui-kitten/components';
 import * as eva from '@eva-design/eva';
 
@@ -66,6 +70,10 @@ type HomeStackParamList = {
   UserScreen: undefined;
   DailyReportScreen: undefined;
   AddUserScreen: undefined;
+  UserDetailScreen: undefined;
+  CustomerScreen: undefined;
+  CustomerDetailScreen: undefined;
+  CustomerOrderScreen: undefined;
 };
 
 const Stack = createNativeStackNavigator<HomeStackParamList>();
@@ -105,7 +113,10 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="UserScreen" component={UserScreen} />
         <Stack.Screen name="DailyReportScreen" component={DailyReportScreen} />
         <Stack.Screen name="AddUserScreen" component={AddUserScreen} />
-        
+        <Stack.Screen name="UserDetailScreen" component={UserDetailScreen} />
+        <Stack.Screen name="CustomerScreen" component={CustomerScreen} />
+        <Stack.Screen name="CustomerDetailScreen" component={CustomerDetailScreen} />
+        <Stack.Screen name="CustomerOrderScreen" component={CustomerOrderScreen} />
       </Stack.Navigator>
     </ApplicationProvider>
   );

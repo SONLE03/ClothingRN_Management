@@ -15,3 +15,9 @@ export interface OrderDetail {
     price: number;
     total: number;
 }
+
+export interface OrdersAnalysis{
+    totalAmount: number,
+    distinctProductItemCount: number,
+    totalQuantity: number,
+}

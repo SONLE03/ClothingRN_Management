@@ -9,7 +9,7 @@ import {
   ScrollView,
   Alert,
 } from 'react-native';
-import { DataTable, Menu, Divider, Provider } from 'react-native-paper';
+import { DataTable, Menu, Provider } from 'react-native-paper';
 import { GetUser } from '../../api/users/GetUser';
 import { UserProps } from '../../types/User';
 import Ionicons from 'react-native-vector-icons/Ionicons';
@@ -19,7 +19,7 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modal';
 
 
-const UserScreen = ({ navigation }: any) => {
+const CustomerScreen = ({ navigation }: any) => {
   const [users, setUsers] = useState<UserProps[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
@@ -33,7 +33,7 @@ const UserScreen = ({ navigation }: any) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await GetUser(1);
+      const data = await GetUser(2);
       setUsers(data);
       setLoading(false);
     } catch (error) {
@@ -46,15 +46,8 @@ const UserScreen = ({ navigation }: any) => {
     user.phone.toLowerCase().includes(searchText)
   );
 
-  const handleAddProduct = () => {
-    navigation.navigate('AddUserScreen');
-  };
-
-  const handleEdit = (item: UserProps) => {
-    navigation.navigate('EditUserScreen', { item: item });
-  };
   const handleViewDetailUser = (item: UserProps) => {
-    navigation.navigate('UserDetailScreen', {item: item});
+    navigation.navigate('CustomerDetailScreen', {item: item});
   }
   const handleDelete = async (id: string) => {
     // try {
@@ -156,34 +149,10 @@ const UserScreen = ({ navigation }: any) => {
             </DataTable>
           </ScrollView>
         )}
-        <TouchableOpacity
-          onPress={handleAddProduct}
-          style={{
-            position: 'absolute',
-            bottom: 20,
-            right: 20,
-            backgroundColor: 'orange',
-            borderRadius: 30,
-            width: 60,
-            height: 60,
-            alignItems: 'center',
-            justifyContent: 'center',
-            shadowColor: '#000',
-            shadowOffset: {
-              width: 0,
-              height: 2,
-            },
-            shadowOpacity: 0.2,
-            shadowRadius: 2,
-            elevation: 2,
-          }}
-        >
-          <Ionicons name="add" size={32} color="#fff" />
-        </TouchableOpacity>
         
       </SafeAreaView>
     </Provider>
   );
 };
 
-export default UserScreen;
+export default CustomerScreen;

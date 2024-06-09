@@ -19,29 +19,22 @@ import FONT_FAMILY from '../consts/fonts';
 import ViewNow from '../components/ViewNow';
 import FunctionCard from '../components/FunctionCard';
 import { UserProps } from '../types/User';
-import { GetUserById } from '../api/users/GetUserById';
 import { useAuth } from '../util/AuthContext';
 import logoutUser from '../api/auth/logout';
-
+import { GetMe } from '../api/auth/getMe';
 const HomeScreen = ({navigation} : any) => {
-    // const navigation = useNavigation();
     const { authEmitter } = useAuth();
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-    const [imageUrl, setImageUrl] = useState(null);
     const [user, setUser] = useState<UserProps | null>(null);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchUserData = async () => {
             const userId = await AsyncStorage.getItem('user_id');
             if (userId) {
-                const cleanUserId = userId.replace(/"/g, ''); // Remove any extraneous double quotes
-                const data = await GetUserById(cleanUserId);
+                const data = await GetMe();
                 setUser(data);
-                setLoading(false);
             } else {
                 Alert.alert('No user ID found');
-                setLoading(false);
             }
         };
 
@@ -128,9 +121,9 @@ const HomeScreen = ({navigation} : any) => {
                         <View style={styles.infoContainer}>
             
                             <View style={styles.avataContainer}>
-                            {imageUrl ? (
+                            {user?.image ? (
                                 <Image
-                                // source={{ uri: imageUrl }}
+                                source={{ uri: user.image }}
                                 style={{
                                     width: '100%',
                                     height: '100%',
@@ -195,17 +188,6 @@ const HomeScreen = ({navigation} : any) => {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.listOderConatiner}>
-                        {/* <FlatList
-                        horizontal={true}
-                        data={Order}
-                        keyExtractor={item => item.id}
-                        renderItem={({ item }) => {
-                            return (
-                            <ViewNow number={item.number} status={item.status} />
-                            );
-                        }}
-                        /> */}
-
                         <ViewNow number={0} status={"Confirm"} />
                         <ViewNow number={0} status={"On wait"} />
                         <ViewNow number={0} status={"Delivered"} />
@@ -220,10 +202,10 @@ const HomeScreen = ({navigation} : any) => {
                         <View style={styles.unitContainer}>
                         
                         <TouchableOpacity className='flex justify-center items-center bg-white border border-orange-600 shadow-2xl rounded-xl w-20 h-20 p-2'
-                            onPress={() => navigation.navigate('CategoryMainScreen')}
+                            onPress={() => navigation.navigate('CustomerScreen')}
                         >
-                            <Ionicons name="file-tray-stacked" size={24} color="#c2410c" />
-                            <Text className="text-sm font-semibold text-orange-600">Category</Text>
+                            <Ionicons name="accessibility" size={24} color="#c2410c" />
+                            <Text className="text-sm font-semibold text-orange-600">Customer</Text>
                         </TouchableOpacity>
                         </View>
                         <View style={styles.unitContainer}>
