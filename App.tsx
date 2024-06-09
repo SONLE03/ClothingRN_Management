@@ -17,7 +17,7 @@ const AuthContainer = () => {
 
   return (
     <NavigationContainer>
-      {isLoggedIn ? <HomeNavigator   /> : <AuthNavigator />}
+      {isLoggedIn ? <HomeNavigator/> : <AuthNavigator/>}
     </NavigationContainer>
   );
 };
