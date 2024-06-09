@@ -75,7 +75,7 @@ const CustomerScreen = ({ navigation }: any) => {
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
               <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-              <Text className='ml-2'>Products List</Text>
+              <Text className='ml-2'>Customer List</Text>
             </Text>
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
