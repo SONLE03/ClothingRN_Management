@@ -85,17 +85,17 @@ const OrderHistoryScreen = () => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="font-bold text-gray-600"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
                                 <Text className="text-gray-600">{order.customerName}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
+                                <Text className="font-bold text-gray-600"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
                                 <Text className="text-gray-600">{order.customerPhone}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="font-bold text-gray-600"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600">{order.total}</Text>
                             </View>
                         </TouchableOpacity>
@@ -212,8 +212,8 @@ const OrderHistoryScreen = () => {
                                 <Text className="text-white font-bold text-lg">Complete Order</Text>
                             </TouchableOpacity>
 
-                            <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8'  onPress={() => setCancelModalVisible(true)} >
-                                <Text className="text-white font-bold text-lg">Cancel Order</Text>
+                            <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 border border-red-500 p-2 rounded-xl mt-8'  onPress={() => setCancelModalVisible(true)} >
+                                <Text className="text-red-500 font-bold text-lg">Cancel Order</Text>
                             </TouchableOpacity>
 
                             <Modal visible={completeModalVisible} animationType="slide" transparent={true}>

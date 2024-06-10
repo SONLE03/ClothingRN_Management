@@ -43,7 +43,7 @@ const AddColorScreen = ({navigation} : any) => {
         <SafeAreaView className='flex-1 bg-gray-100 p-4'>
             <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
                 <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text className='flex-row text-2xl font-semibold space-x-2'>
+                <Text className='flex-row text-2xl font-semibold space-x-2 text-gray-600'>
                   <MaterialComunityIcons className='mr-2' name="format-color-fill" size={30} color="#333" />
                   Add Color</Text>
                 <View style={{ width: 24 }} />  
@@ -51,11 +51,11 @@ const AddColorScreen = ({navigation} : any) => {
             <>
               <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                 <View className='flex flex-row'>
-                  <Text className='font-semibold text-lg' >Name of Color <Text className='text-red-500 font-semibold'>*</Text></Text>
+                  <Text className='font-semibold text-lg text-gray-600' >Name of Color <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row'}}>
                   
-                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                     style={{flex: 1, fontSize: 17}}
                     placeholder='Enter color name..'
                     placeholderTextColor='#D1D5DB'

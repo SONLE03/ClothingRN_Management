@@ -37,14 +37,14 @@ const DailyReportScreen = ({ navigation }: any) => {
 
   const renderCard = (title: string, value: number) => (
     <Card  className='border border-orange-600 rounded-xl p-2' style={{ flex: 1, margin: 2 }}>
-      <Text style={{ fontSize: 16 }}>{title}</Text>
-      <Text style={{ fontSize: 20, fontWeight: 'bold' }}>{value}</Text>
+      <Text className='text-gray-700' style={{ fontSize: 16 }}>{title}</Text>
+      <Text className='text-gray-700' style={{ fontSize: 20, fontWeight: 'bold' }}>{value}</Text>
     </Card>
   );
 
   const renderChart = (data: any[], key: string, label: string) => {
     if (data.length === 0) {
-      return <Text>No data available</Text>;
+      return <Text className='text-gray-700'>No data available</Text>;
     }
 
     return (

@@ -82,28 +82,30 @@ const AddUserScreen = ({ navigation }: any) => {
           </TouchableOpacity>
           <View className='flex-col mb-6 h-[600] w-full border border-gray-400 rounded-xl p-4 bg-white'>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Email <Text style={{ color: 'red' }}>*</Text></Text>
+                <Text className='text-gray-700' style={styles.label}>Email <Text style={{ color: 'red' }}>*</Text></Text>
                 <TextInput
                     style={[styles.input, validateEmail(email) && styles.errorInput]}
                     placeholder="Enter email.."
                     onChangeText={(text) => setEmail(text)}
                     value={email}
+                    className='text-gray-700'
                 />
                 {validateEmail(email) && <Text style={styles.errorText}>Note: Email must have tag @gmail.com</Text>}
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Full name <Text style={{ color: 'red' }}>*</Text></Text>
-                <TextInput className='border border-orange-500 rounded-lg p-2'
+                <Text className='text-gray-700' style={styles.label}>Full name <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput className='border border-orange-500 rounded-lg p-2 text-gray-700'
                     //style={[styles.input, fullName === '' && styles.errorInput]}
                     placeholder="Enter full name.."
                     onChangeText={(text) => setFullName(text)}
                     value={fullName}
+                   
                 />
                 {/* {fullName === '' && <Text style={styles.errorText}>Full name is required</Text>} */}
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Phone <Text style={{ color: 'red' }}>*</Text></Text>
-                <TextInput
+                <Text className='text-gray-700' style={styles.label}>Phone <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput className='text-gray-700'
                     style={[styles.input, validatePhone(phone) && styles.errorInput]}
                     placeholder="Enter phone.."
                     onChangeText={(text) => setPhone(text)}
@@ -113,8 +115,8 @@ const AddUserScreen = ({ navigation }: any) => {
                 {validatePhone(phone) && <Text style={styles.errorText}>Note: Phone must begin with 0 and min 10 digits</Text>}
             </View>
             <View style={styles.inputContainer}>
-                <Text style={styles.label}>Password <Text style={{ color: 'red' }}>*</Text></Text>
-                <TextInput className='border border-orange-500 rounded-lg p-2'
+                <Text className='text-gray-700' style={styles.label}>Password <Text style={{ color: 'red' }}>*</Text></Text>
+                <TextInput className='border border-orange-500 rounded-lg p-2 text-gray-700'
                     //style={[styles.input, password === '' && styles.errorInput]}
                     placeholder="Enter password.."
                     onChangeText={(text) => setPassword(text)}

@@ -83,14 +83,14 @@ const AddExistedProductScreen = ({navigation, route} : any) => {
             </TouchableOpacity>
             <ScrollView className="p-4">
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-            <Text className="text-lg font-bold">Colors and Sizes</Text>
+            <Text className="text-lg font-bold text-gray-600">Colors and Sizes</Text>
               {colors.length > 0 && (
                 <Select 
                   status='warning'
                   selectedIndex={selectedColor}
                   onSelect={index => setSelectedColor(index as IndexPath)}
                   value={colors[selectedColor.row]?.name}
-                  className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {colors.map((color, index) => (
                     <SelectItem title={color.name} key={index}>
@@ -106,7 +106,7 @@ const AddExistedProductScreen = ({navigation, route} : any) => {
                   selectedIndex={selectedSize}
                   onSelect={index => setSelectedSize(index as IndexPath)}
                   value={sizes[selectedSize.row]?.name}
-                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {sizes.map((size, index) => (
                     <SelectItem title={size.name} key={index} />
@@ -126,8 +126,8 @@ const AddExistedProductScreen = ({navigation, route} : any) => {
 
               {productItems.map((item, index) => (
                 <DataTable.Row className='border border-gray-400 rounded-xl' key={index}>
-                  <DataTable.Cell>{colors.find(color => color.id === item.color)?.name}</DataTable.Cell>
-                  <DataTable.Cell>{sizes.find(size => size.id === item.size)?.name}</DataTable.Cell>
+                  <DataTable.Cell textStyle={{ color: '#4A5568', fontSize: 16 }}>{colors.find(color => color.id === item.color)?.name}</DataTable.Cell>
+                  <DataTable.Cell textStyle={{ color: '#4A5568', fontSize: 16 }}>{sizes.find(size => size.id === item.size)?.name}</DataTable.Cell>
                   <DataTable.Cell>
                     <Button textColor='orange'  onPress={() => removeProductItem(index)}> Remove </Button>
                   </DataTable.Cell>
@@ -137,7 +137,7 @@ const AddExistedProductScreen = ({navigation, route} : any) => {
 
             <Button className='mt-4 bg-orange-500 rounded-xl border border-orange-800 text-white font-semibold' textColor='white' onPress={handleAddProduct} loading={loading}> Add Product Item </Button>
             <View className="mt-10"></View>
-            {loading && <Text>Loading...</Text>}
+            {loading && <Text className="text-center text-gray-600">Loading...</Text>}
             {/* {message && <Text>{message}</Text> } */}
 
             

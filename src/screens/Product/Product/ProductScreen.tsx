@@ -83,21 +83,21 @@ const ProductScreen = ({ navigation }: any) => {
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
               <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-              <Text className='ml-2'>Products List</Text>
+              <Text className='ml-2 text-gray-600'>Products List</Text>
             </Text>
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
-          <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
+          <MaterialComunityIcons name="home-search" color="gray" size={25} className="mr-2" />
           <TextInput
             placeholder="Find your products here..."
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
-            className="flex-1 text-base h-10"
+            className="flex-1 text-base h-10 text-gray-600"
           />
           <TouchableOpacity onPress={fetchData}>
-            <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
+            <MaterialComunityIcons name="refresh" color="gray" size={25} className="ml-2" />
           </TouchableOpacity>
         </View>
         {loading ? (
@@ -134,7 +134,7 @@ const ProductScreen = ({ navigation }: any) => {
                       />
                     ) : (
                       <Image
-                        source={require('../../../assets/user-128-128.png')}
+                        source={require('../../../assets/avatar.png')}
                         style={{
                           width: 50,
                           height: 50,
@@ -144,8 +144,8 @@ const ProductScreen = ({ navigation }: any) => {
                       />
                     )}
                   </DataTable.Cell>
-                  <DataTable.Cell>{item.product_Name}</DataTable.Cell>
-                  <DataTable.Cell numeric>{item.price} VND</DataTable.Cell>
+                  <DataTable.Cell textStyle={{ color: '#4A5568', fontSize: 16}}>{item.product_Name}</DataTable.Cell>
+                  <DataTable.Cell numeric textStyle={{ color: '#4A5568', fontSize: 16}}>{item.price} VND</DataTable.Cell>
                   <DataTable.Cell className='flex justify-center items-center'>
                     <Menu 
                       visible={visible && selectedProduct?.id === item.id}
@@ -168,12 +168,12 @@ const ProductScreen = ({ navigation }: any) => {
                       />
                       <Modal isVisible={deleteModalVisible}>
                         <View className= 'bg-white p-4 rounded-md items-center'>
-                          <Text className= 'text-lg font-bold mb-4 text-black'>Do you want to delete this coupon?</Text>
+                          <Text className= 'text-lg font-bold mb-4 text-black'>Do you want to delete this?</Text>
                           <TouchableOpacity className= 'bg-red-500 px-4 py-2 rounded-md mb-2' onPress={() => handleDelete(item.id)}>
-                            <Text className=  'text-white text-lg font-bold'>Đồng ý</Text>
+                            <Text className=  'text-white text-lg font-bold'>OK</Text>
                           </TouchableOpacity>
                           <TouchableOpacity className= 'bg-gray-600 px-4 py-2 rounded-md' onPress={() => setDeleteModalVisible(false)}>
-                            <Text className= 'text-white text-lg font-bold'>Hủy</Text>
+                            <Text className= 'text-white text-lg font-bold'>Cancel</Text>
                           </TouchableOpacity>
                         </View>
                       </Modal>

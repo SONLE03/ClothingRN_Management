@@ -50,11 +50,11 @@ const AddSizeScreen = ({navigation} : any) => {
             <>
               <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                 <View className='flex flex-row'>
-                  <Text className='font-semibold text-lg' >Name of Size <Text className='text-red-500 font-semibold'>*</Text></Text>
+                  <Text className='font-semibold text-lg text-gray-600' >Name of Size <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row'}}>
                   
-                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                     style={{flex: 1, fontSize: 17}}
                     placeholder='Enter product size name...'
                     placeholderTextColor='#D1D5DB'

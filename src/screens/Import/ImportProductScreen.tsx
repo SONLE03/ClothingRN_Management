@@ -85,21 +85,21 @@ const ImportProductScreen = ({ navigation }: any) => {
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
               <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-              <Text className='ml-2'>Imports List</Text>
+              <Text className='ml-2 text-gray-800'>Imports List</Text>
             </Text>
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
-          <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
+          <MaterialComunityIcons name="home-search" color="gray" size={25} className="mr-2" />
           <TextInput
             placeholder="Find your imports here..."
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
-            className="flex-1 text-base h-10"
+            className="flex-1 text-base h-10 text-gray-500"
           />
           <TouchableOpacity onPress={fetchData}>
-            <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
+            <MaterialComunityIcons name="refresh" color="gray" size={25} className="ml-2" />
           </TouchableOpacity>
         </View>
         {loading ? (
@@ -122,8 +122,8 @@ const ImportProductScreen = ({ navigation }: any) => {
 
               {filteredImport.map((item) => (
                 <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetails(item)}>
-                  <DataTable.Cell className='flex justify-center items-center' >{item.createdAt}</DataTable.Cell>
-                  <DataTable.Cell className='flex justify-center items-center' numeric>{item.total} VND</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center'textStyle={{ color: '#4A5568', fontSize: 16 }} >{item.createdAt}</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center' textStyle={{ color: '#4A5568', fontSize: 16 }} numeric>{item.total} VND</DataTable.Cell>
                   <DataTable.Cell className='flex justify-center items-center'>
                     <Menu 
                       visible={visible && selectedProduct?.id === item.id}
@@ -178,7 +178,7 @@ const ImportProductScreen = ({ navigation }: any) => {
                     {selectedImport && (
                         <>
                             <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white mt-16">
-                                <Text className="font-bold text-lg"><Ionicons name="calendar-outline" size={20} color="black" />  Import Date:</Text>
+                                <Text className="font-bold text-lg text-gray-600"><Ionicons name="calendar-outline" size={20} color="black" />  Import Date:</Text>
                                 <Text className="text-gray-600 text-lg">
                                     {new Intl.DateTimeFormat('default', {
                                         year: 'numeric',
@@ -193,17 +193,17 @@ const ImportProductScreen = ({ navigation }: any) => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Importer:</Text>
+                                <Text className="font-bold text-lg text-gray-600"> <Ionicons name="person-outline" size={20} color="black" /> Importer:</Text>
                                 <Text className="text-gray-600 text-lg">{user ? user.fullName : selectedImport.createdBy}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="font-bold text-lg text-gray-600"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedImport.total}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-8 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg text-center"> List of products imported</Text>
+                                <Text className="font-bold text-lg text-center text-gray-600"> List of products imported</Text>
                                 
                             </View>
                         </>
@@ -220,9 +220,9 @@ const ImportProductScreen = ({ navigation }: any) => {
                             <DataTable.Row key={index}>
                                 
                                 <DataTable.Cell>{item.productItem}</DataTable.Cell>
-                                <DataTable.Cell className='flex justify-center'>{item.quantity}</DataTable.Cell>
-                                <DataTable.Cell className='flex justify-center'>{item.price}</DataTable.Cell>
-                                <DataTable.Cell className='flex justify-end'>{item.total}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-center' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.quantity}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-center' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.price}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-end' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.total}</DataTable.Cell>
                             </DataTable.Row>
                         ))}
                     </DataTable>

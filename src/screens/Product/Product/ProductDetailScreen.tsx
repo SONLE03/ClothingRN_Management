@@ -39,11 +39,11 @@ const ProductDetailScreen = ({navigation, route}: any) => {
                 <>
                     <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                        <Text className='font-semibold text-lg' >Name of product</Text>
+                        <Text className='font-semibold text-lg text-gray-600' >Name of product</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600' style={{flex: 1, fontSize: 17}}>
                         {item?.product_Name}</Text>
                         
                     </View>
@@ -52,11 +52,11 @@ const ProductDetailScreen = ({navigation, route}: any) => {
                 <>
                     <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                        <Text className='font-semibold text-lg' >Price</Text>
+                        <Text className='font-semibold text-lg text-gray-600' >Price</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'style={{flex: 1, fontSize: 17}}>
                         {item?.price}</Text>
                         
                     </View>
@@ -65,11 +65,11 @@ const ProductDetailScreen = ({navigation, route}: any) => {
                 <>
                     <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                        <Text className='font-semibold text-lg' >Category</Text>
+                        <Text className='font-semibold text-lg text-gray-600' >Category</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'style={{flex: 1, fontSize: 17}}>
                         {item?.category}</Text>
                         
                     </View>
@@ -78,11 +78,11 @@ const ProductDetailScreen = ({navigation, route}: any) => {
                 <>
                     <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                        <Text className='font-semibold text-lg' >Branch</Text>
+                        <Text className='font-semibold text-lg text-gray-600' >Branch</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                         {item?.branch}</Text>
                         
                     </View>
@@ -91,11 +91,11 @@ const ProductDetailScreen = ({navigation, route}: any) => {
                 <>
                     <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                        <Text className='font-semibold text-lg' >Description</Text>
+                        <Text className='font-semibold text-lg text-gray-600' >Description</Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                         
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                         {item?.description}</Text>
                         
                     </View>
@@ -110,9 +110,9 @@ const ProductDetailScreen = ({navigation, route}: any) => {
 
                     {productItems.map((item, index) => (
                         <DataTable.Row className='border border-gray-400 rounded-xl' key={index}>
-                            <DataTable.Cell className='flex justify-center items-center'>{item.colorName}</DataTable.Cell>
-                            <DataTable.Cell className='flex justify-center items-center'>{item.sizeName}</DataTable.Cell>
-                            <DataTable.Cell className='flex justify-center items-center'>{item.quantity}</DataTable.Cell>
+                            <DataTable.Cell className='flex justify-center items-center' textStyle={{color: '#4A5568', fontSize: 16 }}>{item.colorName}</DataTable.Cell>
+                            <DataTable.Cell className='flex justify-center items-center' textStyle={{color: '#4A5568', fontSize: 16 }}>{item.sizeName}</DataTable.Cell>
+                            <DataTable.Cell className='flex justify-center items-center' textStyle={{color: '#4A5568', fontSize: 16 }}>{item.quantity}</DataTable.Cell>
                         </DataTable.Row>
                     ))}
                 </DataTable>

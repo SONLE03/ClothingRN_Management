@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Alert, Button, TouchableOpacity } from 'react-native';
-// import { Button } from 'react-native-paper';
-import { Input, Card } from 'react-native-elements';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { View, Text, FlatList, Alert, TouchableOpacity } from 'react-native';
+import { Input } from 'react-native-elements';
 import { AddNewImport } from '../../api/import/AddImport';
 import { GetAllProducts } from '../../api/product/product/GetAllProducts';
 import { GetDetailProduct } from '../../api/product/product/GetDetailProduct';
 
 import { Product, ProductItem } from '../../types/Product';
 import { AddImportItem } from '../../types/Import';
-//import { useNavigation } from '@react-navigation/native';
 import { Dropdown } from 'react-native-element-dropdown';
-import HeaderBar from '../../components/HeaderBar';
 import { Dialog } from 'react-native-paper';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -20,12 +16,11 @@ const AddImport = ({navigation}: any) => {
     const [products, setProducts] = useState<Product[]>([]);
     const [productItems, setProductItems] = useState<ProductItem[]>([]);
     const [selectedProductItem, setSelectedProductItem] = useState<ProductItem | null>(null);
+    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [importItems, setImportItems] = useState<AddImportItem[]>([]);
     const [loading, setLoading] = useState(false);
     const [quantity, setQuantity] = useState<number | null>(null);
     const [price, setPrice] = useState<number | null>(null);
-    //const navigation = useNavigation();
-
     const [visible, setVisible] = useState(false);
 
     const hideDialog = () => setVisible(false);
@@ -45,12 +40,14 @@ const AddImport = ({navigation}: any) => {
 
     const handleProductChange = async (productId: string) => {
         try {
+            const selected = products.find(product => product.id === productId) || null;
+            setSelectedProduct(selected);
+
             const items = await GetDetailProduct(productId);
             setProductItems(items);
             setSelectedProductItem(null);
             setQuantity(null);
             setPrice(null);
-            //setVisible(true);
         } catch (error) {
             Alert.alert('Error', 'Failed to fetch product details');
         }
@@ -64,10 +61,7 @@ const AddImport = ({navigation}: any) => {
                 price,
                 total: quantity * price
             };
-            importItems.push(newItem);
-            setImportItems(importItems);
-            //console.log(importItems);
-            //console.log(newItem);
+            setImportItems([...importItems, newItem]);
             setSelectedProductItem(null);
             setQuantity(null);
             setPrice(null);
@@ -84,12 +78,12 @@ const AddImport = ({navigation}: any) => {
     const handleFinish = async () => {
         setLoading(true);
         try {
-          console.log(importItems);
             await AddNewImport(importItems);
-
-            //Alert.alert('Success', 'Import added successfully');
             setVisible(true);
             setLoading(false);
+            // setTimeout(() => {
+            //     navigation.navigate('ListImports');
+            // }, 1500);
         } catch (error) {
             Alert.alert('Error', 'Failed to add import');
         } finally {
@@ -111,10 +105,13 @@ const AddImport = ({navigation}: any) => {
             <Dropdown 
                   labelField="label"
                   valueField="value"
-                  placeholder="Select a product"
-                  value={selectedProductItem?.id}
+                  placeholder={selectedProduct ? selectedProduct.product_Name : "Select a product"}
+                  placeholderStyle={{ color: 'gray' }}
+                  value={selectedProduct?.id}
                   onChange={item => handleProductChange(item.value)}
-                  data={products.map(product => ({ label: product.product_Name, value: product.id }))}
+                  data={products.map(product => ({ label: `${product.product_Name}`, value: product.id }))}
+                  itemTextStyle={{color: 'black'}}
+                selectedTextStyle = {{color: "gray"}}
               />
           </View>
 
@@ -123,18 +120,21 @@ const AddImport = ({navigation}: any) => {
                   labelField="label"
                   valueField="value"
                   placeholder="Select a product item"
+                  placeholderStyle={{ color: 'gray' }}
                   value={selectedProductItem?.id}
                   onChange={item => setSelectedProductItem(productItems.find(productItem => productItem.id === item.value) || null)}
                   data={productItems.map(item => ({ label: `${item.sizeName} - ${item.colorName}`, value: item.id }))}
+                  itemTextStyle={{color: 'black'}}
+                selectedTextStyle = {{color: "gray"}}
               />
           </View>
-            <Input className='border border-orange-500 rounded-xl p-2'
+            <Input className='border border-orange-500 rounded-xl p-2 text-gray-600'
                 label="Quantity"
                 keyboardType="numeric"
                 onChangeText={value => setQuantity(Number(value))}
                 value={quantity ? quantity.toString() : ''}
             />
-            <Input className='border border-orange-500 rounded-xl p-2'
+            <Input className='border border-orange-500 rounded-xl p-2 text-gray-600'
                 label="Price"
                 keyboardType="numeric"
                 onChangeText={value => setPrice(Number(value))}
@@ -154,10 +154,10 @@ const AddImport = ({navigation}: any) => {
                 ListEmptyComponent={() => <Text className='text-center font-semibold'><Ionicons name="sad-outline" size={20} color="#333" /> No items added</Text>}
                 renderItem={({ item, index }) => (
                     <View className='flex-col border border-orange-500 rounded-xl p-2'>
-                        <Text className='mb-1 font-semibold'>Product Item: {item.productItemId}</Text>
-                        <Text className='mb-1 font-semibold'>Quantity: {item.quantity}</Text>
-                        <Text className='mb-1 font-semibold'>Price: {item.price}</Text>
-                        <Text className='mb-1 font-semibold'>Total: {item.total}</Text>
+                        <Text className='mb-1 font-semibold text-gray-500'>Product Item: {item.productItemId}</Text>
+                        <Text className='mb-1 font-semibold text-gray-500'>Quantity: {item.quantity}</Text>
+                        <Text className='mb-1 font-semibold text-gray-500'>Price: {item.price}</Text>
+                        <Text className='mb-1 font-semibold text-gray-500'>Total: {item.total}</Text>
                         
                         <TouchableOpacity className=' bg-orange-500 rounded-xl mt-1 p-2 w-full h-10 flex justify-center items-center'  onPress={() => handleRemoveItem(index)} >
                             <Text className='text-white font-semibold'>Remove</Text>
@@ -169,7 +169,7 @@ const AddImport = ({navigation}: any) => {
 
             
             <View className='flex flex-row justify-center items-center w-full h-14 mb-2'>
-              <TouchableOpacity className=' bg-orange-500 rounded-xl mt-1 p-2 w-full h-10 flex justify-center items-center' onPress={handleFinish}  disabled={!importItems.length}>
+              <TouchableOpacity className=' bg-orange-500 rounded-xl mt-1 p-2 w-full h-10 flex justify-center items-center' onPress={handleFinish} disabled={!importItems.length}>
                   <Text className='text-white font-semibold'>Import products</Text>
               </TouchableOpacity>
 
@@ -177,9 +177,9 @@ const AddImport = ({navigation}: any) => {
 
             <Dialog style={{ backgroundColor: '#F0FFF4' }} visible={visible} onDismiss={hideDialog}>
               <Dialog.Icon icon="sticker-check-outline" size={35} color='green' />
-              <Dialog.Title className="text-center text-green-600 font-semibold">Import added successfully!</Dialog.Title>
+              <Dialog.Title className="text-center text-green-600 font-semibold">Import products successfully!</Dialog.Title>
               <Dialog.Content>
-                <Text className='text-center text-green-600' >Congratulation! You have successfully added a new import!</Text>
+                <Text className='text-center text-green-600' >Congratulation! You have successfully import new products!</Text>
               </Dialog.Content>
             </Dialog>
 

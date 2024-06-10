@@ -87,16 +87,16 @@ const ColorScreen = ({ navigation }: any) => {
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14 space-x-0">
-          <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
+          <MaterialComunityIcons name="home-search" color="gray" size={25} className="mr-2" />
           <TextInput
             placeholder="Find your colors here..."
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
-            className="flex-1 text-base h-10 mt-1"
+            className="flex-1 text-base h-10 mt-1 text-gray-600"
           />
           <TouchableOpacity onPress={fetchData}>
-            <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
+            <MaterialComunityIcons name="refresh" color="gray" size={25} className="ml-2" />
           </TouchableOpacity>
         </View>
         {loading ? (

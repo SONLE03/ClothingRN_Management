@@ -202,7 +202,7 @@ const HomeScreen = ({navigation} : any) => {
                     </View>
                     </View>
                 </View>
-                <View className='flex flex-row w-full justify-start items-center p-2 h-[400] rounded-xl'>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-[300] rounded-xl'>
                     <View className='bg-gray-50 mb-1 rounded-xl border border-gray-400' style={styles.functionContainer}>
                         <Text className='text-lg text-orange-600 font-semibold underline text-center'>Management Features</Text>
                     <View style={styles.unitContainer}>

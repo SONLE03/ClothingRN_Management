@@ -91,7 +91,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
                     </View>
                     <TouchableOpacity className="flex flex-row border border-gray-500 rounded-xl p-2 items-center focus:border-orange-500" onPress={() => setModalVisible(true)}>
                         <MaterialCommunityIcons name="account-edit" size={24} color="gray" />
-                        <Text className='font-semibold'>Edit</Text>
+                        <Text className='font-semibold text-gray-600'>Edit</Text>
                     </TouchableOpacity>
                 </View>
             )}
@@ -183,7 +183,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
                     shadowRadius: 3.84,
                     elevation: 5
                 }}>
-                    <Text className="text-lg mb-4 text-center p-1"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure you want to log out?</Text>
+                    <Text className="text-lg mb-4 text-center p-1 text-gray-800"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure want to log out?</Text>
                     <View className="flex-row w-full justify-center items-center space-x-4 mt-4">
                         <TouchableOpacity className='flex justify-center items-center border border-orange-500 rounded-xl w-1/2 h-12' onPress={() => setLogoutModalVisible(false)}>
                             <Text className="text-lg font-semibold text-orange-600">Cancel</Text>

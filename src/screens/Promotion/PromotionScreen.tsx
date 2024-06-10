@@ -80,21 +80,21 @@ const PromotionScreen = ({navigation} : any) => {
                 <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
                 <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
                   <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-                  <Text className='ml-2'>Coupons List</Text>
+                  <Text className='ml-2 text-gray-800'>Coupons List</Text>
                 </Text>
                 <View style={{ width: 24 }} />  
               </TouchableOpacity>
             <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
-              <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
+              <MaterialComunityIcons name="home-search" color="gray" size={25} className="mr-2" />
               <TextInput
                 placeholder="Find your coupon here..."
                 value={searchText}
                 onChangeText={(text) => setSearchText(text)}
                 placeholderTextColor="#B0B0B0"
-                className="flex-1 text-base h-10"
+                className="flex-1 text-base h-10 text-gray-600"
               />
               <TouchableOpacity onPress={fetchData}>
-                <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
+                <MaterialComunityIcons name="refresh" color="gray" size={25} className="ml-2" />
               </TouchableOpacity>
             </View>
             {loading ? (
@@ -119,8 +119,8 @@ const PromotionScreen = ({navigation} : any) => {
                   {filteredProduct.map((item) => (
                     <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailCoupon(item)}>
                       <DataTable.Cell>{item.name}</DataTable.Cell>
-                      <DataTable.Cell className='flex justify-center items-center' numeric>{item.discountValue}%</DataTable.Cell>
-                      <DataTable.Cell className='flex justify-center items-center' numeric>{item.quantity}</DataTable.Cell>
+                      <DataTable.Cell className='flex justify-center items-center' numeric textStyle={{ color: '#4A5568', fontSize: 16 }}>{item.discountValue}%</DataTable.Cell>
+                      <DataTable.Cell className='flex justify-center items-center' numeric textStyle={{ color: '#4A5568', fontSize: 16 }}>{item.quantity}</DataTable.Cell>
                       <DataTable.Cell className='flex justify-center items-center'>
                         <Menu 
                           visible={visible && selectedCoupon?.id === item.id}

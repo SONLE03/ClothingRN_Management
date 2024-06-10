@@ -110,7 +110,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-gray-500 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-gray-500 text-lg'style={{flex: 1, fontSize: 17}}>
                         {orders?.totalAmount} VND</Text>
                     
                     </View>

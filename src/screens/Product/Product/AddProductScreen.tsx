@@ -161,10 +161,10 @@ const AddProductScreen = ({ navigation }: any) => {
           </TouchableOpacity>
           <ScrollView className="p-4">
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-              <Text className="text-lg font-bold mb-2">Upload Images</Text>
+              <Text className="text-lg font-bold mb-2 text-gray-600">Upload Images</Text>
               <TouchableOpacity className="flex flex-row justify-center items-center space-x-2 bg-gray-200 p-4 rounded-lg border border-orange-400 border-dotted" onPress={pickImage}>
                 <MaterialIcons name="add-to-photos" size={24} color="orange" />
-                <Text className="text-center font-medium">Choose Images (Max 4)</Text>
+                <Text className="text-center font-medium text-gray-600">Choose Images (Max 4)</Text>
               </TouchableOpacity>
               <View className="flex-row mt-4">
                 {images.map((image, index) => (
@@ -182,23 +182,26 @@ const AddProductScreen = ({ navigation }: any) => {
             </View>
                 
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-              <Text className="text-lg font-bold mb-2">Product Details</Text>   
+              <Text className="text-lg font-bold mb-2 text-gray-600">Product Details</Text>   
               <TextInput
-                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white"
+                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white text-gray-600"
                 placeholder="Product Name"
+                placeholderTextColor="gray"
                 value={productName}
                 onChangeText={setProductName}
               />
               <TextInput
-                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white h-16"
+                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white h-16 text-gray-600"
                 placeholder="Description"
+                placeholderTextColor="gray"
                 multiline
                 value={description}
                 onChangeText={setDescription}
               />
               <TextInput
-                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white"
+                className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white text-gray-600"
                 placeholder="Price"
+                placeholderTextColor="gray"
                 value={price}
                 onChangeText={setPrice}
                 keyboardType="numeric"
@@ -206,14 +209,14 @@ const AddProductScreen = ({ navigation }: any) => {
             </View>
 
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-            <Text className="text-lg font-bold">Category and Branch</Text>
+            <Text className="text-lg font-bold text-gray-600text-gray-600">Category and Branch</Text>
               {categories.length > 0 && (
                 <Select 
                   status='warning'
                   selectedIndex={selectedCategory}
                   onSelect={index => setSelectedCategory(index as IndexPath)}
                   value={categories[selectedCategory.row]?.name}
-                  className="border border-gray-400 bg-white hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-400 bg-white hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {categories.map((category, index) => (
                     <SelectItem title={category.name} key={index} />
@@ -227,7 +230,7 @@ const AddProductScreen = ({ navigation }: any) => {
                   selectedIndex={selectedBranch}
                   onSelect={index => setSelectedBranch(index as IndexPath)}
                   value={branches[selectedBranch.row]?.name}
-                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {branches.map((branch, index) => (
                     <SelectItem title={branch.name} key={index} />
@@ -237,14 +240,14 @@ const AddProductScreen = ({ navigation }: any) => {
             </View>
 
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-            <Text className="text-lg font-bold">Colors and Sizes</Text>
+            <Text className="text-lg font-bold text-gray-600">Colors and Sizes</Text>
               {colors.length > 0 && (
                 <Select 
                   status='warning'
                   selectedIndex={selectedColor}
                   onSelect={index => setSelectedColor(index as IndexPath)}
                   value={colors[selectedColor.row]?.name}
-                  className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {colors.map((color, index) => (
                     <SelectItem title={color.name} key={index}>
@@ -260,7 +263,7 @@ const AddProductScreen = ({ navigation }: any) => {
                   selectedIndex={selectedSize}
                   onSelect={index => setSelectedSize(index as IndexPath)}
                   value={sizes[selectedSize.row]?.name}
-                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4"
+                  className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600"
                 >
                   {sizes.map((size, index) => (
                     <SelectItem title={size.name} key={index} />
@@ -280,8 +283,8 @@ const AddProductScreen = ({ navigation }: any) => {
 
               {productItems.map((item, index) => (
                 <DataTable.Row className='border border-gray-400 rounded-xl' key={index}>
-                  <DataTable.Cell>{colors.find(color => color.id === item.color)?.name}</DataTable.Cell>
-                  <DataTable.Cell>{sizes.find(size => size.id === item.size)?.name}</DataTable.Cell>
+                  <DataTable.Cell textStyle={{ color: '#4A5568', fontSize: 16, }}>{colors.find(color => color.id === item.color)?.name}</DataTable.Cell>
+                  <DataTable.Cell textStyle={{ color: '#4A5568', fontSize: 16, }}>{sizes.find(size => size.id === item.size)?.name}</DataTable.Cell>
                   <DataTable.Cell>
                     <Button textColor='orange'  onPress={() => removeProductItem(index)}> Remove </Button>
                   </DataTable.Cell>
@@ -291,7 +294,7 @@ const AddProductScreen = ({ navigation }: any) => {
 
             <Button className='mt-4 bg-orange-500 rounded-xl border border-orange-800 text-white font-semibold' textColor='white' onPress={handleAddProduct} loading={loading}> Add New Product </Button>
             <View className="mt-28"></View>
-            {loading && <Text>Loading...</Text>}
+            {loading && <Text className="text-center text-gray-600">Loading...</Text>}
             {/* {message && <Text>{message}</Text> } */}
 
             

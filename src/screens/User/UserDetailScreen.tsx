@@ -25,11 +25,11 @@ const UserDetailScreen = ({navigation, route} : any) => {
             <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                 <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Email <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-700' >Email <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                    <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                    <Text className='text-gray-700 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                     {item?.email}</Text>
                 
                 </View>
@@ -38,11 +38,11 @@ const UserDetailScreen = ({navigation, route} : any) => {
             <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                 <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Full name <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-700' >Full name <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                    <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                    <Text className='text-gray-700 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                     {item?.fullName}</Text>
                 
                 </View>
@@ -51,11 +51,11 @@ const UserDetailScreen = ({navigation, route} : any) => {
             <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                 <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Phone <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-700' >Phone <Text className='text-red-500 font-semibold'>*</Text></Text>
                 </View>
                 <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                    <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                    <Text className='text-gray-700 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                     {item?.phone}</Text>
                 
                 </View>

@@ -99,11 +99,11 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Name of coupon <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Name of coupon <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                   style={{flex: 1, fontSize: 17}}
                   placeholder='Enter coupon name..'
                   placeholderTextColor='#D1D5DB'
@@ -119,9 +119,9 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Start date <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Start date <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
-              <View style={{flex: 2, flexDirection: 'row'}}>
+              
                 
                 <Datepicker
                     placeholder='Pick start  date'
@@ -137,15 +137,15 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
                     }}
                 />
                 
-              </View>
+             
             </View>
           </>
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >End date <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >End date <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
-              <View style={{flex: 2, flexDirection: 'row'}}>
+              
                 <Datepicker
                     placeholder='Pick end date'
                     date={endDate}
@@ -159,17 +159,17 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
                         paddingVertical: 2
                     }}
                 />
-              </View>
+              
             </View>
           </>
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Discount value  <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Discount value  <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                   style={{flex: 1, fontSize: 17}}
                   placeholder='Enter discount value..'
                   placeholderTextColor='#D1D5DB'
@@ -186,11 +186,11 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Minimum bill  <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Minimum bill  <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                   style={{flex: 1, fontSize: 17}}
                   placeholder='Enter minimum bill..'
                   placeholderTextColor='#D1D5DB'
@@ -207,11 +207,11 @@ const AddEditPromotionScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Quantity  <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Quantity  <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
+                <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
                   style={{flex: 1, fontSize: 17}}
                   placeholder='Enter quantity name..'
                   placeholderTextColor='#D1D5DB'

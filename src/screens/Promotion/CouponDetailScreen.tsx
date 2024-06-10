@@ -38,24 +38,24 @@ const CouponDetailScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Name of coupon </Text>
+                <Text className='font-semibold text-lg text-gray-600' >Name of coupon </Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'style={{flex: 1, fontSize: 17}}>
                 {coupon?.name}</Text>
                 
               </View>
             </View>
           </>
           <>
-            <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
+            <View className='flex flex-col w-full border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Start date </Text>
+                <Text className='font-semibold text-lg text-gray-600' >Start date </Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-              <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+              <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
               {coupon?.startDate.toString()}</Text>
                 
               </View>
@@ -64,10 +64,10 @@ const CouponDetailScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >End date </Text>
+                <Text className='font-semibold text-lg text-gray-600' >End date </Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
-                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                 {coupon?.endDate.toString()}</Text>
               </View>
             </View>
@@ -75,11 +75,11 @@ const CouponDetailScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Discount value  </Text>
+                <Text className='font-semibold text-lg text-gray-600' >Discount value  </Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                 {coupon?.discountValue}%</Text>
                 
               </View>
@@ -88,11 +88,11 @@ const CouponDetailScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Minimum bill  </Text>
+                <Text className='font-semibold text-lg text-gray-600' >Minimum bill  </Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
-                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                 {coupon?.minimumBill}Đ</Text>
                 
               </View>
@@ -101,10 +101,10 @@ const CouponDetailScreen = ({navigation, route} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Quantity  <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-600' >Quantity  <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>  
-                <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                <Text className='text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
                 {coupon?.quantity}</Text>              
               </View>
             </View>

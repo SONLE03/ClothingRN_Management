@@ -110,7 +110,7 @@ const CustomerOrderScreen = ({navigation, route} : any) => {
                     {selectedOrder && (
                         <>
                             <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white mt-16">
-                                <Text className="font-bold text-lg"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
+                                <Text className="font-bold text-lg text-gray-600"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
                                 <Text className="text-gray-600 text-lg">
                                     {new Intl.DateTimeFormat('default', {
                                         year: 'numeric',
@@ -125,18 +125,18 @@ const CustomerOrderScreen = ({navigation, route} : any) => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="font-bold text-lg text-gray-600"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.customerName}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
+                                <Text className="font-bold text-lg text-gray-600"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.customerPhone}</Text>
                             </View>
                             
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="font-bold text-lg text-gray-600"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.total}</Text>
                             </View>
                         </>
