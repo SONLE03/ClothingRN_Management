@@ -43,15 +43,21 @@ const ChangePasswordScreen = ({ navigation }: any) => {
 
     return (
         <ImageBackground className="flex-1 justify-center items-center bg-white p-4" source={require('../../assets/auth-bg.png')}>
+            <TouchableOpacity className="mb-4 absolute top-0 left-0 p-4" onPress={() => navigation.goBack()}><Ionicons name="caret-back-circle-outline" size={40} color="#c05621" /></TouchableOpacity>
             <View className="w-full max-w-md p-5 bg-white rounded-xl border-2 border-orange-400 flex">
-                <Text className="text-xl font-semibold mb-4 text-center">Change Password</Text>
+                <Text className="text-xl font-semibold mb-4 text-center text-gray-500">Change Password</Text>
                 <View className={`flex-row items-center justify-between border py-1 px-2 rounded-xl focus:border-orange-400 mb-4 ${error ? 'border-red-500' : 'border-gray-400'}`}>
                     <TextInput
-                        
+                        className='text-gray-500'
                         placeholder="New Password"
+                        placeholderTextColor={"gray"}
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry={secureEntry}
+                        //labelStyle={{ color: '#6b7280' }}
+                        
+                        //keyboardType="password"
+                        //inputStyle={{ color: 'black' }}
                     />
                     {password ? (
                         <TouchableOpacity className='' onPress={() => setSecureEntry((prev) => !prev)}>
@@ -62,8 +68,9 @@ const ChangePasswordScreen = ({ navigation }: any) => {
                 
                 <View className={`flex-row items-center justify-between border py-1 px-2 rounded-xl focus:border-orange-400 mb-4 ${error ? 'border-red-500' : 'border-gray-400'}`}>
                     <TextInput
-                        
+                        className='text-gray-500'
                         placeholder="Retype New Password"
+                        placeholderTextColor={"gray"}
                         value={repeatPassword}
                         onChangeText={setRepeatPassword}
                         secureTextEntry={secureEntry}

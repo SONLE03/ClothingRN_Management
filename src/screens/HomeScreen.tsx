@@ -123,7 +123,7 @@ const HomeScreen = ({navigation} : any) => {
                     </View>
                 
                
-                <View className='flex flex-row w-full justify-start items-center p-2 h-36 rounded-xl'>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-40 rounded-xl'>
                     <View className='bg-white rounded-xl border border-gray-400' style={styles.accountContainer}>
                         <View style={styles.infoContainer}>
             
@@ -143,7 +143,7 @@ const HomeScreen = ({navigation} : any) => {
                                 />
                                 ) : (
                                 <Image
-                                source={require('../assets/user-128-128.png')}
+                                source={require('../assets/avatar.png')}
                                 style={{
                                     width: '100%',
                                     height: '100%',
@@ -202,7 +202,7 @@ const HomeScreen = ({navigation} : any) => {
                     </View>
                     </View>
                 </View>
-                <View className='flex flex-row w-full justify-start items-center p-2 h-[350] rounded-xl'>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-[400] rounded-xl'>
                     <View className='bg-gray-50 mb-1 rounded-xl border border-gray-400' style={styles.functionContainer}>
                         <Text className='text-lg text-orange-600 font-semibold underline text-center'>Management Features</Text>
                     <View style={styles.unitContainer}>

@@ -75,18 +75,18 @@ const CustomerScreen = ({ navigation }: any) => {
             <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
             <Text className='flex-row text-2xl font-semibold space-x-2 space-y-0 text-black'>
               <MaterialIcons className='mr-2 mt-2' name="dataset" size={30} color="#333" />
-              <Text className='ml-2'>Customer List</Text>
+              <Text className='ml-2 text-gray-500'>Customer List</Text>
             </Text>
             <View style={{ width: 24 }} />  
           </TouchableOpacity>
         <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-4 mb-5 h-14">
-          <MaterialComunityIcons name="home-search" size={25} className="mr-2" />
-          <TextInput
+          <MaterialComunityIcons name="home-search" size={25} color="gray" className="mr-2 text-gray-500" />
+          <TextInput 
             placeholder="Find your products here..."
             value={searchText}
             onChangeText={(text) => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
-            className="flex-1 text-base h-10"
+            className="flex-1 text-base h-10 text-gray-500"
           />
           <TouchableOpacity onPress={fetchData}>
             <MaterialComunityIcons name="refresh" size={25} className="ml-2" />
@@ -112,9 +112,9 @@ const CustomerScreen = ({ navigation }: any) => {
 
               {filteredProduct.map((item) => (
                 <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailUser(item)}>
-                  <DataTable.Cell className='flex justify-center items-center'>{item.fullName}</DataTable.Cell>
-                  <DataTable.Cell className='flex justify-center items-center'>{item.phone}</DataTable.Cell>
-                  <DataTable.Cell className='flex justify-center items-center'>
+                  <DataTable.Cell className='flex justify-center items-center text-gray-500'  textStyle={{ color: 'gray', fontSize: 16 }}>{item.fullName}</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center text-gray-500' textStyle={{ color: 'gray', fontSize: 16 }}>{item.phone}</DataTable.Cell>
+                  <DataTable.Cell className='flex justify-center items-center text-gray-500' textStyle={{ color: 'gray', fontSize: 16 }}>
                     <Menu 
                       visible={visible && selectedUser?.id === item.id}
                       onDismiss={closeMenu}

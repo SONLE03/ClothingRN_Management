@@ -5,8 +5,8 @@ const ViewNow = (props: any) => {
   return (
     <View className='w-24 h-24 justify-center items-center'>
       <View className='border border-orange-500 rounded-xl p-1' style={styles.button}>
-        <Text className='font-semibold'>+{props.number}</Text>
-        <Text>{props.status}</Text>
+        <Text className='font-semibold text-black'>+{props.number}</Text>
+        <Text className='font-semibold text-black'>{props.status}</Text>
       </View>
     </View>
   );

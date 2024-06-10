@@ -31,6 +31,7 @@ export const CreateCategory = async (name : string, productGender : string) => {
         return response.data;
     } catch (error) {
         console.error(error);
-        throw new Error('Failed to create category');
+        //throw new Error('Failed to create category');
+        return false;
     }
 };

@@ -76,7 +76,7 @@ const EditBranchScreen = ({navigation, route} : any) => {
                 <View style={{flex: 2, flexDirection: 'row'}}>
                   <View style={{width: '5%', height: '100%'}} />
                   <TextInput
-                    style={{flex: 1, fontSize: 17}}
+                    style={{flex: 1, fontSize: 17, color: "gray"}}
                     onChangeText={text => {
                         setCateName(text);
                     }}
@@ -119,12 +119,15 @@ const styles = StyleSheet.create({
         borderRadius: 0.5,
         shadowColor: CUSTOM_COLOR.Black,
         flexDirection: 'column',
+        color: "gray"
       },
       unitTitleContainer: {
         flex: 1,
         alignItems: 'center',
         flexDirection: 'row',
       },
-      titleInputStyle: {},
+      titleInputStyle: {
+        color: "gray"
+      },
 })
 export default EditBranchScreen;

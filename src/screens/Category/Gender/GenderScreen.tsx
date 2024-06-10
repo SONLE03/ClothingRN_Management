@@ -95,16 +95,16 @@ const GenderScreen = ({ navigation }: any) => {
                     <View style={{ width: 24 }} />  
                   </TouchableOpacity>
                     <View className="flex-row justify-start items-center border border-orange-400 rounded-2xl p-2 mb-5 h-14 space-x-0">
-                        <MaterialCommunityIcons name="home-search" size={25} style={styles.InputIcon} />
+                        <MaterialCommunityIcons name="home-search" size={25} color="gray" style={styles.InputIcon} />
                         <TextInput
                             placeholder="Find your product gender here..."
                             value={searchText}
                             onChangeText={text => setSearchText(text)}
                             placeholderTextColor="#B0B0B0"
-                            className="flex-1 text-base h-10 mt-1"
+                            className="flex-1 text-base h-10 mt-1 text-gray-500"
                         />
                         <TouchableOpacity onPress={fetchData}>
-                            <MaterialCommunityIcons name="refresh" size={25} style={styles.InputIcon} />
+                            <MaterialCommunityIcons name="refresh" size={25} color="gray" style={styles.InputIcon} />
                         </TouchableOpacity>
                     </View>
                     {loading ? (
@@ -124,7 +124,7 @@ const GenderScreen = ({ navigation }: any) => {
                               </DataTable.Header>
                               {filteredGenders.map((item) => (
                                   <DataTable.Row key={item.id}>
-                                      <DataTable.Cell className='flex justify-center'>{item.name}</DataTable.Cell>
+                                      <DataTable.Cell className='flex justify-center' textStyle={{color: "gray"}}>{item.name}</DataTable.Cell>
                                       <DataTable.Cell className='flex justify-end'>
                                           <Menu
                                               visible={visible && selectedGender?.id === item.id}

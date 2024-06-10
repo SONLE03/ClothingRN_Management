@@ -41,11 +41,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Email </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Email </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {item?.email}</Text>
                     
                     </View>
@@ -54,11 +54,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Full name </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Full name </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {item?.fullName}</Text>
                     
                     </View>
@@ -67,11 +67,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Phone </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Phone </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {item?.phone}</Text>
                     
                     </View>
@@ -80,11 +80,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Total reached products </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Total reached products </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {orders?.distinctProductItemCount}</Text>
                     
                     </View>
@@ -93,11 +93,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Total bought products </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Total bought products </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className='border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {orders?.totalQuantity}</Text>
                     
                     </View>
@@ -106,11 +106,11 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
                 <>
                 <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
                     <View className='flex flex-row'>
-                    <Text className='font-semibold text-lg' >Total order amount </Text>
+                    <Text className='font-semibold text-lg text-gray-500' >Total order amount </Text>
                     </View>
                     <View style={{flex: 2, flexDirection: 'row'}}>
                     
-                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'style={{flex: 1, fontSize: 17}}>
+                        <Text className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-gray-500 text-lg text-gray-500'style={{flex: 1, fontSize: 17}}>
                         {orders?.totalAmount} VND</Text>
                     
                     </View>
@@ -119,7 +119,7 @@ const CustomerDetailScreen = ({navigation, route} : any) => {
             </ScrollView>
             <>
                 <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8'  onPress={() => handleCustomerHistory(item)} >
-                    <Text className="text-white font-bold text-lg">View order history</Text>
+                    <Text className="text-white font-bold text-lg ">View order history</Text>
                 </TouchableOpacity>
             </>
         </SafeAreaView>

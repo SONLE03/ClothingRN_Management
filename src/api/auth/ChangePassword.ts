@@ -25,6 +25,7 @@ export const ChangePassword = async (email: string, password: string, repeatPass
         return response.data;
     } catch (error) {
         console.error(error);
-        throw error;
+        //throw error;
+        return false;
     }
 };

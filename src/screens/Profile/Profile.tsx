@@ -73,7 +73,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
                         <View className="relative h-20 w-20">
                             <Avatar.Image 
                                 size={65} 
-                                source={user.image ? { uri: user.image } : require("../../assets/logo.png")} 
+                                source={user.image ? { uri: user.image } : require("../../assets/avatar.png")} 
                             />
                             <IconButton 
                                 icon="pencil" 
@@ -85,7 +85,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
                         </View>
                         
                         <View className="flex flex-col ml-2">
-                            <Text className=" font-semibold text-sm text-black bg-white mb-4">{fullName}</Text>
+                            <Text className=" font-semibold text-lg text-black bg-white mb-4">{fullName}</Text>
                             <Text className=" text-sm p-1 rounded-2xl border border-orange-500  text-ellipsis text-orange-700">{user.email}</Text>
                         </View>
                     </View>

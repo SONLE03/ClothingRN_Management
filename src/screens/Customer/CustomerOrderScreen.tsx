@@ -47,7 +47,7 @@ const CustomerOrderScreen = ({navigation, route} : any) => {
                             onPress={() => handleOrderClick(order)}
                         >
                             <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
+                                <Text className="font-bold text-gray-500"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
                                 <Text className="text-gray-600">
                                     {new Intl.DateTimeFormat('default', {
                                         year: 'numeric',
@@ -62,17 +62,17 @@ const CustomerOrderScreen = ({navigation, route} : any) => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="font-bold text-gray-500"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
                                 <Text className="text-gray-600">{order.customerName}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
+                                <Text className="font-bold text-gray-500"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
                                 <Text className="text-gray-600">{order.customerPhone}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="font-bold text-gray-500"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600">{order.total}</Text>
                             </View>
                         </TouchableOpacity>

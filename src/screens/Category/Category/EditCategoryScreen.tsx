@@ -71,10 +71,10 @@ const EditCategoryScreen =  ({navigation, route}: any)  => {
                       {justifyContent: 'flex-start'},
                     ]}>
                     <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Name Of Category</Text>
+                    <Text className='text-gray-500'> Name Of Category</Text>
                     <Text
                       style={[
-                        styles.titleInputStyle,
+                        
                         {color: CUSTOM_COLOR.Red},
                       ]}>
                       {' '}
@@ -93,7 +93,7 @@ const EditCategoryScreen =  ({navigation, route}: any)  => {
                 <View style={{flex: 2, flexDirection: 'row'}}>
                   <View style={{width: '5%', height: '100%'}} />
                   <TextInput
-                    style={{flex: 1, fontSize: 17}}
+                    style={{flex: 1, fontSize: 17, color:"gray"}}
                     onChangeText={text => {
                         setCateName(text);
                     }}
@@ -114,10 +114,9 @@ const EditCategoryScreen =  ({navigation, route}: any)  => {
                       {justifyContent: 'flex-start'},
                     ]}>
                     <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Product Gender</Text>
+                    <Text className='text-gray-500'>Product Gender</Text>
                     <Text
                       style={[
-                        styles.titleInputStyle,
                         {color: CUSTOM_COLOR.Red},
                       ]}>
                       {' '}
@@ -141,7 +140,6 @@ const EditCategoryScreen =  ({navigation, route}: any)  => {
                         isFocus && {borderColor: 'blue'},
                         ]}
                         placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
                         iconStyle={styles.iconStyle}
                         data={genders}
                         maxHeight={200}
@@ -155,6 +153,8 @@ const EditCategoryScreen =  ({navigation, route}: any)  => {
                             setProductGender(item.id as never);
                             setIsFocus(false);
                         }}
+                        itemTextStyle={{color: 'black'}}
+                        selectedTextStyle = {{color: "gray"}}
                     />
                   <View style={{width: '5%', height: '100%'}} />
                 </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
       },
-      titleInputStyle: {},
+      //titleInputStyle: {},
       comboxContainer: {
         width: '100%',
         elevation: 1.5,

@@ -12,6 +12,7 @@ import { EditPG } from '../../../api/category/gender/EditPGender';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import { CUSTOM_COLOR } from '../../../theme/theme';
 import CustomButton from '../../../components/CustomButton';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 const EditGenderScreen = ({navigation, route} : any) => {
     const { item } = route.params;
     const [id, setId] = useState('');
@@ -40,10 +41,13 @@ const EditGenderScreen = ({navigation, route} : any) => {
       };
     return(
         <SafeAreaView style={styles.container}>
-            <TouchableOpacity style={styles.backButton}>
-                <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
-                <Text style={styles.backButtonText}>Edit Product Gender</Text>
-            </TouchableOpacity>
+            <TouchableOpacity className='flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white'>
+          <Ionicons onPress={() => navigation.goBack()} name="arrow-back" size={24} color="#333" />
+          <Text className='flex-row text-2xl font-semibold space-x-2 text-black'>
+            <MaterialIcons className='mr-2' name="emoji-people" size={30} color="#333" />
+            Edit Product gender</Text>
+          <View style={{ width: 24 }} />  
+        </TouchableOpacity>
             <>
               <View style={[styles.inputContainer, {height: 90}]}>
                 <View style={{width: '100%', height: 10}} />
@@ -54,7 +58,7 @@ const EditGenderScreen = ({navigation, route} : any) => {
                       {justifyContent: 'flex-start'},
                     ]}>
                     <View style={{width: '10%', height: '100%'}} />
-                    <Text style={styles.titleInputStyle}>Name Of Product Gender</Text>
+                    <Text className='text-gray-500'>Name Of Product Gender</Text>
                     <Text
                       style={[
                         styles.titleInputStyle,
@@ -75,7 +79,7 @@ const EditGenderScreen = ({navigation, route} : any) => {
                 {/* <View style={{width: '100%', height: 5}} /> */}
                 <View style={{flex: 2, flexDirection: 'row'}}>
                   <View style={{width: '5%', height: '100%'}} />
-                  <TextInput
+                  <TextInput className=' text-gray-500'
                     style={{flex: 1, fontSize: 17}}
                     onChangeText={text => {
                         setCateName(text);
@@ -86,9 +90,8 @@ const EditGenderScreen = ({navigation, route} : any) => {
                 </View>
               </View>
             </>
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
-            <View style={styles.spaceContainer} />
+            <View className='mt-8' />
+            
             <CustomButton label={'Save'} onPress={handleEditPG} />
         </SafeAreaView>
     )

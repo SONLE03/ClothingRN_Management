@@ -73,12 +73,12 @@ const AddCategoryScreen = ({navigation} : any) => {
           <>
             <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8'>
               <View className='flex flex-row'>
-                <Text className='font-semibold text-lg' >Name of category <Text className='text-red-500 font-semibold'>*</Text></Text>
+                <Text className='font-semibold text-lg text-gray-500' >Name of category <Text className='text-red-500 font-semibold'>*</Text></Text>
               </View>
               <View style={{flex: 2, flexDirection: 'row'}}>
                 
                 <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg'
-                  style={{flex: 1, fontSize: 17}}
+                  style={{flex: 1, fontSize: 17, color: "gray"}}
                   placeholder='Enter category name..'
                   placeholderTextColor='#D1D5DB'
                   onChangeText={text => {
@@ -100,7 +100,7 @@ const AddCategoryScreen = ({navigation} : any) => {
                       {justifyContent: 'flex-start'},
                     ]}>
                     
-                    <Text className='font-semibold text-lg'>Product Gender</Text>
+                    <Text className='font-semibold text-lg text-gray-500'>Product Gender</Text>
                     <Text
                       style={[
                         styles.titleInputStyle,
@@ -120,7 +120,7 @@ const AddCategoryScreen = ({navigation} : any) => {
                         isFocus && {borderColor: 'blue'},
                         ]}
                         placeholderStyle={styles.placeholderStyle}
-                        selectedTextStyle={styles.selectedTextStyle}
+                        
                         iconStyle={styles.iconStyle}
                         data={genders}
                         maxHeight={200}
@@ -134,6 +134,10 @@ const AddCategoryScreen = ({navigation} : any) => {
                             setProductGender(item.id as never);
                             setIsFocus(false);
                         }}
+
+                        itemTextStyle={{color: 'black'}}
+                        selectedTextStyle = {{color: "gray"}}
+            
                     />
                  
                 </View>

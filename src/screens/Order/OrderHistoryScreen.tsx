@@ -155,7 +155,7 @@ const OrderHistoryScreen = () => {
                     {selectedOrder && (
                         <>
                             <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white mt-16">
-                                <Text className="font-bold text-lg"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
+                                <Text className="font-bold text-lg text-gray-500"><Ionicons name="calendar-outline" size={20} color="black" />  Order Date:</Text>
                                 <Text className="text-gray-600 text-lg">
                                     {new Intl.DateTimeFormat('default', {
                                         year: 'numeric',
@@ -170,23 +170,23 @@ const OrderHistoryScreen = () => {
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
+                                <Text className="font-bold text-lg text-gray-500"> <Ionicons name="person-outline" size={20} color="black" /> Customer Name:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.customerName}</Text>
                             </View>
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
+                                <Text className="font-bold text-lg text-gray-500"><Ionicons name="call-outline" size={20} color="black" />  Customer Phone:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.customerPhone}</Text>
                             </View>
                             
 
                             <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
-                                <Text className="font-bold text-lg"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
+                                <Text className="font-bold text-lg text-gray-500"><Ionicons name="cash-outline" size={20} color="black" />  Total bills:</Text>
                                 <Text className="text-gray-600 text-lg">{selectedOrder.total}</Text>
                             </View>
                         </>
                     )}
-                    <DataTable className='mt-8 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
+                    <DataTable className='mb-24 mt-8 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 '>
                         <DataTable.Header>
                            
                             <DataTable.Title className='flex justify-start' textStyle={{ color: 'orange', fontSize: 16, fontWeight: 'bold' }}>Product Name</DataTable.Title>
@@ -207,6 +207,7 @@ const OrderHistoryScreen = () => {
                     
                     {selectedOrder && (selectedOrder.status === 'PENDING' ||  selectedOrder.status === 'PAID') && (
                         <>
+                        <View className='mt-8'>
                             <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8'  onPress={() => setCompleteModalVisible(true)} >
                                 <Text className="text-white font-bold text-lg">Complete Order</Text>
                             </TouchableOpacity>
@@ -215,25 +216,68 @@ const OrderHistoryScreen = () => {
                                 <Text className="text-white font-bold text-lg">Cancel Order</Text>
                             </TouchableOpacity>
 
-                            <Modal visible={completeModalVisible} animationType="slide">
-                                <View className="p-4 flex-1 justify-center items-center">
-                                    <Text className="text-lg mb-4">Are you sure you want to complete this order?</Text>
-                                    <View className="flex-row">
-                                        <Button title="OK" onPress={handleCompleteOrder} />
-                                        <Button title="Cancel" onPress={() => setCompleteModalVisible(false)} />
+                            <Modal visible={completeModalVisible} animationType="slide" transparent={true}>
+                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    padding: 20,
+                                    width: '80%', // Control width
+                                    borderRadius: 10, // Optional: for rounded corners
+                                    shadowColor: '#000', // Optional: for shadow
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5
+                                }}>
+                                    <Text className="text-lg mb-4 text-center p-1 text-black"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure want to complete this order?</Text>
+                                    <View className="flex-row w-full justify-center items-center space-x-4 mt-4">
+                                        
+                                        <TouchableOpacity className='flex justify-center items-center border border-orange-500 rounded-xl w-1/2 h-12' onPress={() => setCompleteModalVisible(false)} >
+                                            <Text className="text-lg font-semibold text-orange-600">Cancel</Text>
+                                        </TouchableOpacity>
+                                        
+                                        <TouchableOpacity className='flex justify-center items-center bg-orange-500 rounded-xl w-1/2 h-12' onPress={handleCompleteOrder}>
+                                            <Text className="text-lg font-semibold text-white">OK</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     </View>
                                 </View>
                             </Modal>
 
-                            <Modal visible={cancelModalVisible} animationType="slide">
-                                <View className="p-4 flex-1 justify-center items-center">
-                                    <Text className="text-lg mb-4">Are you sure you want to cancel this order?</Text>
-                                    <View className="flex-row">
-                                        <Button title="OK" onPress={handleCancelOrder} />
-                                        <Button title="Cancel" onPress={() => setCancelModalVisible(false)} />
+                            <Modal visible={cancelModalVisible} animationType="slide" transparent={true}>
+                                <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
+                                <View style={{
+                                    backgroundColor: 'white',
+                                    padding: 20,
+                                    width: '80%', // Control width
+                                    borderRadius: 10, // Optional: for rounded corners
+                                    shadowColor: '#000', // Optional: for shadow
+                                    shadowOffset: {
+                                        width: 0,
+                                        height: 2
+                                    },
+                                    shadowOpacity: 0.25,
+                                    shadowRadius: 3.84,
+                                    elevation: 5
+                                }}>
+                                    <Text className="text-lg mb-4 text-center p-1 text-black"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure want to cancel this order?</Text>
+                                    <View className="flex-row w-full justify-center items-center space-x-4 mt-4">
+                                        
+                                        <TouchableOpacity className='flex justify-center items-center border border-orange-500 rounded-xl w-1/2 h-12' onPress={() => setCancelModalVisible(false)}>
+                                            <Text className="text-lg font-semibold text-orange-600">Cancel</Text>
+                                        </TouchableOpacity>
+                                        
+                                        <TouchableOpacity className='flex justify-center items-center bg-orange-500 rounded-xl w-1/2 h-12' onPress={handleCancelOrder}>
+                                            <Text className="text-lg font-semibold text-white">OK</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     </View>
                                 </View>
                             </Modal>
+                            </View>
                         </>
                     )}  
                     <TouchableOpacity className= 'flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8'  onPress={() => setModalVisible(false)} >

@@ -122,9 +122,9 @@ const ProductScreen = ({ navigation }: any) => {
               {filteredProduct.map((item) => (
                 <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailProduct(item)}>
                   <DataTable.Cell>
-                    {item.image ? (
+                    {item.images ? (
                       <Image
-                        source={{ uri: item.image }}
+                        source={{ uri: item.images }}
                         style={{
                           width: 50,
                           height: 50,
