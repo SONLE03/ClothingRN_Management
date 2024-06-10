@@ -106,7 +106,7 @@ const HomeScreen = ({navigation} : any) => {
                                     shadowRadius: 3.84,
                                     elevation: 5
                                 }}>
-                                    <Text className="text-lg mb-4 text-center p-1"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure you want to log out?</Text>
+                                    <Text className="text-lg mb-4 text-center p-1 text-black"><Ionicons name="warning" size={30} color="#dd6b20"/> Are you sure you want to log out?</Text>
                                     <View className="flex-row w-full justify-center items-center space-x-4 mt-4">
                                         <TouchableOpacity className='flex justify-center items-center border border-orange-500 rounded-xl w-1/2 h-12' onPress={() => setLogoutModalVisible(false)}>
                                             <Text className="text-lg font-semibold text-orange-600">Cancel</Text>
@@ -202,7 +202,7 @@ const HomeScreen = ({navigation} : any) => {
                     </View>
                     </View>
                 </View>
-                <View className='flex flex-row w-full justify-start items-center p-2 h-[300] rounded-xl'>
+                <View className='flex flex-row w-full justify-start items-center p-2 h-[400] rounded-xl'>
                     <View className='bg-gray-50 mb-1 rounded-xl border border-gray-400' style={styles.functionContainer}>
                         <Text className='text-lg text-orange-600 font-semibold underline text-center'>Management Features</Text>
                     <View style={styles.unitContainer}>

@@ -151,7 +151,7 @@ const AddImport = ({navigation}: any) => {
             <FlatList className='border border-orange-500 rounded-xl p-2 mt-2 mb-4'
                 data={importItems}
                 keyExtractor={item => item.productItemId}
-                ListEmptyComponent={() => <Text className='text-center font-semibold'><Ionicons name="sad-outline" size={20} color="#333" /> No items added</Text>}
+                ListEmptyComponent={() => <Text className='text-center text-gray-600 font-semibold'><Ionicons name="sad-outline" size={20} color="#333" /> No items added</Text>}
                 renderItem={({ item, index }) => (
                     <View className='flex-col border border-orange-500 rounded-xl p-2'>
                         <Text className='mb-1 font-semibold text-gray-500'>Product Item: {item.productItemId}</Text>

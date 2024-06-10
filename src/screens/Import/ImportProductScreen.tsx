@@ -219,7 +219,7 @@ const ImportProductScreen = ({ navigation }: any) => {
                         {importDetails && importDetails.importItemResponseList?.map((item, index) => (
                             <DataTable.Row key={index}>
                                 
-                                <DataTable.Cell>{item.productItem}</DataTable.Cell>
+                                <DataTable.Cell className='flex justify-center' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.productName}</DataTable.Cell>
                                 <DataTable.Cell className='flex justify-center' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.quantity}</DataTable.Cell>
                                 <DataTable.Cell className='flex justify-center' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.price}</DataTable.Cell>
                                 <DataTable.Cell className='flex justify-end' textStyle={{ color: '#4A5568', fontSize: 16}}>{item.total}</DataTable.Cell>

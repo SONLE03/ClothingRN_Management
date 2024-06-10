@@ -118,7 +118,7 @@ const PromotionScreen = ({navigation} : any) => {
     
                   {filteredProduct.map((item) => (
                     <DataTable.Row className='border-none border-b-gray-500 rounded-xl mb-2' key={item.id} onPress={() => handleViewDetailCoupon(item)}>
-                      <DataTable.Cell>{item.name}</DataTable.Cell>
+                      <DataTable.Cell className='flex justify-center items-center' numeric textStyle={{ color: '#4A5568', fontSize: 16 }} >{item.name}</DataTable.Cell>
                       <DataTable.Cell className='flex justify-center items-center' numeric textStyle={{ color: '#4A5568', fontSize: 16 }}>{item.discountValue}%</DataTable.Cell>
                       <DataTable.Cell className='flex justify-center items-center' numeric textStyle={{ color: '#4A5568', fontSize: 16 }}>{item.quantity}</DataTable.Cell>
                       <DataTable.Cell className='flex justify-center items-center'>

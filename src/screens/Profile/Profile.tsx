@@ -11,6 +11,7 @@ import HeaderBar from '../../components/HeaderBar';
 import { UserPropsDetail } from '../../types/User';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useAuth } from '../../util/AuthContext';
 const ProfileScreen = ({ navigation }: { navigation: any }) => {
     const [user, setUser] = useState<UserPropsDetail | null>(null);
     const [modalVisible, setModalVisible] = useState(false);
@@ -18,7 +19,7 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
     const [phone, setPhone] = useState('');
     const [image, setImage] = useState<{ uri: string, type: string, name: string } | null>(null);
     const [logoutModalVisible, setLogoutModalVisible] = useState(false);
-
+    const { authEmitter } = useAuth();
     useEffect(() => {
         const fetchUser = async () => {
             const userData = await GetMe();
@@ -59,9 +60,9 @@ const ProfileScreen = ({ navigation }: { navigation: any }) => {
     };
 
     const handleLogout = async () => {
-        await logoutUser();
-        navigation.navigate('LoginScreen'); // Redirect to login screen
-        AsyncStorage.clear();
+        const data = await logoutUser();
+        await AsyncStorage.clear();
+        authEmitter.emit('loginStatusChanged');
     };
 
     return (

@@ -16,7 +16,7 @@ export interface Product {
     category: string;
     branch: string;
     productStatus: string;
-    images: string;
+    images: string[];
 }
 
 export interface ProductRequest {

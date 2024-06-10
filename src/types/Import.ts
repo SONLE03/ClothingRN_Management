@@ -15,6 +15,7 @@ export interface ImportResponse{
 
 export interface ImportItem{
     productItem: string, 
+    productName: String,
     quantity: number,
     price: number,
     total: number

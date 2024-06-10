@@ -209,7 +209,7 @@ const AddProductScreen = ({ navigation }: any) => {
             </View>
 
             <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
-            <Text className="text-lg font-bold text-gray-600text-gray-600">Category and Branch</Text>
+            <Text className="text-lg font-bold text-gray-600">Category and Branch</Text>
               {categories.length > 0 && (
                 <Select 
                   status='warning'

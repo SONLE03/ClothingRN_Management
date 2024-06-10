@@ -124,7 +124,7 @@ const ProductScreen = ({ navigation }: any) => {
                   <DataTable.Cell>
                     {item.images ? (
                       <Image
-                        source={{ uri: item.images }}
+                        source={{ uri: item.images[0] }}
                         style={{
                           width: 50,
                           height: 50,
