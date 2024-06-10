@@ -1,8 +1,31 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+## This is a [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli), typescript, nativewind, react native paper, ui kitten...
+
+![react-native](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/319d40b4-2f38-480a-9191-1292ddedeab3) ![nativewind](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/4e38bb0e-b69e-4596-952f-6469e316380f) ![m-icon](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/f72749ac-b593-4f45-b57e-2188155ce3b8) ![ui-kitten](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/6dab98ea-5f67-44e3-a936-ddabe2dce3a8) ![rn-paper](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/3970231e-0a06-4580-88db-d91e3624ea1a)
+
+# Some UI Screens
+
+![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5695032f-3c47-42cd-a3b0-49cd35c56648) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5f6ae551-5e9d-4204-8263-ab9645d7e687) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/eabf6dc9-50c3-4409-bdc9-ffa4a14d5683) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/30dbe2c4-7cf6-4c0d-bf1e-af2cca7e77b2) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/afeb0528-7b95-4ad7-b8e8-a9974a8140bd) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/835f5376-c65e-48f6-82ba-bf7a35df33b0)
+
 
 # Getting Started
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
+
+## Prepare: Change local BASE_URL to compatible with your device
+Run this command on CMD to take IPv4 Address, then set it to apiServer in file /api/config.ts
+
+```bash
+# cmd
+ipconfig
+```
+For example 
+
+![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/15ddefb9-6932-466b-9052-fb1340c10445)
+![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/c352a6c4-b1c2-4fb0-9576-147a6c9cd9b4)
+
+
+
+
 
 ## Step 1: Start the Metro Server
 
@@ -25,6 +48,9 @@ Let Metro Bundler run in its _own_ terminal. Open a _new_ terminal from the _roo
 ### For Android
 
 ```bash
+# install node-module first
+npm install
+
 # using npm
 npm run android
 
@@ -46,7 +72,7 @@ If everything is set up _correctly_, you should see your new app running in your
 
 This is one way to run your app — you can also run it directly from within Android Studio and Xcode respectively.
 
-## Step 3: Modifying your App
+## Step 3: Modifying your App (Optional)
 
 Now that you have successfully run the app, let's modify it.
 
