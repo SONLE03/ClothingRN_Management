@@ -4,7 +4,7 @@
 
 # Some UI Screens
 
-![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5695032f-3c47-42cd-a3b0-49cd35c56648) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5f6ae551-5e9d-4204-8263-ab9645d7e687) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/eabf6dc9-50c3-4409-bdc9-ffa4a14d5683) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/30dbe2c4-7cf6-4c0d-bf1e-af2cca7e77b2) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/afeb0528-7b95-4ad7-b8e8-a9974a8140bd) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/835f5376-c65e-48f6-82ba-bf7a35df33b0)
+![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5695032f-3c47-42cd-a3b0-49cd35c56648) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/5f6ae551-5e9d-4204-8263-ab9645d7e687)  ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/30dbe2c4-7cf6-4c0d-bf1e-af2cca7e77b2) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/afeb0528-7b95-4ad7-b8e8-a9974a8140bd) ![image](https://github.com/Semester02-UIT-2023-2024/ClothingRN_Management/assets/121101254/835f5376-c65e-48f6-82ba-bf7a35df33b0)
 
 
 # Getting Started
