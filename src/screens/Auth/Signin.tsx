@@ -53,10 +53,10 @@ const LoginScreen = ({navigation} : any) => {
       } else {
         try {
           Alert.alert('User login successfully!');
-          await AsyncStorage.setItem('access_token', JSON.stringify(data.access_token));
-          await AsyncStorage.setItem('refresh_token', JSON.stringify(data.refresh_token));
-          await AsyncStorage.setItem('user_id', JSON.stringify(data.id));
-          await AsyncStorage.setItem('role', JSON.stringify(data.role));
+          await AsyncStorage.setItem('access_token', JSON.stringify(data.data.AccessToken));
+          await AsyncStorage.setItem('refresh_token', JSON.stringify(data.data.RefreshToken));
+          await AsyncStorage.setItem('user_id', JSON.stringify(data.data.UserId));
+          await AsyncStorage.setItem('role', JSON.stringify(data.data.Role));
           console.log(AsyncStorage.getItem('access_token'));
           authEmitter.emit('loginStatusChanged');
           

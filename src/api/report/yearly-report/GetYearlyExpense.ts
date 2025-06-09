@@ -1,13 +1,16 @@
 import axios from 'axios';
-import { YearlyExpense } from '../../../types/Report';
-import { apiServer } from '../../config';
-import { ParseJSON } from '../../ParseJSON';
+import {YearlyExpense} from '../../../entity/Report';
+import {apiServer} from '../../config';
+import {ParseJSON} from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GetYearlyExpenseURL = apiServer + '/reports/yearly-expense';
 
-export const GetYearlyExpense = async (startYear: number, endYear: number): Promise<YearlyExpense[]> => {
-  const data = JSON.stringify({ startYear, endYear });
+export const GetYearlyExpense = async (
+  startYear: number,
+  endYear: number,
+): Promise<YearlyExpense[]> => {
+  const data = JSON.stringify({startYear, endYear});
 
   const accessToken = await AsyncStorage.getItem('access_token');
 
@@ -23,7 +26,7 @@ export const GetYearlyExpense = async (startYear: number, endYear: number): Prom
     url: GetYearlyExpenseURL,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${parseToken}`,
+      Authorization: `Bearer ${parseToken}`,
     },
     data: data,
   };

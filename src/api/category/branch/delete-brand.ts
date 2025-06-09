@@ -1,18 +1,13 @@
 import axios from 'axios';
-import {YearlyRevenue} from '../../../entity/Report';
 import {apiServer} from '../../config';
-import {ParseJSON} from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {ParseJSON} from '../../ParseJSON';
 
-const GetYearlyRevenueURL = apiServer + '/reports/yearly-revenue';
-
-export const GetYearlyRevenue = async (
-  startYear: number,
-  endYear: number,
-): Promise<YearlyRevenue[]> => {
-  const data = JSON.stringify({startYear, endYear});
-
+export const DeleteBranch = async (id: string) => {
   const accessToken = await AsyncStorage.getItem('access_token');
+  // Remove quotes from id if they exist
+  const cleanedId = id.replace(/['"]/g, '');
+  const DeleteURL = apiServer + `/brand/${cleanedId}`;
 
   if (!accessToken) {
     throw new Error('No access token found');
@@ -21,21 +16,18 @@ export const GetYearlyRevenue = async (
   const parseToken = ParseJSON(accessToken);
 
   const config = {
-    method: 'post',
+    method: 'DELETE',
     maxBodyLength: Infinity,
-    url: GetYearlyRevenueURL,
+    url: DeleteURL,
     headers: {
-      'Content-Type': 'application/json',
       Authorization: `Bearer ${parseToken}`,
     },
-    data: data,
   };
-
   try {
     const response = await axios.request(config);
     return response.data;
   } catch (error) {
-    console.error(error);
-    throw new Error('Failed to fetch yearly revenue');
+    //console.error(error);
+    return false;
   }
 };

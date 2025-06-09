@@ -1,11 +1,12 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../../config';
-import {ParseJSON} from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Color} from '../../../entity/Product';
+import {Brand} from '../../../entity/Category';
+import {ParseJSON} from '../../ParseJSON';
 
-export const GetAllColor = async (): Promise<Color[]> => {
-  const ColorURL = apiServer + '/color';
+const BrandURL = apiServer + '/brand';
+
+export const GetAllBranch = async (): Promise<Brand[]> => {
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -15,18 +16,18 @@ export const GetAllColor = async (): Promise<Color[]> => {
 
   try {
     const config = {
-      method: 'get',
+      method: 'GET',
       maxBodyLength: Infinity,
-      url: ColorURL,
+      url: BrandURL,
       headers: {
         Authorization: `Bearer ${parseToken}`,
       },
     };
 
-    const response = await axios.request<Color[]>(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Get all color failed');
+    throw new Error('Get all branch failed');
   }
 };

@@ -1,13 +1,15 @@
 import axios from 'axios';
-import { MonthlyExpense } from '../../../types/Report';
-import { apiServer } from '../../config';
-import { ParseJSON } from '../../ParseJSON';
+import {MonthlyExpense} from '../../../entity/Report';
+import {apiServer} from '../../config';
+import {ParseJSON} from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const GetMonthlyExpenseURL = apiServer + '/reports/monthly-expense';
 
-export const GetMonthlyExpense = async (year: number): Promise<MonthlyExpense[]> => {
-  const data = JSON.stringify({ year });
+export const GetMonthlyExpense = async (
+  year: number,
+): Promise<MonthlyExpense[]> => {
+  const data = JSON.stringify({year});
 
   const accessToken = await AsyncStorage.getItem('access_token');
 
@@ -23,7 +25,7 @@ export const GetMonthlyExpense = async (year: number): Promise<MonthlyExpense[]>
     url: GetMonthlyExpenseURL,
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${parseToken}`,
+      Authorization: `Bearer ${parseToken}`,
     },
     data: data,
   };

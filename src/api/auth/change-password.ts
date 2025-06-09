@@ -2,11 +2,11 @@ import axios from 'axios';
 import { apiServer } from '../config';
 
 export const ChangePassword = async (email: string, password: string, repeatPassword: string) => {
-    const ChangePasswordUrl = apiServer + `/users/changePassword/${email}`;
+    const ChangePasswordUrl = apiServer + `/auth/resetPassword`;
 
     let data = JSON.stringify({
         password,
-        repeatPassword
+        email,
     });
 
 

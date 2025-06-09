@@ -3,25 +3,25 @@ import { apiServer } from "../config";
 
 const loginUser = async (username: string, password: string) => {
     console.log(username, password);
-    const envLogin = apiServer + "/auth/login"
+    const envLogin = apiServer + "/auth/signin"
     const email = username;
-    const checkRole = apiServer + `/auth/${email}`;
+    //const checkRole = apiServer + `/auth/${email}`;
     try {      
-      const role = await fetch(checkRole, {
-        method: 'GET',
-        headers: {},
-      });
-      const roleData = await role.json();
-      if (roleData === 2) {
-        Alert.alert('Unable to log in with customer account');
-          return false;
-      }
+      // const role = await fetch(checkRole, {
+      //   method: 'GET',
+      //   headers: {},
+      // });
+      // const roleData = await role.json();
+      // if (roleData === 2) {
+      //   Alert.alert('Unable to log in with customer account');
+      //     return false;
+      // }
       const response = await fetch(envLogin, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ username, password })
+        body: JSON.stringify({ email, password })
       });
       if (!response.ok) {
         Alert.alert('Username or password incorrect');

@@ -9,7 +9,7 @@ import {
     ImageBackground,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ChangePassword } from '../../api/auth/ChangePassword';
+import { ChangePassword } from '../../api/auth/change-password';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
