@@ -13,7 +13,7 @@ import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIc
 import {Button, Dialog} from 'react-native-paper';
 import {AddStaff} from '../../api/users/AddStaff';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import {GetUser} from '../../api/users/GetUser';
+import {GetUser} from '../../api/users/get-user';
 import {UserProps} from '../../entity/User';
 
 const AddUserScreen = ({navigation}: any) => {

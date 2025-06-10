@@ -5,7 +5,7 @@ import {ParseJSON} from '../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AddNewImport = async (items: AddImportItem[]) => {
-  const url = apiServer + '/imports';
+  const url = apiServer + '/import';
 
   const accessToken = await AsyncStorage.getItem('access_token');
 

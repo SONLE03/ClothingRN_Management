@@ -41,7 +41,7 @@ const PromotionScreen = ({navigation}: any) => {
   };
 
   const filteredProduct = coupons.filter(coupons =>
-    coupons.name.toLowerCase().includes(searchText),
+    coupons?.Description?.toLowerCase().includes(searchText),
   );
 
   const handleAddCoupon = () => {
@@ -169,24 +169,24 @@ const PromotionScreen = ({navigation}: any) => {
               {filteredProduct.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2"
-                  key={item.id}
+                  key={item.Id}
                   onPress={() => handleViewDetailCoupon(item)}>
-                  <DataTable.Cell>{item.name}</DataTable.Cell>
+                  <DataTable.Cell>{item.Description}</DataTable.Cell>
                   <DataTable.Cell
                     className="flex justify-center items-center"
                     numeric
                     textStyle={{color: '#4A5568', fontSize: 16}}>
-                    {item.discountValue}%
+                    {item.DiscountValue}%
                   </DataTable.Cell>
                   <DataTable.Cell
                     className="flex justify-center items-center"
                     numeric
                     textStyle={{color: '#4A5568', fontSize: 16}}>
-                    {item.quantity}
+                    {item.Quantity}
                   </DataTable.Cell>
                   <DataTable.Cell className="flex justify-center items-center">
                     <Menu
-                      visible={visible && selectedCoupon?.id === item.id}
+                      visible={visible && selectedCoupon?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -224,16 +224,16 @@ const PromotionScreen = ({navigation}: any) => {
                         </Text>
                         <TouchableOpacity
                           className="bg-red-500 px-4 py-2 rounded-md mb-2"
-                          onPress={() => handleDelete(item.id)}>
+                          onPress={() => handleDelete(item.Id)}>
                           <Text className="text-white text-lg font-bold">
-                            Đồng ý
+                            Confirm
                           </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
                           className="bg-gray-600 px-4 py-2 rounded-md"
                           onPress={() => setDeleteModalVisible(false)}>
                           <Text className="text-white text-lg font-bold">
-                            Hủy
+                            Cancel
                           </Text>
                         </TouchableOpacity>
                       </View>

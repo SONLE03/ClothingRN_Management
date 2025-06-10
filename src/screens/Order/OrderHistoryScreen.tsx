@@ -5,23 +5,22 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
-  Button,
   Image,
 } from 'react-native';
 import {Tab, TabView} from '@ui-kitten/components';
 
 import {GetAllOrder} from '../../api/order/GetAllOrder';
-import {GetOrderDetails} from '../../api/order/OrderDetails';
 import {UpdateOrderStatus} from '../../api/order/UpdateOrderStatus';
 import {DataTable} from 'react-native-paper';
-import {OrderDetail, Orders} from '../../entity/Order';
+import {OrderItemResponse, Orders} from '../../entity/Order';
 import HeaderBar from '../../components/HeaderBar';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+
 const OrderHistoryScreen = () => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [orders, setOrders] = useState<Orders[]>([]);
-  const [orderDetails, setOrderDetails] = useState<OrderDetail[]>([]);
+  const [orderDetails, setOrderDetails] = useState<OrderItemResponse[]>([]);
   const [selectedOrder, setSelectedOrder] = useState<Orders | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [cancelModalVisible, setCancelModalVisible] = useState(false);
@@ -37,14 +36,13 @@ const OrderHistoryScreen = () => {
 
   const handleOrderClick = async (order: Orders) => {
     setSelectedOrder(order);
-    const details = await GetOrderDetails(order.orderId);
-    setOrderDetails(details);
+    setOrderDetails(order.OrderItemResponses || []);
     setModalVisible(true);
   };
 
   const handleCancelOrder = async () => {
     if (selectedOrder) {
-      await UpdateOrderStatus(selectedOrder.orderId, 1);
+      await UpdateOrderStatus(selectedOrder.Id, 1);
       const orders = await GetAllOrder();
       setOrders(orders);
       setModalVisible(false);
@@ -53,15 +51,19 @@ const OrderHistoryScreen = () => {
 
   const handleCompleteOrder = async () => {
     if (selectedOrder) {
-      await UpdateOrderStatus(selectedOrder.orderId, 3);
+      await UpdateOrderStatus(selectedOrder.Id, 3);
       const orders = await GetAllOrder();
       setOrders(orders);
       setModalVisible(false);
     }
   };
 
+  console.log('Orders:', orders);
+
   const renderTabContent = (status: string) => {
-    const filteredOrders = orders?.filter(order => order.status === status);
+    const filteredOrders = orders?.filter(
+      order => order.OrderStatus.toUpperCase() === status,
+    );
     return (
       <ScrollView className="p-4">
         {filteredOrders.length === 0 ? (
@@ -77,7 +79,7 @@ const OrderHistoryScreen = () => {
         ) : (
           filteredOrders.map(order => (
             <TouchableOpacity
-              key={order.orderId}
+              key={order.Id}
               className="mb-4 border p-4 rounded-2xl bg-white"
               onPress={() => handleOrderClick(order)}>
               <View className="flex-row justify-between items-center border border-b-gray-300 border-x-white border-t-white">
@@ -94,7 +96,7 @@ const OrderHistoryScreen = () => {
                     minute: '2-digit',
                     second: '2-digit',
                     hour12: false, // Use 24-hour format
-                  }).format(new Date(order.orderDate))}
+                  }).format(new Date(order.CompletedAt))}
                 </Text>
               </View>
 
@@ -108,7 +110,7 @@ const OrderHistoryScreen = () => {
                   />{' '}
                   Customer Name:
                 </Text>
-                <Text className="text-gray-600">{order.customerName}</Text>
+                <Text className="text-gray-600">{order.FullName}</Text>
               </View>
 
               <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
@@ -116,15 +118,31 @@ const OrderHistoryScreen = () => {
                   <Ionicons name="call-outline" size={20} color="black" />{' '}
                   Customer Phone:
                 </Text>
-                <Text className="text-gray-600">{order.customerPhone}</Text>
+                <Text className="text-gray-600">{order.PhoneNumber}</Text>
               </View>
 
               <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
                 <Text className="font-bold text-gray-600">
-                  <Ionicons name="cash-outline" size={20} color="black" /> Total
-                  bills:
+                  <Ionicons name="location-outline" size={20} color="black" />{' '}
+                  Address:
                 </Text>
-                <Text className="text-gray-600">{order.total}</Text>
+                <Text className="text-gray-600">{`${order.Address.Ward}, ${order.Address.District}, ${order.Address.Province}`}</Text>
+              </View>
+
+              <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
+                <Text className="font-bold text-gray-600">
+                  <Ionicons name="cash-outline" size={20} color="black" />
+                  Subtotal:
+                </Text>
+                <Text className="text-gray-600">{order.SubTotal}</Text>
+              </View>
+
+              <View className="flex-row justify-between items-center mt-2 border border-b-gray-300 border-x-white border-t-white">
+                <Text className="font-bold text-gray-600 flex-row space-x-2">
+                  <Ionicons name="cash-outline" size={20} color="black" />
+                  Total bills:
+                </Text>
+                <Text className="text-gray-600">{order.Total}</Text>
               </View>
             </TouchableOpacity>
           ))
@@ -144,7 +162,7 @@ const OrderHistoryScreen = () => {
           title={<Text className="text-green-500">Completed</Text>}
           className="h-20 text-green-500"
           icon={<Ionicons name="checkmark-circle" size={24} color="green" />}>
-          {renderTabContent('COMPLETED')}
+          {renderTabContent('PAID')}
         </Tab>
         <Tab
           title="Pending"
@@ -202,7 +220,7 @@ const OrderHistoryScreen = () => {
                     minute: '2-digit',
                     second: '2-digit',
                     hour12: false, // Use 24-hour format
-                  }).format(new Date(selectedOrder.orderDate))}
+                  }).format(new Date(selectedOrder.CompletedAt))}
                 </Text>
               </View>
 
@@ -217,7 +235,7 @@ const OrderHistoryScreen = () => {
                   Customer Name:
                 </Text>
                 <Text className="text-gray-600 text-lg">
-                  {selectedOrder.customerName}
+                  {selectedOrder.FullName}
                 </Text>
               </View>
 
@@ -227,17 +245,48 @@ const OrderHistoryScreen = () => {
                   Customer Phone:
                 </Text>
                 <Text className="text-gray-600 text-lg">
-                  {selectedOrder.customerPhone}
+                  {selectedOrder.PhoneNumber}
+                </Text>
+              </View>
+
+              {/* Email */}
+              <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
+                <Text className="font-bold text-lg text-gray-500">
+                  <Ionicons name="mail-outline" size={20} color="black" />{' '}
+                  Email:
+                </Text>
+                <Text className="text-gray-600 text-lg">
+                  {selectedOrder.Email || 'No email provided'}
                 </Text>
               </View>
 
               <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
                 <Text className="font-bold text-lg text-gray-500">
-                  <Ionicons name="cash-outline" size={20} color="black" /> Total
-                  bills:
+                  <Ionicons name="location-outline" size={20} color="black" />{' '}
+                  Address:
                 </Text>
                 <Text className="text-gray-600 text-lg">
-                  {selectedOrder.total}
+                  {`${selectedOrder.Address.Ward}, ${selectedOrder.Address.District}, ${selectedOrder.Address.Province}`}
+                </Text>
+              </View>
+
+              <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
+                <Text className="font-bold text-lg text-gray-500">
+                  <Ionicons name="cash-outline" size={20} color="black" />{' '}
+                  Subtotal:
+                </Text>
+                <Text className="text-gray-600 text-lg">
+                  {selectedOrder.SubTotal}
+                </Text>
+              </View>
+
+              <View className="flex-row justify-between items-center mt-6 border border-b-gray-300 border-x-white border-t-white">
+                <Text className="font-bold text-lg text-gray-500">
+                  <Ionicons name="cash-outline" size={20} color="black" />
+                  Total bills:
+                </Text>
+                <Text className="text-gray-600 text-lg">
+                  {selectedOrder.Total}
                 </Text>
               </View>
             </>
@@ -267,23 +316,23 @@ const OrderHistoryScreen = () => {
             </DataTable.Header>
             {orderDetails.map((item, index) => (
               <DataTable.Row key={index}>
-                <DataTable.Cell>{item.productName}</DataTable.Cell>
+                <DataTable.Cell>{item.ProductName}</DataTable.Cell>
                 <DataTable.Cell className="flex justify-center">
-                  {item.quantity}
+                  {item.Quantity}
                 </DataTable.Cell>
                 <DataTable.Cell className="flex justify-center">
-                  {item.price}
+                  {item.Price}
                 </DataTable.Cell>
                 <DataTable.Cell className="flex justify-end">
-                  {item.total}
+                  {item.SubTotal}
                 </DataTable.Cell>
               </DataTable.Row>
             ))}
           </DataTable>
 
           {selectedOrder &&
-            (selectedOrder.status === 'PENDING' ||
-              selectedOrder.status === 'PAID') && (
+            (selectedOrder.OrderStatus.toUpperCase() === 'PENDING' ||
+              selectedOrder.OrderStatus.toUpperCase() === 'PAID') && (
               <>
                 <View className="mt-8">
                   <TouchableOpacity
@@ -405,7 +454,7 @@ const OrderHistoryScreen = () => {
               </>
             )}
           <TouchableOpacity
-            className="flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-8"
+            className="flex flex-row justify-center items-center h-12 bg-orange-500 p-2 rounded-xl mt-2"
             onPress={() => setModalVisible(false)}>
             <Text className="text-white font-bold text-lg">Close</Text>
           </TouchableOpacity>

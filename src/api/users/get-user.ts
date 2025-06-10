@@ -1,12 +1,13 @@
 import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../config';
-import {ParseJSON} from '../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ImportInvoice} from '../../entity/Import';
+import {UserPropsDetail} from '../../entity/User';
+import {ParseJSON} from '../ParseJSON';
 
-export const GetAllImport = async (): Promise<ImportInvoice[]> => {
-  const ImportURL = apiServer + '/imports';
+export const GetUser = async (isCustomer: boolean): Promise<UserPropsDetail[]> => {
+  const GetUserURL = apiServer + (isCustomer ? '/customer' : `/staff`);
   const accessToken = await AsyncStorage.getItem('access_token');
+
   if (!accessToken) {
     throw new Error('No access token found');
   }
@@ -17,18 +18,16 @@ export const GetAllImport = async (): Promise<ImportInvoice[]> => {
     const config = {
       method: 'get',
       maxBodyLength: Infinity,
-      url: ImportURL,
+      url: GetUserURL,
       headers: {
         Authorization: `Bearer ${parseToken}`,
       },
     };
 
-    const response: AxiosResponse<ImportInvoice[]> = await axios.request(
-      config,
-    );
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Get all import invoices failed');
+    throw new Error('Get all user failed');
   }
 };

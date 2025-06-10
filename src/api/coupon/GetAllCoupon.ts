@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Coupon} from '../../entity/Coupon';
 
 export const GetAllCoupon = async (): Promise<Coupon[]> => {
-  const CouponURL = apiServer + '/coupons';
+  const CouponURL = apiServer + '/coupon';
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -23,8 +23,8 @@ export const GetAllCoupon = async (): Promise<Coupon[]> => {
       },
     };
 
-    const response: AxiosResponse<Coupon[]> = await axios.request(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
     throw new Error('Get all coupons failed');

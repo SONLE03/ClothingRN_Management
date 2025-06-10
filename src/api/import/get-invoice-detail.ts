@@ -1,11 +1,10 @@
 import axios from 'axios';
 import {apiServer} from '../config';
 import {ParseJSON} from '../ParseJSON';
-import {ImportDetail} from '../../entity/Import';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const GetImportById = async (id: string) => {
-  const GetImportByIdUrl = apiServer + `/imports/${id}`;
+  const GetImportByIdUrl = apiServer + `/import/${id}`;
 
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {

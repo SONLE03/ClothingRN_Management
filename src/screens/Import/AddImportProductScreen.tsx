@@ -1,11 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, Alert, TouchableOpacity} from 'react-native';
 import {Input} from 'react-native-elements';
-import {AddNewImport} from '../../api/import/AddImport';
+import {AddNewImport} from '../../api/import/import-product';
 import {GetAllProducts} from '../../api/product/product/get-products';
 import {GetDetailProduct} from '../../api/product/product/get-product-details';
 
-import {Product, ProductItem} from '../../entity/Product';
+import {ProductGet, ProductVariantGet} from '../../entity/Product';
 import {AddImportItem} from '../../entity/Import';
 import {Dropdown} from 'react-native-element-dropdown';
 import {Dialog} from 'react-native-paper';
@@ -13,11 +13,11 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const AddImport = ({navigation}: any) => {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [productItems, setProductItems] = useState<ProductItem[]>([]);
+  const [products, setProducts] = useState<ProductGet[]>([]);
+  const [productItems, setProductItems] = useState<ProductVariantGet[]>([]);
   const [selectedProductItem, setSelectedProductItem] =
-    useState<ProductItem | null>(null);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+    useState<ProductVariantGet | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductGet | null>(null);
   const [importItems, setImportItems] = useState<AddImportItem[]>([]);
   const [loading, setLoading] = useState(false);
   const [quantity, setQuantity] = useState<number | null>(null);
@@ -42,11 +42,9 @@ const AddImport = ({navigation}: any) => {
   const handleProductChange = async (productId: string) => {
     try {
       const selected =
-        products.find(product => product.id === productId) || null;
+        products.find(product => product.Id === productId) || null;
       setSelectedProduct(selected);
-
-      const items = await GetDetailProduct(productId);
-      setProductItems(items);
+      setProductItems(selected ? selected.ProductVariants : []);
       setSelectedProductItem(null);
       setQuantity(null);
       setPrice(null);
@@ -58,7 +56,7 @@ const AddImport = ({navigation}: any) => {
   const handleAddItem = () => {
     if (selectedProductItem && quantity && price) {
       const newItem: AddImportItem = {
-        productItemId: selectedProductItem.id,
+        productVariantId: selectedProductItem.Id,
         quantity,
         price,
         total: quantity * price,
@@ -113,22 +111,22 @@ const AddImport = ({navigation}: any) => {
         </Text>
         <View style={{width: 24}} />
       </TouchableOpacity>
-      <View className="flex-1 p-2">
+      <View className="flex-1 p-4">
         <View className="mb-2 flex w-full p-2 h-12 border border-orange-500 rounded-xl">
           <Dropdown
             labelField="label"
             valueField="value"
             placeholder={
               selectedProduct
-                ? selectedProduct.product_Name
+                ? selectedProduct.ProductName
                 : 'Select a product'
             }
             placeholderStyle={{color: 'gray'}}
-            value={selectedProduct?.id}
+            value={selectedProduct?.Id}
             onChange={item => handleProductChange(item.value)}
             data={products.map(product => ({
-              label: `${product.product_Name}`,
-              value: product.id,
+              label: `${product.ProductName}`,
+              value: product.Id,
             }))}
             itemTextStyle={{color: 'black'}}
             selectedTextStyle={{color: 'gray'}}
@@ -139,19 +137,19 @@ const AddImport = ({navigation}: any) => {
           <Dropdown
             labelField="label"
             valueField="value"
-            placeholder="Select a product item"
+            placeholder="Select a product variant"
             placeholderStyle={{color: 'gray'}}
-            value={selectedProductItem?.id}
+            value={selectedProductItem?.Id}
             onChange={item =>
               setSelectedProductItem(
                 productItems.find(
-                  productItem => productItem.id === item.value,
+                  productItem => productItem.Id === item.value,
                 ) || null,
               )
             }
             data={productItems.map(item => ({
-              label: `${item.sizeName} - ${item.colorName}`,
-              value: item.id,
+              label: `${item.ColorName}  - (${item.DisplayDimension}) - ${item.Quantity} items in stock`,
+              value: item.Id,
             }))}
             itemTextStyle={{color: 'black'}}
             selectedTextStyle={{color: 'gray'}}
@@ -183,7 +181,7 @@ const AddImport = ({navigation}: any) => {
         <FlatList
           className="border border-orange-500 rounded-xl p-2 mt-2 mb-4"
           data={importItems}
-          keyExtractor={item => item.productItemId}
+          keyExtractor={item => item.productVariantId}
           ListEmptyComponent={() => (
             <Text className="text-center font-semibold">
               <Ionicons name="sad-outline" size={20} color="#333" /> No items
@@ -193,7 +191,7 @@ const AddImport = ({navigation}: any) => {
           renderItem={({item, index}) => (
             <View className="flex-col border border-orange-500 rounded-xl p-2">
               <Text className="mb-1 font-semibold text-gray-500">
-                Product Item: {item.productItemId}
+                Product Item: {item.productVariantId}
               </Text>
               <Text className="mb-1 font-semibold text-gray-500">
                 Quantity: {item.quantity}

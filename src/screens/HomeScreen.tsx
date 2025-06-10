@@ -20,12 +20,39 @@ import {UserProps} from '../entity/User';
 import {useAuth} from '../util/AuthContext';
 import logoutUser from '../api/auth/logout';
 import {GetMe} from '../api/auth/get-me';
+import { GetAllOrder } from '../api/order/GetAllOrder';
+import { Orders } from '../entity/Order';
 
 const HomeScreen = ({navigation}: any) => {
   const {authEmitter} = useAuth();
   const [logoutModalVisible, setLogoutModalVisible] = useState(false);
   const [user, setUser] = useState<UserProps | null>(null);
   const [isAdmin, setIsAdmin] = useState(true);
+  const [orders, setOrders] = useState<Orders[]>([]);
+
+  const paidOrdersCount = orders.filter(
+    order => order.OrderStatus === 'Paid',
+  ).length;
+
+  const onWaitOrdersCount = orders.filter(
+    order => order.OrderStatus === 'Pending',
+  ).length;
+
+  const deliveredOrdersCount = orders.filter(
+    order => order.OrderStatus === 'Delivered',
+  ).length;
+
+  const cancelOrdersCount = orders.filter(
+    order => order.OrderStatus === 'Canceled',
+  ).length;
+
+  useEffect(() => {
+      const fetchOrders = async () => {
+        const orders = await GetAllOrder();
+        setOrders(orders);
+      };
+      fetchOrders();
+    }, []);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -57,7 +84,7 @@ const HomeScreen = ({navigation}: any) => {
   return (
     <SafeAreaView className="flex-1 bg-gray-200">
       <>
-        <View className="bg-orange-500 h-24" style={styles.menuContainer}>
+        <View className="bg-orange-500 h-10" style={styles.menuContainer}>
           <View style={styles.storeContainer}>
             <Image
               source={require('../assets/avatar.png')}
@@ -253,10 +280,10 @@ const HomeScreen = ({navigation}: any) => {
               </TouchableOpacity>
             </View>
             <View style={styles.listOderConatiner}>
-              <ViewNow number={0} status={'Confirm'} />
-              <ViewNow number={0} status={'On wait'} />
-              <ViewNow number={0} status={'Delivered'} />
-              <ViewNow number={0} status={'Cancel'} />
+              <ViewNow number={paidOrdersCount || 0} status={'Confirm'} />
+              <ViewNow number={onWaitOrdersCount || 0} status={'On wait'} />
+              <ViewNow number={deliveredOrdersCount || 0} status={'Delivered'} />
+              <ViewNow number={cancelOrdersCount || 0} status={'Cancel'} />
             </View>
           </View>
         </View>

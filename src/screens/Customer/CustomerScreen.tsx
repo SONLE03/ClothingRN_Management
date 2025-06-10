@@ -5,12 +5,10 @@ import {
   Text,
   TouchableOpacity,
   TextInput,
-  Image,
   ScrollView,
-  Alert,
 } from 'react-native';
 import {DataTable, Menu, Provider} from 'react-native-paper';
-import {GetUser} from '../../api/users/GetUser';
+import {GetUser} from '../../api/users/get-user';
 import {UserProps} from '../../entity/User';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -32,7 +30,7 @@ const CustomerScreen = ({navigation}: any) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await GetUser(2);
+      const data = await GetUser(true);
       setUsers(data);
       setLoading(false);
     } catch (error) {
@@ -42,7 +40,7 @@ const CustomerScreen = ({navigation}: any) => {
   };
 
   const filteredProduct = users.filter(user =>
-    user.phone.toLowerCase().includes(searchText),
+    user?.PhoneNumber?.toLowerCase().includes(searchText),
   );
 
   const handleViewDetailUser = (item: UserProps) => {
@@ -119,7 +117,7 @@ const CustomerScreen = ({navigation}: any) => {
             <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center ">
               <DataTable.Header className="border-b-gray-500">
                 <DataTable.Title
-                  className="flex justify-center items-center"
+                  className="flex justify-start items-center"
                   textStyle={{
                     color: 'orange',
                     fontSize: 16,
@@ -128,7 +126,7 @@ const CustomerScreen = ({navigation}: any) => {
                   Full name
                 </DataTable.Title>
                 <DataTable.Title
-                  className="flex justify-center items-center"
+                  className="flex justify-start items-center"
                   textStyle={{
                     color: 'orange',
                     fontSize: 16,
@@ -150,23 +148,23 @@ const CustomerScreen = ({navigation}: any) => {
               {filteredProduct.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2"
-                  key={item.id}
+                  key={item.Id}
                   onPress={() => handleViewDetailUser(item)}>
                   <DataTable.Cell
-                    className="flex justify-center items-center text-gray-500"
+                    className="flex justify-start items-center text-gray-500"
                     textStyle={{color: 'gray', fontSize: 16}}>
-                    {item.fullName}
+                    {item.FullName}
                   </DataTable.Cell>
                   <DataTable.Cell
-                    className="flex justify-center items-center text-gray-500"
+                    className="flex justify-start items-center text-gray-500"
                     textStyle={{color: 'gray', fontSize: 16}}>
-                    {item.phone}
+                    {item.PhoneNumber || 'No phone number'}
                   </DataTable.Cell>
                   <DataTable.Cell
                     className="flex justify-center items-center text-gray-500"
                     textStyle={{color: 'gray', fontSize: 16}}>
                     <Menu
-                      visible={visible && selectedUser?.id === item.id}
+                      visible={visible && selectedUser?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -174,7 +172,7 @@ const CustomerScreen = ({navigation}: any) => {
                           onPress={() => openMenu(item)}>
                           <Ionicons
                             name="ellipsis-vertical"
-                            size={20}
+                            size={16}
                             color="#333"
                           />
                         </TouchableOpacity>
@@ -193,7 +191,7 @@ const CustomerScreen = ({navigation}: any) => {
                           </Text>
                           <TouchableOpacity
                             className="bg-red-500 px-4 py-2 rounded-md mb-2"
-                            onPress={() => handleDelete(item.id)}>
+                            onPress={() => handleDelete(item.Id)}>
                             <Text className="text-white text-lg font-bold">
                               Delete
                             </Text>

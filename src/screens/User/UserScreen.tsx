@@ -10,8 +10,8 @@ import {
   Alert,
 } from 'react-native';
 import {DataTable, Menu, Divider, Provider} from 'react-native-paper';
-import {GetUser} from '../../api/users/GetUser';
-import {UserProps} from '../../entity/User';
+import {GetUser} from '../../api/users/get-user';
+import {UserProps, UserPropsDetail} from '../../entity/User';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit';
@@ -19,11 +19,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modal';
 
 const UserScreen = ({navigation}: any) => {
-  const [users, setUsers] = useState<UserProps[]>([]);
+  const [users, setUsers] = useState<UserPropsDetail[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [visible, setVisible] = useState(false);
-  const [selectedUser, setSelectedUser] = useState<UserProps | null>(null);
+  const [selectedUser, setSelectedUser] = useState<UserPropsDetail | null>(
+    null,
+  );
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   useEffect(() => {
     fetchData();
@@ -32,7 +34,7 @@ const UserScreen = ({navigation}: any) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await GetUser(1);
+      const data = await GetUser(false); // Fetching staff users
       setUsers(data);
       setLoading(false);
     } catch (error) {
@@ -42,7 +44,7 @@ const UserScreen = ({navigation}: any) => {
   };
 
   const filteredProduct = users.filter(user =>
-    user.phone.toLowerCase().includes(searchText),
+    user?.PhoneNumber?.toLowerCase().includes(searchText),
   );
 
   const handleAddProduct = () => {
@@ -162,21 +164,21 @@ const UserScreen = ({navigation}: any) => {
               {filteredProduct.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2"
-                  key={item.id}
+                  key={item.Id}
                   onPress={() => handleViewDetailUser(item)}>
                   <DataTable.Cell
                     className="flex justify-center items-center"
                     textStyle={{color: '#4A5568', fontSize: 14}}>
-                    {item.fullName}
+                    {item.FullName}
                   </DataTable.Cell>
                   <DataTable.Cell
                     className="flex justify-center items-center"
                     textStyle={{color: '#4A5568', fontSize: 14}}>
-                    {item.phone}
+                    {item.PhoneNumber || 'No phone number'}
                   </DataTable.Cell>
                   <DataTable.Cell className="flex justify-center items-center">
                     <Menu
-                      visible={visible && selectedUser?.id === item.id}
+                      visible={visible && selectedUser?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -203,7 +205,7 @@ const UserScreen = ({navigation}: any) => {
                           </Text>
                           <TouchableOpacity
                             className="bg-red-500 px-4 py-2 rounded-md mb-2"
-                            onPress={() => handleDelete(item.id)}>
+                            onPress={() => handleDelete(item.Id)}>
                             <Text className="text-white text-lg font-bold">
                               Delete
                             </Text>

@@ -1,12 +1,16 @@
 export interface Coupon{
-    id : string,
-    name : string,
-    startDate : Date,
-    endDate : Date,
-    discountValue : number,
-    minimumBill : number,
-    quantity : number,
-    eventStatus: string
+    Id : string,
+    Code : string,
+    ImageSource : string,
+    Description : string,
+    Quantity : number,
+    UsageCount : number,
+    MinOrderValue : number,
+    DiscountValue : number,
+    StartDate : string,
+    EndDate : string,
+    ECouponType : string,
+    ECouponStatus : string
 }
 
 export interface NewCoupon {

@@ -11,6 +11,7 @@ import {getOrdersAnalysisByCustomer} from '../../api/order/GetOrdersAnalysisByCu
 import {OrdersAnalysis} from '../../entity/Order';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {Avatar} from 'react-native-paper';
 
 const CustomerDetailScreen = ({navigation, route}: any) => {
   const {item} = route.params;
@@ -54,9 +55,25 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
       </TouchableOpacity>
       <ScrollView>
         <>
+          {/* Avatar */}
+          <View className="flex-row justify-center w-full p-2  rounded-xl  mt-8">
+            <Avatar.Image
+              size={100}
+              source={{
+                uri: item?.ImageSource
+                  ? item?.ImageSource
+                  : 'https://cdn-icons-png.flaticon.com/512/149/149071.png',
+              }}
+            />
+          </View>
+
+          <Text className="text-xl font-semibold text-orange-600 mt-8">
+            Customer Information
+          </Text>
+          {/* Email */}
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
                 Email{' '}
               </Text>
             </View>
@@ -64,7 +81,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.email}
+                {item?.Email}
               </Text>
             </View>
           </View>
@@ -72,7 +89,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
                 Full name{' '}
               </Text>
             </View>
@@ -80,7 +97,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.fullName}
+                {item?.FullName}
               </Text>
             </View>
           </View>
@@ -88,7 +105,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
                 Phone{' '}
               </Text>
             </View>
@@ -96,7 +113,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.phone}
+                {item?.PhoneNumber}
               </Text>
             </View>
           </View>
@@ -104,7 +121,42 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
+                Date of birth{' '}
+              </Text>
+            </View>
+            <View style={{flex: 2, flexDirection: 'row'}}>
+              <Text
+                className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
+                style={{flex: 1, fontSize: 17}}>
+                {item?.DateOfBirth.split('T')[0]}
+              </Text>
+            </View>
+          </View>
+        </>
+        <>
+          <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
+            <View className="flex flex-row">
+              <Text className="font-semibold text-lg text-orange-500">
+                Account status{' '}
+              </Text>
+            </View>
+            <View style={{flex: 2, flexDirection: 'row'}}>
+              <Text
+                className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
+                style={{flex: 1, fontSize: 17}}>
+                {item?.IsLocked === true ? 'Locked' : 'Active'}
+              </Text>
+            </View>
+          </View>
+        </>
+        <Text className="text-xl font-semibold text-orange-600 mt-8">
+          Customer Purchase History
+        </Text>
+        <>
+          <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
+            <View className="flex flex-row">
+              <Text className="font-semibold text-lg text-orange-500">
                 Total reached products{' '}
               </Text>
             </View>
@@ -112,7 +164,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
                 style={{flex: 1, fontSize: 17}}>
-                {orders?.distinctProductItemCount}
+                {orders?.distinctProductItemCount || 0} products
               </Text>
             </View>
           </View>
@@ -120,7 +172,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
                 Total bought products{' '}
               </Text>
             </View>
@@ -128,7 +180,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className="border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-500"
                 style={{flex: 1, fontSize: 17}}>
-                {orders?.totalQuantity}
+                {orders?.totalQuantity || 0} products
               </Text>
             </View>
           </View>
@@ -136,7 +188,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-500">
+              <Text className="font-semibold text-lg text-orange-500">
                 Total order amount{' '}
               </Text>
             </View>
@@ -144,7 +196,7 @@ const CustomerDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-gray-500 text-lg"
                 style={{flex: 1, fontSize: 17}}>
-                {orders?.totalAmount} VND
+                {orders?.totalAmount || 0} VND
               </Text>
             </View>
           </View>
