@@ -4,8 +4,8 @@ import { ParseJSON } from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const DeleteProduct = async (productId: string) => {
-
-    const DeleteProductUrl = apiServer + `/products/${productId}`;
+    const cleanProductId = productId.replace(/['"]/g, '');
+    const DeleteProductUrl = apiServer + `/product/${cleanProductId}`;
     const accessToken = await AsyncStorage.getItem('access_token');
     if (!accessToken) {
         throw new Error('No access token found');

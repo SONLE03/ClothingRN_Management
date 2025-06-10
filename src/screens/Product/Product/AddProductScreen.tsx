@@ -17,7 +17,7 @@ import {GetAllBranch} from '../../../api/category/branch/get-brand';
 import {GetAllColor} from '../../../api/product/color/get-color';
 import { GetAllDesigner } from '../../../api/product/designer/get-designer';
 import { GetAllMaterial } from '../../../api/category/material/get-material';
-import {AddProduct} from '../../../api/product/product/AddNewProduct';
+import {AddProduct} from '../../../api/product/product/add-new-product';
 
 import {Category, Brand, Material, Designer} from '../../../entity/Category';
 import {
@@ -63,6 +63,7 @@ const AddProductScreen = ({navigation}: any) => {
   const [selectedDesigner, setSelectedDesigner] = useState<IndexPath>(
     new IndexPath(0),
   );
+  const [quantity, setQuantity] = useState('1'); // Default quantity
 
   const hideDialog = () => setVisible(false);
 
@@ -109,13 +110,13 @@ const AddProductScreen = ({navigation}: any) => {
   const addProductItem = () => {
     if (selectedColor) {
       const newProductItem: ProductVariant = {
-        colorId: colors[selectedColor.row].Id,
-        quantity: 1, // Default quantity can be set to 1
-        price: parseFloat(price),
-        images: images, // Type casting to File[]
-        length: 0,
-        width: 0,
-        height: 0,
+        ColorId: colors[selectedColor.row].Id,
+        Quantity: 1, // Default quantity can be set to 1
+        Price: parseFloat(price),
+        Images: images, // Type casting to File[]
+        Length: 1.5,
+        Width: 1.5,
+        Height: 1.5,
       };
       setProductItems([...productItems, newProductItem]);
     }
@@ -147,6 +148,7 @@ const AddProductScreen = ({navigation}: any) => {
       MaterialsId: materials[selectedMaterial.row]
         ? [materials[selectedMaterial.row].Id]
         : [],
+      Discount: 0,
     };
 
     setLoading(true);
@@ -350,17 +352,18 @@ const AddProductScreen = ({navigation}: any) => {
             placeholder="Quantity"
             placeholderTextColor="gray"
             keyboardType="numeric"
-            value={productItems.length > 0 ? productItems[0].quantity.toString() : '1'}
+            value={productItems.length > 0 ? productItems[0].Quantity.toString() : quantity}
             onChangeText={text => {
               const quantity = parseInt(text, 10);
               if (!isNaN(quantity)) {
                 setProductItems(prevItems => {
                   const updatedItems = [...prevItems];
                   if (updatedItems.length > 0) {
-                    updatedItems[0].quantity = quantity;
+                    updatedItems[0].Quantity = quantity;
                   }
                   return updatedItems;
                 });
+                setQuantity(text);
               }
             }}
           />
@@ -396,7 +399,7 @@ const AddProductScreen = ({navigation}: any) => {
               className="border border-gray-400 rounded-xl"
               key={index}>
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                {colors.find(color => color.Id === item.colorId)?.ColorName}
+                {colors.find(color => color.Id === item.ColorId)?.ColorName}
               </DataTable.Cell>
               {/* Show item price */}
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>

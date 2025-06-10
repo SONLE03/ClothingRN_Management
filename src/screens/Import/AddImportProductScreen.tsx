@@ -2,8 +2,8 @@ import React, {useState, useEffect} from 'react';
 import {View, Text, FlatList, Alert, TouchableOpacity} from 'react-native';
 import {Input} from 'react-native-elements';
 import {AddNewImport} from '../../api/import/AddImport';
-import {GetAllProducts} from '../../api/product/product/GetAllProducts';
-import {GetDetailProduct} from '../../api/product/product/GetDetailProduct';
+import {GetAllProducts} from '../../api/product/product/get-products';
+import {GetDetailProduct} from '../../api/product/product/get-product-details';
 
 import {Product, ProductItem} from '../../entity/Product';
 import {AddImportItem} from '../../entity/Import';

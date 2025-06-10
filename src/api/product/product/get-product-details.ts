@@ -2,10 +2,13 @@ import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../../config';
 import {ParseJSON} from '../../ParseJSON';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Product} from '../../../entity/Product';
+import {ProductGet} from '../../../entity/Product';
 
-export const GetAllProducts = async (): Promise<Product[]> => {
-  const ProductURL = apiServer + '/products';
+export const GetDetailProduct = async (
+  productId: string,
+): Promise<ProductGet[]> => {
+  const cleanProductId = productId.replace(/['"]/g, '');
+  const ProductURL = apiServer + `/product/${cleanProductId}`;
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -23,8 +26,8 @@ export const GetAllProducts = async (): Promise<Product[]> => {
       },
     };
 
-    const response: AxiosResponse<Product[]> = await axios.request(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
     throw new Error('Get all products failed');

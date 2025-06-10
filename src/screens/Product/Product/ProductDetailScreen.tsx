@@ -7,23 +7,24 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import {Select, SelectItem, IndexPath} from '@ui-kitten/components';
-import {DataTable, Dialog, Button} from 'react-native-paper';
+import {DataTable} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {
-  Color,
-  Size,
-  ProductItemRequest,
-  ProductItem,
-} from '../../../entity/Product';
+import {ProductGet, ProductVariantGet} from '../../../entity/Product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {GetDetailProduct} from '../../../api/product/product/GetDetailProduct';
+import {GetDetailProduct} from '../../../api/product/product/get-product-details';
+import {Image} from 'react-native-elements';
+
 const ProductDetailScreen = ({navigation, route}: any) => {
   const {item} = route.params;
-  const [productItems, setProductItems] = useState<ProductItem[]>([]);
+  const [productItems, setProductItems] = useState<ProductGet[]>([]);
+  const [productVariants, setProductVariants] = useState<ProductVariantGet[]>(
+    [],
+  );
 
   useEffect(() => {
     fetchData();
+    setProductItems(item);
+    setProductVariants(item.ProductVariants);
   }, []);
 
   const fetchData = async () => {
@@ -32,12 +33,15 @@ const ProductDetailScreen = ({navigation, route}: any) => {
       return;
     }
     try {
-      const data = await GetDetailProduct(item.id);
+      const data = await GetDetailProduct(item.Id);
       setProductItems(data);
     } catch (error) {
       console.error('Error fetching data:', error);
     }
   };
+  console.log('Product Items:', productItems);
+  console.log('Item:', item);
+
   return (
     <SafeAreaView>
       <TouchableOpacity className="flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white">
@@ -60,9 +64,19 @@ const ProductDetailScreen = ({navigation, route}: any) => {
       </TouchableOpacity>
       <ScrollView className="p-4">
         <>
+          <Text className="text-xl font-semibold text-orange-600 mt-8">
+            Product Information
+          </Text>
+          {/* ImageSource */}
+          <View className='flex items-center justify-center mt-4 border border-gray-400 rounded-xl p-2 bg-white'>
+            <Image
+              source={{uri: item?.ImageSource}}
+              style={{width: 200, height: 200}}
+            />
+          </View>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-600">
+              <Text className="font-semibold text-lg text-orange-600">
                 Name of product
               </Text>
             </View>
@@ -70,7 +84,7 @@ const ProductDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.product_Name}
+                {item?.ProductName}
               </Text>
             </View>
           </View>
@@ -78,13 +92,13 @@ const ProductDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-600">Price</Text>
+              <Text className="font-semibold text-lg text-orange-600">Price</Text>
             </View>
             <View style={{flex: 2, flexDirection: 'row'}}>
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.price}
+                {item?.DisplayPrice}
               </Text>
             </View>
           </View>
@@ -92,7 +106,7 @@ const ProductDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-600">
+              <Text className="font-semibold text-lg text-orange-600">
                 Category
               </Text>
             </View>
@@ -100,7 +114,7 @@ const ProductDetailScreen = ({navigation, route}: any) => {
               <Text
                 className=" border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.category}
+                {item?.CategoryName}
               </Text>
             </View>
           </View>
@@ -108,15 +122,13 @@ const ProductDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-600">
-                Branch
-              </Text>
+              <Text className="font-semibold text-lg text-orange-600">Brand</Text>
             </View>
             <View style={{flex: 2, flexDirection: 'row'}}>
               <Text
                 className="text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.branch}
+                {item?.BrandName}
               </Text>
             </View>
           </View>
@@ -124,7 +136,7 @@ const ProductDetailScreen = ({navigation, route}: any) => {
         <>
           <View className="flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-8">
             <View className="flex flex-row">
-              <Text className="font-semibold text-lg text-gray-600">
+              <Text className="font-semibold text-lg text-orange-600">
                 Description
               </Text>
             </View>
@@ -132,48 +144,61 @@ const ProductDetailScreen = ({navigation, route}: any) => {
               <Text
                 className="text-gray-600 border-b-gray-500 border border-x-white border-t-white mt-1 text-lg"
                 style={{flex: 1, fontSize: 17}}>
-                {item?.description}
+                {item?.Description}
               </Text>
             </View>
           </View>
         </>
-        <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg ">
+        <Text className="text-xl font-semibold text-orange-600 mt-8">
+          Product Variants
+        </Text>
+        <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg bg-white">
           <DataTable.Header>
             <DataTable.Title
-              className="flex justify-center items-center"
+              className="flex justify-start items-start"
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
               Color
             </DataTable.Title>
             <DataTable.Title
-              className="flex justify-center items-center"
+              className="flex justify-start items-center"
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
-              Size
+              Dimension
             </DataTable.Title>
             <DataTable.Title
               className="flex justify-center items-center"
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
               Quantity
             </DataTable.Title>
+            <DataTable.Title
+              className="flex justify-center items-end"
+              textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
+              Price
+            </DataTable.Title>
           </DataTable.Header>
 
-          {productItems.map((item, index) => (
+          {productVariants?.map(item => (
             <DataTable.Row
               className="border border-gray-400 rounded-xl"
-              key={index}>
+              key={item.Id}>
               <DataTable.Cell
-                className="flex justify-center items-center"
+                className="flex justify-start items-center"
                 textStyle={{color: '#4A5568', fontSize: 16}}>
-                {item.colorName}
+                {item?.ColorName}
               </DataTable.Cell>
               <DataTable.Cell
                 className="flex justify-center items-center"
                 textStyle={{color: '#4A5568', fontSize: 16}}>
-                {item.sizeName}
+                {item?.DisplayDimension}
               </DataTable.Cell>
               <DataTable.Cell
                 className="flex justify-center items-center"
                 textStyle={{color: '#4A5568', fontSize: 16}}>
-                {item.quantity}
+                {item?.Quantity}
+              </DataTable.Cell>
+              <DataTable.Cell
+                className="flex justify-center items-center"
+                textStyle={{color: '#4A5568', fontSize: 16}}>
+                {item?.Price}
               </DataTable.Cell>
             </DataTable.Row>
           ))}

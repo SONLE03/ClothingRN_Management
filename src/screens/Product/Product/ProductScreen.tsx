@@ -10,9 +10,9 @@ import {
   Alert,
 } from 'react-native';
 import {DataTable, Menu, Divider, Provider} from 'react-native-paper';
-import {GetAllProducts} from '../../../api/product/product/GetAllProducts';
-import {Product} from '../../../entity/Product';
-import {DeleteProduct} from '../../../api/product/product/DeleteProduct';
+import {GetAllProducts} from '../../../api/product/product/get-products';
+import {ProductGet} from '../../../entity/Product';
+import {DeleteProduct} from '../../../api/product/product/delete-product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import LoaderKit from 'react-native-loader-kit';
@@ -20,11 +20,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Modal from 'react-native-modal';
 
 const ProductScreen = ({navigation}: any) => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [products, setProducts] = useState<ProductGet[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [visible, setVisible] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ProductGet | null>(
+    null,
+  );
   const [deleteModalVisible, setDeleteModalVisible] = useState(false);
   useEffect(() => {
     fetchData();
@@ -43,17 +45,17 @@ const ProductScreen = ({navigation}: any) => {
   };
 
   const filteredProduct = products.filter(product =>
-    product.product_Name.toLowerCase().includes(searchText),
+    product?.ProductName.toLowerCase().includes(searchText),
   );
 
   const handleAddProduct = () => {
     navigation.navigate('AddProductScreen');
   };
 
-  const handleEdit = (item: Product) => {
+  const handleEdit = (item: ProductGet) => {
     navigation.navigate('AddExistedProductScreen', {item: item});
   };
-  const handleViewDetailProduct = (item: Product) => {
+  const handleViewDetailProduct = (item: ProductGet) => {
     navigation.navigate('ProductDetailScreen', {item: item});
   };
   const handleDelete = async (id: string) => {
@@ -68,7 +70,7 @@ const ProductScreen = ({navigation}: any) => {
     }
   };
 
-  const openMenu = (product: Product) => {
+  const openMenu = (product: ProductGet) => {
     setSelectedProduct(product);
     setVisible(true);
   };
@@ -170,15 +172,15 @@ const ProductScreen = ({navigation}: any) => {
               {filteredProduct.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2"
-                  key={item.id}
+                  key={item.Id}
                   onPress={() => handleViewDetailProduct(item)}>
                   <DataTable.Cell>
-                    {item.images ? (
+                    {item.ImageSource ? (
                       <Image
-                        source={{uri: item.images}}
+                        source={{uri: item.ImageSource}}
                         style={{
-                          width: 50,
-                          height: 50,
+                          width: 32,
+                          height: 32,
                           borderRadius: 25,
                           resizeMode: 'cover',
                         }}
@@ -187,8 +189,8 @@ const ProductScreen = ({navigation}: any) => {
                       <Image
                         source={require('../../../assets/avatar.png')}
                         style={{
-                          width: 50,
-                          height: 50,
+                          width: 32,
+                          height: 32,
                           borderRadius: 25,
                           resizeMode: 'cover',
                         }}
@@ -196,16 +198,16 @@ const ProductScreen = ({navigation}: any) => {
                     )}
                   </DataTable.Cell>
                   <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                    {item.product_Name}
+                    {item.ProductName}
                   </DataTable.Cell>
                   <DataTable.Cell
                     numeric
                     textStyle={{color: '#4A5568', fontSize: 16}}>
-                    {item.price} VND
+                    {item.DisplayPrice} VND
                   </DataTable.Cell>
                   <DataTable.Cell className="flex justify-center items-center">
                     <Menu
-                      visible={visible && selectedProduct?.id === item.id}
+                      visible={visible && selectedProduct?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -213,7 +215,7 @@ const ProductScreen = ({navigation}: any) => {
                           onPress={() => openMenu(item)}>
                           <Ionicons
                             name="ellipsis-vertical"
-                            size={20}
+                            size={15}
                             color="#333"
                           />
                         </TouchableOpacity>
@@ -237,7 +239,7 @@ const ProductScreen = ({navigation}: any) => {
                           </Text>
                           <TouchableOpacity
                             className="bg-red-500 px-4 py-2 rounded-md mb-2"
-                            onPress={() => handleDelete(item.id)}>
+                            onPress={() => handleDelete(item.Id)}>
                             <Text className="text-white text-lg font-bold">
                               OK
                             </Text>

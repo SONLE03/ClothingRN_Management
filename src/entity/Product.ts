@@ -16,13 +16,13 @@ export interface Size {
 }
 
 export type ProductVariant = {
-    colorId: string;
-    length?: number;
-    width?: number;
-    height?: number;
-    quantity: number;
-    price: number;
-    images: ImageFile[];
+    ColorId: string;
+    Length?: number;
+    Width?: number;
+    Height?: number;
+    Quantity: number;
+    Price: number;
+    Images: ImageFile[];
   };
 //Products
 export type Product = {
@@ -45,7 +45,7 @@ export type ProductGet = {
     Description: string; 
     BrandName: string;
     CategoryName: string;
-    //Designers?: string[];
+    Designers?: string[];
     Materials: string[];
     DisplayPrice: string;
     Discount?: number;
@@ -58,9 +58,9 @@ export type ProductVariantGet = {
     Id: string;
     ColorId: string;
     ColorName: string;
-    SizeId: string;
-    SizeName: string;
-    //DisplayDimension: string;
+    // SizeId: string;
+    // SizeName: string;
+    DisplayDimension: string;
     Quantity: number;
     Price: number;
     ImageSource: string[];

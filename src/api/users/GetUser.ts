@@ -4,8 +4,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {UserProps} from '../../entity/User';
 import {ParseJSON} from '../ParseJSON';
 
-export const GetUser = async (role: number): Promise<UserProps[]> => {
-  const GetUserURL = apiServer + `/users/all/${role}`;
+export const GetUser = async (): Promise<UserProps[]> => {
+  const GetUserURL = apiServer + `/staff`;
   const accessToken = await AsyncStorage.getItem('access_token');
 
   if (!accessToken) {
@@ -24,8 +24,8 @@ export const GetUser = async (role: number): Promise<UserProps[]> => {
       },
     };
 
-    const response: AxiosResponse<UserProps[]> = await axios.request(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
     throw new Error('Get all user failed');

@@ -1,11 +1,9 @@
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Tab, TabView} from '@ui-kitten/components';
 import {GetAllOrderByCustomer} from '../../api/order/GetAllOrderByCustomer';
 import {Orders, OrderDetail} from '../../entity/Order';
 import {GetOrderDetails} from '../../api/order/OrderDetails';
-import HeaderBar from '../../components/HeaderBar';
 import React, {useEffect, useState} from 'react';
 import {
   View,
@@ -13,12 +11,9 @@ import {
   TouchableOpacity,
   Modal,
   ScrollView,
-  Button,
   Image,
   SafeAreaView,
-  FlatList,
 } from 'react-native';
-import {UpdateOrderStatus} from '../../api/order/UpdateOrderStatus';
 import {DataTable} from 'react-native-paper';
 const CustomerOrderScreen = ({navigation, route}: any) => {
   const {item} = route.params;

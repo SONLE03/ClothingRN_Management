@@ -7,25 +7,30 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
-import {Select, SelectItem, IndexPath} from '@ui-kitten/components';
+import {Select, SelectItem, IndexPath, Input} from '@ui-kitten/components';
 import {DataTable, Dialog, Button} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {Color, Size, ProductItemRequest} from '../../../entity/Product';
+import {Color, ProductVariant} from '../../../entity/Product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {GetAllColor} from '../../../api/product/color/get-color';
-import {GetAllSize} from '../../../api/product/size/GetAllSize';
-import {AddExistedProduct} from '../../../api/product/product/AddExistedProduct';
+import {AddExistedProduct} from '../../../api/product/product/add-product-variant';
+import {ImageFile} from '../../../api/auth/change-avatar';
 const AddExistedProductScreen = ({navigation, route}: any) => {
   const {item} = route.params;
   const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [productItems, setProductItems] = useState<ProductItemRequest[]>([]);
+  const [productItems, setProductItems] = useState<ProductVariant[]>([]);
   const [colors, setColors] = useState<Color[]>([]);
-  const [sizes, setSizes] = useState<Size[]>([]);
   const [selectedColor, setSelectedColor] = useState<IndexPath>(
     new IndexPath(0),
   );
-  const [selectedSize, setSelectedSize] = useState<IndexPath>(new IndexPath(0));
+  const [images, setImages] = useState<ImageFile[]>([]);
+  const [length, setLength] = useState<number>(0);
+  const [width, setWidth] = useState<number>(0);
+  const [height, setHeight] = useState<number>(0);
+  const [quantity, setQuantity] = useState<number>(0);
+  const [price, setPrice] = useState<number>(0);
+
   const hideDialog = () => setVisible(false);
   useEffect(() => {
     fetchData();
@@ -34,9 +39,7 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
   const fetchData = async () => {
     try {
       const fetchedColors = await GetAllColor();
-      const fetchedSizes = await GetAllSize();
       setColors(fetchedColors);
-      setSizes(fetchedSizes);
     } catch (error) {
       console.error(error);
     } finally {
@@ -44,10 +47,15 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
     }
   };
   const addProductItem = () => {
-    if (selectedColor && selectedSize) {
-      const newProductItem: ProductItemRequest = {
-        color: colors[selectedColor.row].id,
-        size: sizes[selectedSize.row].id,
+    if (selectedColor) {
+      const newProductItem: ProductVariant = {
+        ColorId: colors[selectedColor.row].Id,
+        Length: length > 0 ? length : 1.0,
+        Width: width > 0 ? width : 1.0,
+        Height: height > 0 ? height : 1.0,
+        Quantity: quantity > 0 ? quantity : 1,
+        Price: price > 0 ? price : 0,
+        Images: images.length > 0 ? images : [],
       };
       setProductItems([...productItems, newProductItem]);
     }
@@ -73,7 +81,6 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
       setVisible(true);
       setLoading(false);
       setSelectedColor(new IndexPath(0));
-      setSelectedSize(new IndexPath(0));
       setProductItems([]);
     } catch (error) {
       console.error(error);
@@ -104,33 +111,54 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
       <ScrollView className="p-4">
         <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
           <Text className="text-lg font-bold text-gray-600">
-            Colors and Sizes
+            Colors and Dimensions
           </Text>
           {colors.length > 0 && (
             <Select
               status="warning"
               selectedIndex={selectedColor}
               onSelect={index => setSelectedColor(index as IndexPath)}
-              value={colors[selectedColor.row]?.name}
+              value={colors[selectedColor.row]?.ColorName}
               className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
               {colors.map((color, index) => (
-                <SelectItem title={color.name} key={index}></SelectItem>
+                <SelectItem title={color.ColorName} key={index}></SelectItem>
               ))}
             </Select>
           )}
 
-          {sizes.length > 0 && (
-            <Select
-              status="warning"
-              selectedIndex={selectedSize}
-              onSelect={index => setSelectedSize(index as IndexPath)}
-              value={sizes[selectedSize.row]?.name}
-              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
-              {sizes.map((size, index) => (
-                <SelectItem title={size.name} key={index} />
-              ))}
-            </Select>
-          )}
+          <View className="flex flex-col space-y-4">
+            <View className="flex-1">
+              <Text className="text-gray-600">Length (cm)</Text>
+              <Input
+                value={length.toString()}
+                onChangeText={text => setLength(Number(text))}
+                keyboardType="numeric"
+                placeholder="Enter length"
+                className="border border-gray-400 rounded-xl p-2"
+              />
+            </View>
+            <View className="flex-1">
+              <Text className="text-gray-600">Width (cm)</Text>
+              <Input
+                value={width.toString()}
+                onChangeText={text => setWidth(Number(text))}
+                keyboardType="numeric"
+                placeholder="Enter width"
+                className="border border-gray-400 rounded-xl p-2"
+              />
+            </View>
+
+            <View className="flex-1">
+              <Text className="text-gray-600">Height (cm)</Text>
+              <Input
+                value={width.toString()}
+                onChangeText={text => setHeight(Number(text))}
+                keyboardType="numeric"
+                placeholder="Enter width"
+                className="border border-gray-400 rounded-xl p-2"
+              />
+            </View>
+          </View>
         </View>
 
         <Button
@@ -150,7 +178,11 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
             </DataTable.Title>
             <DataTable.Title
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
-              Size
+              Dimensions
+            </DataTable.Title>
+            <DataTable.Title
+              textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
+              Quantity
             </DataTable.Title>
             <DataTable.Title
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
@@ -163,10 +195,13 @@ const AddExistedProductScreen = ({navigation, route}: any) => {
               className="border border-gray-400 rounded-xl"
               key={index}>
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                {colors.find(color => color.id === item.color)?.name}
+                {colors.find(color => color.Id === item.ColorId)?.ColorName}
               </DataTable.Cell>
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                {sizes.find(size => size.id === item.size)?.name}
+                {item.Length} x {item.Width} x {item.Height} cm
+              </DataTable.Cell>
+              <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
+                {item.Quantity}
               </DataTable.Cell>
               <DataTable.Cell>
                 <Button
