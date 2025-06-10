@@ -6,13 +6,13 @@ import {ParseJSON} from '../../ParseJSON';
 
 const AddBranchUrl = apiServer + '/brand';
 
-// Multipart/form-data for adding a new branch
+// Multipart/form-data for adding a new brand
 export const CreateNewBrand = async (data: CreateBrand) => {
   const accessToken = await AsyncStorage.getItem('access_token');
   const formData = new FormData();
 
   // Append branch fields
-  formData.append('BranchName', data.BrandName);
+  formData.append('BrandName', data.BrandName);
   formData.append('Description', data.Description);
 
   // Append images if available

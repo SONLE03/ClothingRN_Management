@@ -1,12 +1,12 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Gender} from '../../../entity/Category';
+import {Category} from '../../../entity/Category';
 import {ParseJSON} from '../../ParseJSON';
 
-export const EditPG = async (id: string, name: string) => {
+const GetCategoryURL = apiServer + '/category';
+export const GetAllCategory = async (): Promise<Category[]> => {
   const accessToken = await AsyncStorage.getItem('access_token');
-  const EditBranchUrl = apiServer + `/productGender/${id}`;
 
   if (!accessToken) {
     throw new Error('No access token found');
@@ -16,18 +16,18 @@ export const EditPG = async (id: string, name: string) => {
 
   try {
     const config = {
-      method: 'put',
+      method: 'GET',
       maxBodyLength: Infinity,
-      url: EditBranchUrl,
+      url: GetCategoryURL,
       headers: {
-        'Content-Type': 'application/json',
         Authorization: `Bearer ${parseToken}`,
       },
-      data: JSON.stringify({name}),
     };
+
     const response = await axios.request(config);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error(error);
+    throw new Error('Get all Category failed');
   }
 };

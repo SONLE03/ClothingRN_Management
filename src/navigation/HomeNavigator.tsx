@@ -8,9 +8,9 @@ import AddCategoryScreen from '../screens/Category/Category/AddCategoryScreen';
 import EditCategoryScreen from '../screens/Category/Category/EditCategoryScreen';
 import AddBranchScreen from '../screens/Category/Branch/AddBranchScreen';
 import EditBranchScreen from '../screens/Category/Branch/EditBranchScreen';
-import GenderScreen from '../screens/Category/Gender/GenderScreen';
-import AddGenderScreen from '../screens/Category/Gender/AddGenderScreen';
-import EditGenderScreen from '../screens/Category/Gender/EditGenderScreen';
+import FTypeScreen from '../screens/Category/FurnitureType/FTypeScreen';
+import AddFTypeScreen from '../screens/Category/FurnitureType/AddFTypeScreen';
+import EditFTypeScreen from '../screens/Category/FurnitureType/EditFTypeScreen';
 import ProductMainScreen from '../screens/Product/ProductMainScreen';
 import ColorScreen from '../screens/Product/Color/ColorScreen';
 import SizeScreen from '../screens/Product/Size/SizeScreen';
@@ -44,13 +44,13 @@ type HomeStackParamList = {
   CategoryMainScreen: undefined;
   CategoryScreen: undefined;
   BranchScreen: undefined;
-  GenderScreen: undefined;
+  FTypeScreen: undefined;
   AddCategoryScreen: undefined;
   EditCategoryScreen: undefined;
   AddBranchScreen: undefined;
   EditBranchScreen: undefined;
-  AddGenderScreen: undefined;
-  EditGenderScreen: undefined;
+  AddFTypeScreen: undefined;
+  EditFTypeScreen: undefined;
   ProductMainScreen: undefined;
   ColorScreen: undefined;
   SizeScreen: undefined;
@@ -86,13 +86,13 @@ const HomeNavigator: React.FC = () => {
         <Stack.Screen name="CategoryMainScreen" component={CategoryMainScreen} />
         <Stack.Screen name="CategoryScreen" component={CategoryScreen} />
         <Stack.Screen name="BranchScreen" component={BranchScreen} />
-        <Stack.Screen name="GenderScreen" component={GenderScreen} />
+        <Stack.Screen name="FTypeScreen" component={FTypeScreen} />
         <Stack.Screen name="AddCategoryScreen" component={AddCategoryScreen} />
         <Stack.Screen name="EditCategoryScreen" component={EditCategoryScreen} />
         <Stack.Screen name="AddBranchScreen" component={AddBranchScreen} />
         <Stack.Screen name="EditBranchScreen" component={EditBranchScreen} />
-        <Stack.Screen name="AddGenderScreen" component={AddGenderScreen} />
-        <Stack.Screen name="EditGenderScreen" component={EditGenderScreen} />
+        <Stack.Screen name="AddFTypeScreen" component={AddFTypeScreen} />
+        <Stack.Screen name="EditFTypeScreen" component={EditFTypeScreen} />
         <Stack.Screen name="ProductMainScreen" component={ProductMainScreen} />
         <Stack.Screen name="ColorScreen" component={ColorScreen} />
         <Stack.Screen name="SizeScreen" component={SizeScreen} />

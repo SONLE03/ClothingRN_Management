@@ -1,50 +1,66 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   SafeAreaView,
   View,
+  StyleSheet,
   Text,
   TouchableOpacity,
   Alert,
   TextInput,
-  StyleSheet,
 } from 'react-native';
-import {CreateNewBrand} from '../../../api/category/branch/create-brand';
+import {EditFurnitureType} from '../../../api/category/furniture-type/edit-type';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import ImagePicker from 'react-native-image-crop-picker';
-import {Avatar, Button, Dialog, IconButton} from 'react-native-paper';
-import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {CUSTOM_COLOR} from '../../../theme/theme';
-const AddBranchScreen = ({navigation}: any) => {
-  const [brandName, setBrandName] = useState('');
+import CustomButton from '../../../components/CustomButton';
+import ImagePicker from 'react-native-image-crop-picker';
+import {Avatar, IconButton} from 'react-native-paper';
+
+const EditFTypeScreen = ({navigation, route}: any) => {
+  const {item} = route.params;
+  const [id, setId] = useState('');
+  const [fTypeName, setFurnitureTypeName] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<{
     uri: string;
     type: string;
     name: string;
   } | null>(null);
-  const [visible, setVisible] = useState(false);
 
-  const hideDialog = () => setVisible(false);
+  useEffect(() => {
+    fetchData();
+  }, []);
+  const fetchData = () => {
+    setId(item.Id);
+    setFurnitureTypeName(item.fTypeName);
+    setDescription(item.description || '');
+    setImage(
+      item.imageSource
+        ? {
+            uri: item.imageSource,
+            type: 'image/jpeg', // Adjust the type if necessary
+            name: 'FType_image.jpg', // Adjust the name if necessary
+          }
+        : null,
+    );
+  };
+  console.log('EditFTypeScreen item:', item);
+  console.log('image:', image);
 
-  const handleAddBranch = async () => {
+  const handleEditFType = async () => {
     try {
-      if (brandName === '' || description === '') {
+      if (fTypeName === '' || description === '') {
         Alert.alert('Lack of information');
       } else {
-        await CreateNewBrand({
-          BrandName: brandName,
+        await EditFurnitureType(id, {
+          FurnitureTypeName: fTypeName,
           Description: description,
           Image: image,
         });
-        //Alert.alert('Branch created successfully');
-        setVisible(true);
-        setBrandName('');
-        setDescription('');
-        setImage(null);
+        Alert.alert('FType modified successfully');
       }
     } catch (error) {
-      console.error('Failed to create branch:', error);
-      Alert.alert('Failed to create branch');
+      console.error('Failed to modify FType:', error);
+      Alert.alert('Failed to modify FType');
     }
   };
 
@@ -68,24 +84,15 @@ const AddBranchScreen = ({navigation}: any) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-gray-100 p-4">
-      <TouchableOpacity className="flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white">
+    <SafeAreaView style={styles.container}>
+      <TouchableOpacity style={styles.backButton}>
         <Ionicons
           onPress={() => navigation.goBack()}
           name="arrow-back"
           size={24}
           color="#333"
         />
-        <Text className="flex-row text-2xl font-semibold space-x-2 text-black">
-          <MaterialComunityIcons
-            className="mr-2"
-            name="format-color-fill"
-            size={30}
-            color="#333"
-          />
-          Add Branch
-        </Text>
-        <View style={{width: 24}} />
+        <Text style={styles.backButtonText}>Edit FurnitureType</Text>
       </TouchableOpacity>
       <>
         <View className="w-full h-10 mb-4 flex flex-row justify-center items-center mt-4">
@@ -93,7 +100,11 @@ const AddBranchScreen = ({navigation}: any) => {
             <Avatar.Image
               size={65}
               source={
-                image ? {uri: image.uri} : require('../../../assets/logo.png')
+                image
+                  ? {uri: image.uri}
+                  : item && item.ImageSource
+                  ? {uri: item.ImageSource}
+                  : require('../../../assets/logo.png')
               }
             />
             <IconButton
@@ -117,7 +128,7 @@ const AddBranchScreen = ({navigation}: any) => {
                 {justifyContent: 'flex-start'},
               ]}>
               <View style={{width: '10%', height: '100%'}} />
-              <Text style={styles.titleInputStyle}>Branch Name</Text>
+              <Text style={styles.titleInputStyle}>FType Name</Text>
               <Text style={[styles.titleInputStyle, {color: CUSTOM_COLOR.Red}]}>
                 {' '}
                 *
@@ -134,10 +145,10 @@ const AddBranchScreen = ({navigation}: any) => {
             <TextInput
               style={{flex: 1, fontSize: 17, color: 'gray'}}
               onChangeText={text => {
-                setBrandName(text);
+                setFurnitureTypeName(text);
               }}
-              value={brandName}
-              placeholder="Enter branch name.."
+              value={fTypeName}
+              placeholder="Enter FType name.."
             />
             <View style={{width: '5%', height: '100%'}} />
           </View>
@@ -177,32 +188,13 @@ const AddBranchScreen = ({navigation}: any) => {
           </View>
         </View>
       </>
-
-      <Button
-        className="mt-6 bg-orange-500 rounded-xl border border-orange-800 text-white text-xl font-semibold"
-        textColor="white"
-        icon="format-color-fill"
-        onPress={handleAddBranch}>
-        Save branch
-      </Button>
-      <Dialog
-        style={{backgroundColor: '#F0FFF4'}}
-        visible={visible}
-        onDismiss={hideDialog}>
-        <Dialog.Icon icon="sticker-check-outline" size={35} color="green" />
-        <Dialog.Title className="text-center text-green-600 font-semibold">
-          Branch added successfully!
-        </Dialog.Title>
-        <Dialog.Content>
-          <Text className="text-center text-green-600">
-            Congratulation! You have successfully added a new branch!
-          </Text>
-        </Dialog.Content>
-      </Dialog>
+      <View style={styles.spaceContainer} />
+      <View style={styles.spaceContainer} />
+      <View style={styles.spaceContainer} />
+      <CustomButton label={'Save Changes'} onPress={handleEditFType} />
     </SafeAreaView>
   );
 };
-
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -239,5 +231,4 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 });
-
-export default AddBranchScreen;
+export default EditFTypeScreen;

@@ -121,7 +121,7 @@ interface Spacing {
     radius_25: number;
   }
   
-  export const BORDERRADIUS: BorderRadius = {
+  export const BORDER_RADIUS: BorderRadius = {
     radius_4: 4,
     radius_8: 8,
     radius_10: 10,

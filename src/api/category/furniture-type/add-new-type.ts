@@ -1,18 +1,22 @@
 import axios from 'axios';
 import {apiServer} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CreateBrand} from '../../../entity/Category';
+import {CreateFurnitureType} from '../../../entity/Category';
 import {ParseJSON} from '../../ParseJSON';
 
-// multipart/form-data for editing a brand
-export const EditBrand = async (brandId: string, data: CreateBrand) => {
+const AddFurnitureTypeUrl = apiServer + '/furnitureType';
+
+// Multipart/form-data for adding a new furniture type
+export const CreateNewFurnitureType = async (data: CreateFurnitureType) => {
   const accessToken = await AsyncStorage.getItem('access_token');
   const formData = new FormData();
-  console.log('EditBranch id:', brandId);
-  // Append branch fields
-  formData.append('BrandName', data.BrandName);
+
+  // Append fields
+  formData.append('FurnitureTypeName', data.FurnitureTypeName);
   formData.append('Description', data.Description);
-  console.log('EditBranch data:', data);  
+  if (data.RoomSpaceId) {
+    formData.append('RoomSpaceId', data.RoomSpaceId);
+  }
 
   // Append images if available
   if (data.Image) {
@@ -28,10 +32,8 @@ export const EditBrand = async (brandId: string, data: CreateBrand) => {
   }
 
   const parseToken = ParseJSON(accessToken);
-  const brandIdCleaned = brandId.replace(/['"]/g, ''); // Clean brandId if it has quotes
-  const EditBranchUrl = apiServer + `/brand/${brandIdCleaned}`;
 
-  const response = await axios.put(EditBranchUrl, formData, {
+  const response = await axios.post(AddFurnitureTypeUrl, formData, {
     headers: {
       'Content-Type': 'multipart/form-data',
       Authorization: `Bearer ${parseToken}`,

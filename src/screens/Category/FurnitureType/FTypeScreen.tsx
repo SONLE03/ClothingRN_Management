@@ -8,15 +8,16 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
+  Image,
 } from 'react-native';
 import {DataTable, Menu, Divider, Provider} from 'react-native-paper';
-import {Gender} from '../../../entity/Category';
-import {GetAllGender} from '../../../api/category/gender/GetAllGender';
+import {FurnitureType} from '../../../entity/Category';
+import {GetAllFurnitureType} from '../../../api/category/furniture-type/get-type';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {DeletePG} from '../../../api/category/gender/DeletePGender';
+import {DeleteFType} from '../../../api/category/furniture-type/delete-type';
 import {
-  BORDERRADIUS,
+  BORDER_RADIUS,
   COLORS,
   CUSTOM_COLOR,
   FONTFAMILY,
@@ -27,12 +28,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 import LoaderKit from 'react-native-loader-kit';
 
-const GenderScreen = ({navigation}: any) => {
-  const [productGenders, setproductGenders] = useState<Gender[]>([]);
+const FTypeScreen = ({navigation}: any) => {
+  const [furnitureType, setFurnitureType] = useState<FurnitureType[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchText, setSearchText] = useState('');
   const [visible, setVisible] = useState(false);
-  const [selectedGender, setSelectedGender] = useState<Gender | null>(null);
+  const [selectedFurnitureType, setSelectedFurnitureType] =
+    useState<FurnitureType | null>(null);
 
   useEffect(() => {
     fetchData();
@@ -41,8 +43,8 @@ const GenderScreen = ({navigation}: any) => {
   const fetchData = async () => {
     setLoading(true);
     try {
-      const data = await GetAllGender();
-      setproductGenders(data);
+      const data = await GetAllFurnitureType();
+      setFurnitureType(data);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -50,41 +52,41 @@ const GenderScreen = ({navigation}: any) => {
     }
   };
 
-  const filteredGenders = productGenders.filter(gender =>
-    gender.name.toLowerCase().includes(searchText.toLowerCase()),
+  const filteredFType = furnitureType.filter(fType =>
+    fType.FurnitureTypeName.toLowerCase().includes(searchText.toLowerCase()),
   );
 
-  const handleAddGender = () => {
-    navigation.navigate('AddGenderScreen');
+  const handleAddFType = () => {
+    navigation.navigate('AddFTypeScreen');
   };
 
-  const deleteGender = async (id: string) => {
-    const result = await DeletePG(id);
+  const deleteFType = async (id: string) => {
+    const result = await DeleteFType(id);
     Alert.alert(result);
     fetchData();
   };
 
-  const handleEdit = (item: Gender) => {
-    navigation.navigate('EditGenderScreen', {item});
+  const handleEdit = (item: FurnitureType) => {
+    navigation.navigate('EditFTypeScreen', {item});
   };
 
   const handleDelete = (id: string) => {
     Alert.alert(
       'Confirm Delete',
-      `Are you sure you want to delete this gender?`,
+      `Are you sure you want to delete this FType?`,
       [
         {text: 'Cancel', style: 'cancel'},
         {
           text: 'Delete',
           style: 'destructive',
-          onPress: () => deleteGender(id),
+          onPress: () => deleteFType(id),
         },
       ],
     );
   };
 
-  const openMenu = (gender: Gender) => {
-    setSelectedGender(gender);
+  const openMenu = (fType: FurnitureType) => {
+    setSelectedFurnitureType(fType);
     setVisible(true);
   };
 
@@ -107,7 +109,7 @@ const GenderScreen = ({navigation}: any) => {
               size={30}
               color="#333"
             />
-            Gender List
+            FType List
           </Text>
           <View style={{width: 24}} />
         </TouchableOpacity>
@@ -119,7 +121,7 @@ const GenderScreen = ({navigation}: any) => {
             style={styles.InputIcon}
           />
           <TextInput
-            placeholder="Find your product gender here..."
+            placeholder="Find your product FType here..."
             value={searchText}
             onChangeText={text => setSearchText(text)}
             placeholderTextColor="#B0B0B0"
@@ -147,13 +149,32 @@ const GenderScreen = ({navigation}: any) => {
             <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 ">
               <DataTable.Header>
                 <DataTable.Title
-                  className="flex justify-center"
+                  className="flex justify-start"
                   textStyle={{
                     color: 'orange',
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
-                  Gender Name
+                  Logo
+                </DataTable.Title>
+                <DataTable.Title
+                  className="flex justify-start"
+                  textStyle={{
+                    color: 'orange',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  FType Name
+                </DataTable.Title>
+                {/* Description */}
+                <DataTable.Title
+                  className="flex justify-start"
+                  textStyle={{
+                    color: 'orange',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Description
                 </DataTable.Title>
                 <DataTable.Title
                   className="flex justify-end"
@@ -165,16 +186,31 @@ const GenderScreen = ({navigation}: any) => {
                   Actions
                 </DataTable.Title>
               </DataTable.Header>
-              {filteredGenders.map(item => (
-                <DataTable.Row key={item.id}>
+              {filteredFType.map(item => (
+                <DataTable.Row key={item.Id}>
+                  <DataTable.Cell className="flex justify-start">
+                    {item.ImageSource ? (
+                      <Image
+                        source={{uri: item.ImageSource}}
+                        style={{width: 32, height: 32, borderRadius: 25}}
+                      />
+                    ) : (
+                      <Ionicons name="image" size={50} color="#ccc" />
+                    )}
+                  </DataTable.Cell>
                   <DataTable.Cell
-                    className="flex justify-center"
+                    className="flex justify-start"
                     textStyle={{color: 'gray'}}>
-                    {item.name}
+                    {item.FurnitureTypeName}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    className="flex justify-start"
+                    textStyle={{color: 'gray'}}>
+                    {item.Description || 'No description available'}
                   </DataTable.Cell>
                   <DataTable.Cell className="flex justify-end">
                     <Menu
-                      visible={visible && selectedGender?.id === item.id}
+                      visible={visible && selectedFurnitureType?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -182,7 +218,7 @@ const GenderScreen = ({navigation}: any) => {
                           onPress={() => openMenu(item)}>
                           <Ionicons
                             name="ellipsis-vertical"
-                            size={24}
+                            size={15}
                             color="#333"
                           />
                         </TouchableOpacity>
@@ -194,7 +230,7 @@ const GenderScreen = ({navigation}: any) => {
                       <Divider />
                       <Menu.Item
                         onPress={() => {
-                          handleDelete(item.id);
+                          handleDelete(item.Id);
                           closeMenu();
                         }}
                         title="Delete"
@@ -208,7 +244,7 @@ const GenderScreen = ({navigation}: any) => {
         )}
         <TouchableOpacity
           className="absolute bottom-5 right-5 bg-orange-400 rounded-full w-16 h-16 flex items-center justify-center shadow-lg"
-          onPress={handleAddGender}>
+          onPress={handleAddFType}>
           <Ionicons name="add" size={32} color="#fff" />
         </TouchableOpacity>
       </SafeAreaView>
@@ -241,7 +277,7 @@ const styles = StyleSheet.create({
   },
   InputContainerComponent: {
     flexDirection: 'row',
-    borderRadius: BORDERRADIUS.radius_20,
+    borderRadius: BORDER_RADIUS.radius_20,
     backgroundColor: CUSTOM_COLOR.LightGray,
     alignItems: 'center',
     marginBottom: 10,
@@ -258,4 +294,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default GenderScreen;
+export default FTypeScreen;

@@ -1,12 +1,11 @@
 import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Gender} from '../../../entity/Category';
+import {Material} from '../../../entity/Category';
 import {ParseJSON} from '../../ParseJSON';
 
-const BranchURL = apiServer + '/productGender';
-
-export const GetAllGender = async (): Promise<Gender[]> => {
+const MaterialURL = apiServer + '/material';
+export const GetAllMaterial = async (): Promise<Material[]> => {
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -16,18 +15,18 @@ export const GetAllGender = async (): Promise<Gender[]> => {
 
   try {
     const config = {
-      method: 'get',
+      method: 'GET',
       maxBodyLength: Infinity,
-      url: BranchURL,
+      url: MaterialURL,
       headers: {
         Authorization: `Bearer ${parseToken}`,
       },
     };
 
-    const response: AxiosResponse<Gender[]> = await axios.request(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Get all Product Gender failed');
+    throw new Error('Get all material failed');
   }
 };

@@ -9,19 +9,27 @@ import {
   Alert,
   TextInput,
 } from 'react-native';
-import {EditCategory} from '../../../api/category/category/EditCategory';
-import {Gender, Category} from '../../../entity/Category';
-import {GetAllGender} from '../../../api/category/gender/GetAllGender';
+import {EditCategory} from '../../../api/category/category/edit-category';
+import {FurnitureType, Category} from '../../../entity/Category';
+import {GetAllFurnitureType} from '../../../api/category/furniture-type/get-type';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import {CUSTOM_COLOR} from '../../../theme/theme';
 import {Dropdown} from 'react-native-element-dropdown';
 import CustomButton from '../../../components/CustomButton';
+import ImagePicker from 'react-native-image-crop-picker';
+import { Avatar, IconButton } from 'react-native-paper';
 const EditCategoryScreen = ({navigation, route}: any) => {
   const {item} = route.params;
   const [id, setId] = useState('');
   const [name, setCateName] = useState('');
-  const [productGender, setProductGender] = useState('');
-  const [genders, setGenders] = useState<Gender[]>([]);
+  const [description, setDescription] = useState('');
+  const [image, setImage] = useState<{
+    uri: string;
+    type: string;
+    name: string;
+  } | null>(null);
+  const [productFType, setProductFType] = useState('');
+  const [fTypes, setFTypes] = useState<FurnitureType[]>([]);
   const [loading, setLoading] = useState(true);
   const [isFocus, setIsFocus] = useState(false);
 
@@ -29,13 +37,14 @@ const EditCategoryScreen = ({navigation, route}: any) => {
     fetchData();
   }, []);
   const fetchData = async () => {
-    setId(item.id);
-    setCateName(item.name);
-    setProductGender(item.productGender.id);
+    setId(item.Id);
+    setCateName(item.CategoryName);
+    setProductFType(item.FurnitureTypeId);
+    setDescription(item.Description || '');
     setLoading(true);
     try {
-      const genderData = await GetAllGender();
-      setGenders(genderData);
+      const fTypeData = await GetAllFurnitureType();
+      setFTypes(fTypeData);
       setLoading(false);
     } catch (error) {
       console.error('Error fetching data:', error);
@@ -44,10 +53,15 @@ const EditCategoryScreen = ({navigation, route}: any) => {
   };
   const handleEditCategory = async () => {
     try {
-      if (name === '' || productGender == null) {
+      if (name === '' || productFType == null) {
         Alert.alert('Lack of information');
       } else {
-        await EditCategory(id, name, productGender);
+        await EditCategory(id, {
+          CategoryName: name,
+          FurnitureTypeId: productFType,
+          Description: description,
+          Image: image,
+        });
         Alert.alert('Category modified successfully');
       }
     } catch (error) {
@@ -55,6 +69,26 @@ const EditCategoryScreen = ({navigation, route}: any) => {
       Alert.alert('Failed to modify category');
     }
   };
+
+  const pickImage = async () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+    })
+      .then(image => {
+        setImage({
+          uri: image.path,
+          type: image.mime,
+          name: image.filename || 'profile.jpg',
+        });
+      })
+      .catch(error => {
+        console.error(error);
+        Alert.alert('Error', 'Could not pick the image.');
+      });
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton}>
@@ -67,6 +101,26 @@ const EditCategoryScreen = ({navigation, route}: any) => {
         <Text style={styles.backButtonText}>Edit Category</Text>
       </TouchableOpacity>
       <>
+      <View className="w-full h-10 mb-4 flex flex-row justify-center items-center mt-4">
+          <View className="relative h-20 w-20">
+            <Avatar.Image
+              size={65}
+              source={
+                image
+                  ? {uri: image.uri}
+                  : item && item.ImageSource
+                  ? {uri: item.ImageSource}
+                  : require('../../../assets/logo.png')
+              }
+            />
+            <IconButton
+              icon="pencil"
+              size={15}
+              onPress={pickImage}
+              className="absolute bottom-0 right-0 bg-orange-500 text-white"
+            />
+          </View>
+        </View>
         <View style={[styles.inputContainer, {height: 90}]}>
           <View style={{width: '100%', height: 10}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
@@ -86,13 +140,47 @@ const EditCategoryScreen = ({navigation, route}: any) => {
           </View>
           {/* <View style={{width: '100%', height: 5}} /> */}
           <View style={{flex: 2, flexDirection: 'row'}}>
-            <View style={{width: '5%', height: '100%'}} />
+            <View style={{width: '5%', height: '100%', padding: 10}} />
             <TextInput
-              style={{flex: 1, fontSize: 17, color: 'gray'}}
+              className="w-5/6 h-10 border border-gray-300 rounded-lg p-2"
               onChangeText={text => {
                 setCateName(text);
               }}
               value={name}
+            />
+            <View style={{width: '5%', height: '100%'}} />
+          </View>
+        </View>
+        <View style={[styles.inputContainer, {height: 90, marginTop: 20, marginBottom: 15}]}>
+          <View style={{width: '100%', height: 10}} />
+          <View style={{flex: 1, flexDirection: 'row'}}>
+            <View
+              style={[
+                styles.unitTitleContainer,
+                {justifyContent: 'flex-start'},
+              ]}>
+              <View style={{width: '10%', height: '100%'}} />
+              <Text style={styles.titleInputStyle}>Description</Text>
+              <Text style={[styles.titleInputStyle, {color: CUSTOM_COLOR.Red}]}>
+                {' '}
+                *
+              </Text>
+            </View>
+            <View
+              style={[styles.unitTitleContainer, {justifyContent: 'flex-end'}]}>
+              <View style={{width: '10%', height: '100%'}} />
+            </View>
+          </View>
+
+          <View style={{flex: 2, flexDirection: 'row'}}>
+            <View style={{width: '5%', height: '100%'}} />
+            <TextInput
+              className="w-5/6 h-10 border border-gray-300 rounded-lg p-2"
+              onChangeText={text => {
+                setDescription(text);
+              }}
+              value={description}
+              placeholder="Enter description..."
             />
             <View style={{width: '5%', height: '100%'}} />
           </View>
@@ -109,7 +197,7 @@ const EditCategoryScreen = ({navigation, route}: any) => {
                 {justifyContent: 'flex-start'},
               ]}>
               <View style={{width: '10%', height: '100%'}} />
-              <Text className="text-gray-500">Product Gender</Text>
+              <Text className="text-gray-500">Product FType</Text>
               <Text style={[{color: CUSTOM_COLOR.Red}]}> *</Text>
             </View>
             <View
@@ -117,6 +205,7 @@ const EditCategoryScreen = ({navigation, route}: any) => {
               <View style={{width: '10%', height: '100%'}} />
             </View>
           </View>
+
           {/* <View style={{width: '100%', height: 5}} /> */}
           <View style={{flex: 2, flexDirection: 'row'}}>
             <View style={{width: '5%', height: '100%'}} />
@@ -124,16 +213,16 @@ const EditCategoryScreen = ({navigation, route}: any) => {
               style={[styles.comboType, isFocus && {borderColor: 'blue'}]}
               placeholderStyle={styles.placeholderStyle}
               iconStyle={styles.iconStyle}
-              data={genders}
+              data={fTypes}
               maxHeight={200}
-              labelField="name"
-              valueField="id"
+              labelField="FurnitureTypeName"
+              valueField="Id"
               placeholder={!isFocus ? 'Select item' : '...'}
-              value={productGender}
+              value={productFType}
               onFocus={() => setIsFocus(true)}
               onBlur={() => setIsFocus(false)}
               onChange={item => {
-                setProductGender(item.id as never);
+                setProductFType(item.Id as never);
                 setIsFocus(false);
               }}
               itemTextStyle={{color: 'black'}}
@@ -172,9 +261,8 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    elevation: 1.5,
-    borderRadius: 0.5,
-    shadowColor: CUSTOM_COLOR.Black,
+    borderRadius: 10,
+    borderWidth: 1,
     flexDirection: 'column',
   },
   unitTitleContainer: {
@@ -185,9 +273,8 @@ const styles = StyleSheet.create({
   //titleInputStyle: {},
   comboxContainer: {
     width: '100%',
-    elevation: 1.5,
-    borderRadius: 0.5,
-    shadowColor: CUSTOM_COLOR.Black,
+    borderRadius: 10,
+    borderWidth: 1,
     flexDirection: 'row',
   },
   unitComboContainer: {
@@ -240,6 +327,9 @@ const styles = StyleSheet.create({
     height: 55,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  titleInputStyle: {
+    color: 'gray',
   },
 });
 export default EditCategoryScreen;

@@ -12,7 +12,7 @@ import {DataTable, Dialog, Button} from 'react-native-paper';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {Color, Size, ProductItemRequest} from '../../../entity/Product';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {GetAllColor} from '../../../api/product/color/GetAllColor';
+import {GetAllColor} from '../../../api/product/color/get-color';
 import {GetAllSize} from '../../../api/product/size/GetAllSize';
 import {AddExistedProduct} from '../../../api/product/product/AddExistedProduct';
 const AddExistedProductScreen = ({navigation, route}: any) => {

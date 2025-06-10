@@ -7,14 +7,15 @@ import {
   Alert,
   TextInput,
   ScrollView,
+  Image,
 } from 'react-native';
 import {DataTable, Menu, Divider, Provider} from 'react-native-paper';
 import {Category} from '../../../entity/Category';
-import {GetAllCategory} from '../../../api/category/category/GetAllCategory';
-import {GetAllGender} from '../../../api/category/gender/GetAllGender';
+import {GetAllCategory} from '../../../api/category/category/get-category';
+import {GetAllFurnitureType} from '../../../api/category/furniture-type/get-type';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import {DeleteCategory} from '../../../api/category/category/DeleteCategory';
+import {DeleteCategory} from '../../../api/category/category/delete-category';
 
 import LoaderKit from 'react-native-loader-kit';
 
@@ -35,7 +36,8 @@ const CategoryScreen = ({navigation}: any) => {
     setLoading(true);
     try {
       const data = await GetAllCategory();
-      const genderData = await GetAllGender();
+      console.log('Fetched categories:', data);
+      const fTypeData = await GetAllFurnitureType();
       setCategories(data);
       setLoading(false);
     } catch (error) {
@@ -45,7 +47,7 @@ const CategoryScreen = ({navigation}: any) => {
   };
 
   const filteredCategory = categories.filter(category =>
-    category.name.toLowerCase().includes(searchText),
+    category?.CategoryName.toLowerCase().includes(searchText),
   );
 
   const handleAddCategory = () => {
@@ -142,13 +144,31 @@ const CategoryScreen = ({navigation}: any) => {
             <DataTable className="mt-4 border border-gray-400 rounded-xl font-semibold text-lg text-center p-1 ">
               <DataTable.Header className="border-b-gray-500">
                 <DataTable.Title
-                  className="flex justify-center"
+                  className="flex justify-start"
+                  textStyle={{
+                    color: 'orange',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Logo
+                </DataTable.Title>
+                <DataTable.Title
+                  className="flex justify-start"
                   textStyle={{
                     color: 'orange',
                     fontSize: 16,
                     fontWeight: 'bold',
                   }}>
                   Category Name
+                </DataTable.Title>
+                <DataTable.Title
+                  className="flex justify-start"
+                  textStyle={{
+                    color: 'orange',
+                    fontSize: 16,
+                    fontWeight: 'bold',
+                  }}>
+                  Description
                 </DataTable.Title>
                 <DataTable.Title
                   className="flex justify-end"
@@ -163,15 +183,30 @@ const CategoryScreen = ({navigation}: any) => {
               {filteredCategory.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2 text-lg"
-                  key={item.id}>
+                  key={item.Id}>
+                  <DataTable.Cell className="flex justify-start">
+                    {item.ImageSource ? (
+                      <Image
+                        source={{uri: item.ImageSource}}
+                        style={{width: 32, height: 32, borderRadius: 25}}
+                      />
+                    ) : (
+                      <Ionicons name="image" size={50} color="#ccc" />
+                    )}
+                  </DataTable.Cell>
                   <DataTable.Cell
-                    className="flex justify-center"
+                    className="flex justify-start"
                     textStyle={{color: 'gray'}}>
-                    {item.name}
+                    {item.CategoryName}
+                  </DataTable.Cell>
+                  <DataTable.Cell
+                    className="flex justify-end"
+                    textStyle={{color: 'gray'}}>
+                    {item.Description}
                   </DataTable.Cell>
                   <DataTable.Cell className="flex justify-end">
                     <Menu
-                      visible={visible && selectedCategory?.id === item.id}
+                      visible={visible && selectedCategory?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -179,7 +214,7 @@ const CategoryScreen = ({navigation}: any) => {
                           onPress={() => openMenu(item)}>
                           <Ionicons
                             name="ellipsis-vertical"
-                            size={24}
+                            size={15}
                             color="#333"
                           />
                         </TouchableOpacity>
@@ -191,7 +226,7 @@ const CategoryScreen = ({navigation}: any) => {
                       <Divider />
                       <Menu.Item
                         onPress={() => {
-                          handleDelete(item.id);
+                          handleDelete(item.Id);
                           closeMenu();
                         }}
                         title="Delete"

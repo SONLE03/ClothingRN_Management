@@ -1,12 +1,11 @@
-import axios from 'axios';
+import axios, {AxiosResponse} from 'axios';
 import {apiServer} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Gender} from '../../../entity/Category';
+import {Designer} from '../../../entity/Category';
 import {ParseJSON} from '../../ParseJSON';
 
-const AddBranchUrl = apiServer + '/productGender';
-
-export const AddPG = async (PGName: string) => {
+const DesignerURL = apiServer + '/designer';
+export const GetAllDesigner = async (): Promise<Designer[]> => {
   const accessToken = await AsyncStorage.getItem('access_token');
   if (!accessToken) {
     throw new Error('No access token found');
@@ -16,19 +15,18 @@ export const AddPG = async (PGName: string) => {
 
   try {
     const config = {
-      method: 'post',
+      method: 'GET',
       maxBodyLength: Infinity,
-      url: AddBranchUrl,
+      url: DesignerURL,
       headers: {
         Authorization: `Bearer ${parseToken}`,
-        'Content-Type': 'application/json',
       },
-      data: JSON.stringify({name: PGName}),
     };
+
     const response = await axios.request(config);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error(error);
-    throw new Error('Add PG failed');
+    throw new Error('Get all designer failed');
   }
 };

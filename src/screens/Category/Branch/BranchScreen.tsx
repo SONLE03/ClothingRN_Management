@@ -99,7 +99,7 @@ const BranchScreen = ({navigation}: any) => {
               size={30}
               color="#333"
             />
-            Branch List
+            Brand List
           </Text>
           <View style={{width: 24}} />
         </TouchableOpacity>
@@ -222,7 +222,7 @@ const BranchScreen = ({navigation}: any) => {
                       <Divider />
                       <Menu.Item
                         onPress={() => {
-                          handleDelete(item.Id);
+                          handleDelete(item?.Id);
                           closeMenu();
                         }}
                         title="Delete"
@@ -230,7 +230,7 @@ const BranchScreen = ({navigation}: any) => {
                     </Menu>
                   </DataTable.Cell>
                 </DataTable.Row>
-              ))}
+              )) || <Text className="text-lg text-gray-500">No brand here, add a new one</Text>}
             </DataTable>
           </ScrollView>
         )}

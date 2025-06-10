@@ -1,18 +1,21 @@
 import axios from 'axios';
 import {apiServer} from '../../config';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {CreateBrand} from '../../../entity/Category';
+import {CreateCategory} from '../../../entity/Category';
 import {ParseJSON} from '../../ParseJSON';
 
-// multipart/form-data for editing a brand
-export const EditBrand = async (brandId: string, data: CreateBrand) => {
+// multipart/form-data for editing a Category
+export const EditCategory = async (
+  categoryId: string,
+  data: CreateCategory,
+) => {
   const accessToken = await AsyncStorage.getItem('access_token');
   const formData = new FormData();
-  console.log('EditBranch id:', brandId);
-  // Append branch fields
-  formData.append('BrandName', data.BrandName);
+
+  // Append fields
+  formData.append('CategoryName', data.CategoryName);
   formData.append('Description', data.Description);
-  console.log('EditBranch data:', data);  
+  formData.append('FurnitureTypeId', data.FurnitureTypeId);
 
   // Append images if available
   if (data.Image) {
@@ -28,8 +31,8 @@ export const EditBrand = async (brandId: string, data: CreateBrand) => {
   }
 
   const parseToken = ParseJSON(accessToken);
-  const brandIdCleaned = brandId.replace(/['"]/g, ''); // Clean brandId if it has quotes
-  const EditBranchUrl = apiServer + `/brand/${brandIdCleaned}`;
+  const itemIdCleaned = categoryId.replace(/['"]/g, '');
+  const EditBranchUrl = apiServer + `/category/${itemIdCleaned}`;
 
   const response = await axios.put(EditBranchUrl, formData, {
     headers: {

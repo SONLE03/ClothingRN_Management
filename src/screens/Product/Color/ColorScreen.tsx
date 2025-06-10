@@ -10,7 +10,8 @@ import {
 } from 'react-native';
 import {DataTable, Menu, Divider, Provider} from 'react-native-paper';
 import {Color} from '../../../entity/Product';
-import {GetAllColor} from '../../../api/product/color/GetAllColor';
+import {GetAllColor} from '../../../api/product/color/get-color';
+import {DeleteColor} from '../../../api/product/color/delete-color';
 
 import Ionicons from 'react-native-vector-icons/Ionicons';
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -41,7 +42,7 @@ const ColorScreen = ({navigation}: any) => {
   };
 
   const filteredColors = colors.filter(color =>
-    color.name.toLowerCase().includes(searchText),
+    color?.ColorName.toLowerCase().includes(searchText),
   );
 
   const handleAddColor = () => {
@@ -50,7 +51,7 @@ const ColorScreen = ({navigation}: any) => {
 
   const handleEdit = (item: Color) => {};
 
-  const handleDelete = (id: number) => {
+  const handleDelete = (id: string) => {
     Alert.alert(
       'Confirm Delete',
       `Are you sure you want to delete this color?`,
@@ -60,7 +61,15 @@ const ColorScreen = ({navigation}: any) => {
           text: 'Delete',
           style: 'destructive',
           onPress: () => {
-            // deleteBranch(id);
+            DeleteColor(id)
+              .then(result => {
+                Alert.alert(result);
+                fetchData();
+              })
+              .catch(error => {
+                console.error('Error deleting color:', error);
+                Alert.alert('Failed to delete color');
+              });
           },
         },
       ],
@@ -160,17 +169,17 @@ const ColorScreen = ({navigation}: any) => {
               {filteredColors.map(item => (
                 <DataTable.Row
                   className="border-none border-b-gray-500 rounded-xl mb-2 text-lg"
-                  key={item.id}>
+                  key={item.Id}>
                   <DataTable.Cell>
                     <View
                       className="w-8 h-8 rounded-full"
-                      style={{backgroundColor: item.name.toLowerCase()}}
+                      style={{backgroundColor: item.ColorCode.toLowerCase()}}
                     />
                   </DataTable.Cell>
-                  <DataTable.Cell>{item.name}</DataTable.Cell>
+                  <DataTable.Cell>{item.ColorName}</DataTable.Cell>
                   <DataTable.Cell className="flex justify-center items-center">
                     <Menu
-                      visible={visible && selectedColor?.id === item.id}
+                      visible={visible && selectedColor?.Id === item.Id}
                       onDismiss={closeMenu}
                       anchor={
                         <TouchableOpacity
@@ -190,7 +199,7 @@ const ColorScreen = ({navigation}: any) => {
                       <Divider />
                       <Menu.Item
                         onPress={() => {
-                          handleDelete(item.id);
+                          handleDelete(item.Id);
                           closeMenu();
                         }}
                         title="Delete"

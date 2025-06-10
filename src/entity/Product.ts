@@ -1,49 +1,67 @@
+import { ImageFile } from "../api/auth/change-avatar";
+
 export interface Color {
-    id: number;
-    name: string;
+    Id: string;
+    ColorName: string;
+    ColorCode: string;
+}
+export interface CreateColor {
+    ColorName: string;
+    ColorCode: string;
 }
 
 export interface Size {
     id: number;
     name: string;
 }
-//Products
-export interface Product {
-    id: string;
-    product_Name: string;
-    description: string;
-    price: number;
-    category: string;
-    branch: string;
-    productStatus: string;
-    images: string;
-}
 
-export interface ProductRequest {
-    product_Name: string;
-    description: string;
-    price: number;
-    category: string;
-    branch: string;
-    productItemRequests: ProductItemRequest[];
-  }
-  
-export interface ProductItemRequest {
-    size: number;
-    color: number;
-}
-  
-export interface CreateProductForm {
-    productRequest: ProductRequest;
-    image: File[];
-}
-
-
-//Concrete product
-export interface ProductItem {
-    id: string;
-    sizeName: string;
-    colorName: string;
+export type ProductVariant = {
+    colorId: string;
+    length?: number;
+    width?: number;
+    height?: number;
     quantity: number;
     price: number;
-}
+    images: ImageFile[];
+  };
+//Products
+export type Product = {
+    ProductName: string;
+    Unit: string;
+    Description: string;
+    BrandId: string;
+    CategoryId: string;
+    DesignersId: string[];
+    MaterialsId: string[];
+    Discount?: number;
+    Thumbnail: ImageFile;
+    ProductVariants: ProductVariant[];
+  };
+
+export type ProductGet = {
+    Id: string;
+    ProductName: string;
+    Unit: string;
+    Description: string; 
+    BrandName: string;
+    CategoryName: string;
+    //Designers?: string[];
+    Materials: string[];
+    DisplayPrice: string;
+    Discount?: number;
+    ImageSource: string;
+    ProductVariants: ProductVariantGet[];
+};
+
+
+export type ProductVariantGet = {
+    Id: string;
+    ColorId: string;
+    ColorName: string;
+    SizeId: string;
+    SizeName: string;
+    //DisplayDimension: string;
+    Quantity: number;
+    Price: number;
+    ImageSource: string[];
+  };

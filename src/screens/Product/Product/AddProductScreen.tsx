@@ -6,37 +6,30 @@ import {
   ScrollView,
   Image,
   TouchableOpacity,
-  ActivityIndicator,
-  Alert,
   SafeAreaView,
 } from 'react-native';
 import {Select, SelectItem, IndexPath} from '@ui-kitten/components';
 import {DataTable, Dialog, Button} from 'react-native-paper';
 import {launchImageLibrary} from 'react-native-image-picker';
 
-import {GetAllCategory} from '../../../api/category/category/GetAllCategory';
+import {GetAllCategory} from '../../../api/category/category/get-category';
 import {GetAllBranch} from '../../../api/category/branch/get-brand';
-import {GetAllColor} from '../../../api/product/color/GetAllColor';
-import {GetAllSize} from '../../../api/product/size/GetAllSize';
+import {GetAllColor} from '../../../api/product/color/get-color';
+import { GetAllDesigner } from '../../../api/product/designer/get-designer';
+import { GetAllMaterial } from '../../../api/category/material/get-material';
 import {AddProduct} from '../../../api/product/product/AddNewProduct';
 
-import {Category, Branch} from '../../../entity/Category';
+import {Category, Brand, Material, Designer} from '../../../entity/Category';
 import {
   Color,
   Size,
-  CreateProductForm,
-  ProductItemRequest,
-  ProductRequest,
+  Product,
+  ProductVariant,
 } from '../../../entity/Product';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import LoaderKit from 'react-native-loader-kit';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
-// Define a type that extends File with a uri property for image handling
-interface ImageFile extends File {
-  uri: string;
-}
+import { ImageFile } from '../../../api/auth/change-avatar';
 
 const AddProductScreen = ({navigation}: any) => {
   const [productName, setProductName] = useState('');
@@ -51,18 +44,25 @@ const AddProductScreen = ({navigation}: any) => {
   const [selectedColor, setSelectedColor] = useState<IndexPath>(
     new IndexPath(0),
   );
-  const [selectedSize, setSelectedSize] = useState<IndexPath>(new IndexPath(0));
   const [categories, setCategories] = useState<Category[]>([]);
-  const [branches, setBranches] = useState<Branch[]>([]);
+  const [branches, setBranches] = useState<Brand[]>([]);
   const [colors, setColors] = useState<Color[]>([]);
   const [sizes, setSizes] = useState<Size[]>([]);
   const [images, setImages] = useState<ImageFile[]>([]);
-  const [productItems, setProductItems] = useState<ProductItemRequest[]>([]);
+  const [productItems, setProductItems] = useState<ProductVariant[]>([]);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState('');
   const [visible, setVisible] = useState(false);
   const [isProductAdded, setIsProductAdded] = useState(false);
   const [isAttempted, setIsAttempted] = useState(false);
+  const [materials, setMaterials] = useState<Material[]>([]);
+  const [designers, setDesigners] = useState<Designer[]>([]);
+  const [selectedMaterial, setSelectedMaterial] = useState<IndexPath>(
+    new IndexPath(0),
+  );
+  const [selectedDesigner, setSelectedDesigner] = useState<IndexPath>(
+    new IndexPath(0),
+  );
 
   const hideDialog = () => setVisible(false);
 
@@ -75,11 +75,13 @@ const AddProductScreen = ({navigation}: any) => {
       const fetchedCategories = await GetAllCategory();
       const fetchedBranches = await GetAllBranch();
       const fetchedColors = await GetAllColor();
-      const fetchedSizes = await GetAllSize();
+      const fetchedMaterials = await GetAllMaterial();
+      const fetchedDesigners = await GetAllDesigner();
+      setMaterials(fetchedMaterials);
+      setDesigners(fetchedDesigners);
       setCategories(fetchedCategories);
       setBranches(fetchedBranches);
       setColors(fetchedColors);
-      setSizes(fetchedSizes);
     } catch (error) {
       console.error(error);
     } finally {
@@ -105,10 +107,15 @@ const AddProductScreen = ({navigation}: any) => {
   };
 
   const addProductItem = () => {
-    if (selectedColor && selectedSize) {
-      const newProductItem: ProductItemRequest = {
-        color: colors[selectedColor.row].id,
-        size: sizes[selectedSize.row].id,
+    if (selectedColor) {
+      const newProductItem: ProductVariant = {
+        colorId: colors[selectedColor.row].Id,
+        quantity: 1, // Default quantity can be set to 1
+        price: parseFloat(price),
+        images: images, // Type casting to File[]
+        length: 0,
+        width: 0,
+        height: 0,
       };
       setProductItems([...productItems, newProductItem]);
     }
@@ -126,24 +133,26 @@ const AddProductScreen = ({navigation}: any) => {
       return;
     }
 
-    const productRequest: ProductRequest = {
-      product_Name: productName,
-      description,
-      price: parseFloat(price),
-      category: categories[selectedCategory.row].id,
-      branch: branches[selectedBranch.row].id,
-      productItemRequests: productItems,
-    };
-
-    const data: CreateProductForm = {
-      productRequest,
-      image: images as unknown as File[], // Type casting to File[]
+    const productRequest: Product = {
+      ProductName: productName,
+      Description: description,
+      CategoryId: categories[selectedCategory.row].Id,
+      BrandId: branches[selectedBranch.row].Id,
+      ProductVariants: productItems,
+      Thumbnail: images[0], // Use the first image as thumbnail
+      Unit: 'pcs', // Default unit, can be changed as needed
+      DesignersId: designers[selectedDesigner.row]
+        ? [designers[selectedDesigner.row].Id]
+        : [],
+      MaterialsId: materials[selectedMaterial.row]
+        ? [materials[selectedMaterial.row].Id]
+        : [],
     };
 
     setLoading(true);
     try {
-      const response = await AddProduct(data);
-
+      const response = await AddProduct(productRequest);
+      console.log('Product added successfully:', response);
       setVisible(true);
       //Alert.alert('Product added successfully!');
       setLoading(false);
@@ -156,7 +165,8 @@ const AddProductScreen = ({navigation}: any) => {
       setSelectedCategory(new IndexPath(0));
       setSelectedBranch(new IndexPath(0));
       setSelectedColor(new IndexPath(0));
-      setSelectedSize(new IndexPath(0));
+      setSelectedMaterial(new IndexPath(0));
+      setSelectedDesigner(new IndexPath(0));
       setImages([]);
       setProductItems([]);
     } catch (error) {
@@ -199,7 +209,7 @@ const AddProductScreen = ({navigation}: any) => {
             onPress={pickImage}>
             <MaterialIcons name="add-to-photos" size={24} color="orange" />
             <Text className="text-center font-medium text-gray-600">
-              Choose Images (Max 4)
+              Choose Images (Max 2)
             </Text>
           </TouchableOpacity>
           <View className="flex-row mt-4">
@@ -257,18 +267,18 @@ const AddProductScreen = ({navigation}: any) => {
 
         <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
           <Text className="text-lg font-bold text-gray-600text-gray-600">
-            Category and Branch
+            Category and Brand
           </Text>
           {categories.length > 0 && (
             <Select
               status="warning"
               selectedIndex={selectedCategory}
               onSelect={index => setSelectedCategory(index as IndexPath)}
-              value={categories[selectedCategory.row]?.name}
+              value={categories[selectedCategory.row]?.CategoryName}
               className="border border-gray-400 bg-white hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
               {categories.map((category, index) => (
-                <SelectItem title={category.name} key={index} />
-              ))}
+                <SelectItem title={category.CategoryName} key={index} />
+              ))} 
             </Select>
           )}
 
@@ -277,10 +287,10 @@ const AddProductScreen = ({navigation}: any) => {
               status="warning"
               selectedIndex={selectedBranch}
               onSelect={index => setSelectedBranch(index as IndexPath)}
-              value={branches[selectedBranch.row]?.name}
+              value={branches[selectedBranch.row]?.BrandName}
               className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
               {branches.map((branch, index) => (
-                <SelectItem title={branch.name} key={index} />
+                <SelectItem title={branch.BrandName} key={index} />
               ))}
             </Select>
           )}
@@ -288,33 +298,72 @@ const AddProductScreen = ({navigation}: any) => {
 
         <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
           <Text className="text-lg font-bold text-gray-600">
-            Colors and Sizes
+            Designers and Materials
+          </Text>
+          {/* Materials and Designers selection */}
+          {materials.length > 0 && (
+            <Select
+              status="warning"
+              selectedIndex={selectedMaterial}
+              onSelect={index => setSelectedMaterial(index as IndexPath)}
+              value={materials[selectedMaterial.row]?.MaterialName}
+              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
+              {materials.map((material, index) => (
+                <SelectItem title={material.MaterialName} key={index} />
+              ))}
+            </Select>
+          )}
+          {designers.length > 0 && (
+            <Select
+              status="warning"
+              selectedIndex={selectedDesigner}
+              onSelect={index => setSelectedDesigner(index as IndexPath)}
+              value={designers[selectedDesigner.row]?.DesignerName}
+              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
+              {designers.map((designer, index) => (
+                <SelectItem title={designer.DesignerName} key={index} />
+              ))}
+            </Select>
+          )}
+        </View>
+
+        <View className="flex flex-col space-y-3 mt-4 mb-4 p-2 border border-orange-500 rounded-xl border-dashed">
+          <Text className="text-lg font-bold text-gray-600">
+            Colors and Quantity
           </Text>
           {colors.length > 0 && (
             <Select
               status="warning"
               selectedIndex={selectedColor}
               onSelect={index => setSelectedColor(index as IndexPath)}
-              value={colors[selectedColor.row]?.name}
+              value={colors[selectedColor.row]?.ColorName}
               className="border border-gray-600 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
               {colors.map((color, index) => (
-                <SelectItem title={color.name} key={index}></SelectItem>
+                <SelectItem title={color.ColorName} key={index}></SelectItem>
               ))}
             </Select>
           )}
 
-          {sizes.length > 0 && (
-            <Select
-              status="warning"
-              selectedIndex={selectedSize}
-              onSelect={index => setSelectedSize(index as IndexPath)}
-              value={sizes[selectedSize.row]?.name}
-              className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 text-gray-600">
-              {sizes.map((size, index) => (
-                <SelectItem title={size.name} key={index} />
-              ))}
-            </Select>
-          )}
+          {/* TextInput for Quantity */}
+          <TextInput
+            className="border border-gray-400 hover:bg-blue-500 focus:border-blue-500 rounded-xl p-2 mb-4 bg-white text-gray-600"
+            placeholder="Quantity"
+            placeholderTextColor="gray"
+            keyboardType="numeric"
+            value={productItems.length > 0 ? productItems[0].quantity.toString() : '1'}
+            onChangeText={text => {
+              const quantity = parseInt(text, 10);
+              if (!isNaN(quantity)) {
+                setProductItems(prevItems => {
+                  const updatedItems = [...prevItems];
+                  if (updatedItems.length > 0) {
+                    updatedItems[0].quantity = quantity;
+                  }
+                  return updatedItems;
+                });
+              }
+            }}
+          />
         </View>
 
         <Button
@@ -347,10 +396,11 @@ const AddProductScreen = ({navigation}: any) => {
               className="border border-gray-400 rounded-xl"
               key={index}>
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                {colors.find(color => color.id === item.color)?.name}
+                {colors.find(color => color.Id === item.colorId)?.ColorName}
               </DataTable.Cell>
+              {/* Show item price */}
               <DataTable.Cell textStyle={{color: '#4A5568', fontSize: 16}}>
-                {sizes.find(size => size.id === item.size)?.name}
+                {price ? `$${parseFloat(price).toFixed(2)}` : 'N/A'}
               </DataTable.Cell>
               <DataTable.Cell>
                 <Button

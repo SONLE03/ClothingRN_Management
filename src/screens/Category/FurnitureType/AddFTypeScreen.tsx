@@ -1,73 +1,71 @@
-import React, {useState, useEffect} from 'react';
-import {useNavigation, useRoute, RouteProp} from '@react-navigation/native';
+import React, {useEffect, useState} from 'react';
 import {
   SafeAreaView,
   View,
-  StyleSheet,
   Text,
   TouchableOpacity,
   Alert,
   TextInput,
+  StyleSheet,
 } from 'react-native';
-import {CreateNewCategory} from '../../../api/category/category/create-category';
-import {FurnitureType, Category} from '../../../entity/Category';
-import {GetAllFurnitureType} from '../../../api/category/furniture-type/get-type';
+import { CreateNewFurnitureType } from '../../../api/category/furniture-type/add-new-type';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import {CUSTOM_COLOR} from '../../../theme/theme';
-import {Dropdown} from 'react-native-element-dropdown';
-import CustomButton from '../../../components/CustomButton';
 import ImagePicker from 'react-native-image-crop-picker';
-import {Avatar, Dialog, IconButton} from 'react-native-paper';
-const AddCategoryScreen = ({navigation}: any) => {
-  const [id, setId] = useState('');
-  const [name, setCateName] = useState('');
+import {Avatar, Button, Dialog, IconButton} from 'react-native-paper';
+import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {CUSTOM_COLOR} from '../../../theme/theme';
+import { RoomSpace } from '../../../entity/Category';
+import { GetAllRoomSpace } from '../../../api/category/roomspace/get-roomspace';
+import { Dropdown } from 'react-native-element-dropdown';
+const AddFTypeScreen = ({navigation}: any) => {
+  const [fTypeName, setFTypeName] = useState('');
   const [description, setDescription] = useState('');
   const [image, setImage] = useState<{
     uri: string;
     type: string;
     name: string;
   } | null>(null);
-  const [productFType, setProductFType] = useState('');
-  const [fTypes, setFTypes] = useState<FurnitureType[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [isFocus, setIsFocus] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [roomSpaces, setRoomSpaces] = useState<RoomSpace[]>([]);
+
+  const [selectedRoomSpaceId, setSelectedRoomSpaceId] = useState<string>('');
+
+  useEffect(() => {
+    const fetchRoomSpaces = async () => {
+      try {
+        const spaces = await GetAllRoomSpace();
+        setRoomSpaces(spaces);
+      } catch (error) {
+        console.error('Error fetching room spaces:', error);
+      }
+    };
+    fetchRoomSpaces();
+  }, []);
+
+  console.log('Room Spaces:', roomSpaces);
 
   const hideDialog = () => setVisible(false);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
-  const fetchData = async () => {
-    setLoading(true);
+  const handleAddFType = async () => {
     try {
-      const fTypeData = await GetAllFurnitureType();
-      setFTypes(fTypeData);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching data:', error);
-      setLoading(false);
-    }
-  };
-  const handleCreateNewCategory = async () => {
-    try {
-      if (name === '' || productFType == null) {
+      if (fTypeName === '' || description === '') {
         Alert.alert('Lack of information');
       } else {
-        await CreateNewCategory({
-          CategoryName: name,
-          FurnitureTypeId: productFType,
+        await CreateNewFurnitureType({
+          FurnitureTypeName: fTypeName,
           Description: description,
           Image: image,
+          RoomSpaceId: selectedRoomSpaceId,
         });
+        //Alert.alert('FType created successfully');
         setVisible(true);
-        setCateName('');
+        setFTypeName('');
         setDescription('');
         setImage(null);
       }
     } catch (error) {
-      console.error('Failed to modify category:', error);
-      Alert.alert('Failed to modify category');
+      console.error('Failed to create fType:', error);
+      Alert.alert('Failed to create fType');
     }
   };
 
@@ -91,18 +89,27 @@ const AddCategoryScreen = ({navigation}: any) => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
-      <TouchableOpacity style={styles.backButton}>
+    <SafeAreaView className="flex-1 bg-gray-100 p-4">
+      <TouchableOpacity className="flex-row justify-between items-center mb-6 border border-gray-400 rounded-xl p-2 bg-white">
         <Ionicons
           onPress={() => navigation.goBack()}
           name="arrow-back"
           size={24}
           color="#333"
         />
-        <Text style={styles.backButtonText}>Create Category</Text>
+        <Text className="flex-row text-2xl font-semibold space-x-2 text-black">
+          <MaterialComunityIcons
+            className="mr-2"
+            name="format-color-fill"
+            size={30}
+            color="#333"
+          />
+          Add Furniture Type
+        </Text>
+        <View style={{width: 24}} />
       </TouchableOpacity>
       <>
-        <View className="w-full h-10 flex flex-row justify-center items-center mt-4 mb-8">
+        <View className="w-full h-10 mb-4 flex flex-row justify-center items-center mt-4">
           <View className="relative h-20 w-20">
             <Avatar.Image
               size={65}
@@ -118,7 +125,11 @@ const AddCategoryScreen = ({navigation}: any) => {
             />
           </View>
         </View>
-        <View style={[styles.inputContainer, {height: 90}]}>
+        <View
+          style={[
+            styles.inputContainer,
+            {height: 90, marginBottom: 20, marginTop: 20},
+          ]}>
           <View style={{width: '100%', height: 10}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View
@@ -127,32 +138,32 @@ const AddCategoryScreen = ({navigation}: any) => {
                 {justifyContent: 'flex-start'},
               ]}>
               <View style={{width: '10%', height: '100%'}} />
-              <Text className="text-gray-500"> Name Of Category</Text>
-              <Text style={[{color: CUSTOM_COLOR.Red}]}> *</Text>
+              <Text style={styles.titleInputStyle}>FType Name</Text>
+              <Text style={[styles.titleInputStyle, {color: CUSTOM_COLOR.Red}]}>
+                {' '}
+                *
+              </Text>
             </View>
             <View
               style={[styles.unitTitleContainer, {justifyContent: 'flex-end'}]}>
               <View style={{width: '10%', height: '100%'}} />
             </View>
           </View>
-          {/* <View style={{width: '100%', height: 5}} /> */}
+
           <View style={{flex: 2, flexDirection: 'row'}}>
-            <View style={{width: '5%', height: '100%', padding: 10}} />
+            <View style={{width: '5%', height: '100%'}} />
             <TextInput
-              className="w-5/6 h-10 border border-gray-300 rounded-lg p-2"
+              style={{flex: 1, fontSize: 17, color: 'gray'}}
               onChangeText={text => {
-                setCateName(text);
+                setFTypeName(text);
               }}
-              value={name}
+              value={fTypeName}
+              placeholder="Enter fType name.."
             />
             <View style={{width: '5%', height: '100%'}} />
           </View>
         </View>
-        <View
-          style={[
-            styles.inputContainer,
-            {height: 90, marginTop: 20, marginBottom: 15},
-          ]}>
+        <View style={[styles.inputContainer, {height: 90, marginBottom: 20, marginTop: 20}]}>
           <View style={{width: '100%', height: 10}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View
@@ -176,7 +187,7 @@ const AddCategoryScreen = ({navigation}: any) => {
           <View style={{flex: 2, flexDirection: 'row'}}>
             <View style={{width: '5%', height: '100%'}} />
             <TextInput
-              className="w-5/6 h-10 border border-gray-300 rounded-lg p-2"
+              style={{flex: 1, fontSize: 17, color: 'gray'}}
               onChangeText={text => {
                 setDescription(text);
               }}
@@ -186,10 +197,8 @@ const AddCategoryScreen = ({navigation}: any) => {
             <View style={{width: '5%', height: '100%'}} />
           </View>
         </View>
-      </>
-      <View style={styles.spaceContainer} />
-      <>
-        <View style={[styles.inputContainer, {height: 90}]}>
+        {/* Hey i want have a room space list to choose */}
+        <View style={[styles.inputContainer, {height: 100, paddingBottom: 32}]}>
           <View style={{width: '100%', height: 10}} />
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View
@@ -198,8 +207,11 @@ const AddCategoryScreen = ({navigation}: any) => {
                 {justifyContent: 'flex-start'},
               ]}>
               <View style={{width: '10%', height: '100%'}} />
-              <Text className="text-gray-500">Product FType</Text>
-              <Text style={[{color: CUSTOM_COLOR.Red}]}> *</Text>
+              <Text style={styles.titleInputStyle}>Room Space</Text>
+              <Text style={[styles.titleInputStyle, {color: CUSTOM_COLOR.Red}]}>
+                {' '}
+                *
+              </Text>
             </View>
             <View
               style={[styles.unitTitleContainer, {justifyContent: 'flex-end'}]}>
@@ -207,24 +219,27 @@ const AddCategoryScreen = ({navigation}: any) => {
             </View>
           </View>
 
-          {/* <View style={{width: '100%', height: 5}} /> */}
           <View style={{flex: 2, flexDirection: 'row'}}>
             <View style={{width: '5%', height: '100%'}} />
             <Dropdown
-              style={[styles.comboType, isFocus && {borderColor: 'blue'}]}
-              placeholderStyle={styles.placeholderStyle}
-              iconStyle={styles.iconStyle}
-              data={fTypes}
-              maxHeight={200}
-              labelField="FurnitureTypeName"
-              valueField="Id"
-              placeholder={!isFocus ? 'Select item' : '...'}
-              value={productFType}
-              onFocus={() => setIsFocus(true)}
-              onBlur={() => setIsFocus(false)}
+              style={[
+                styles.inputContainer,
+                {height: 50, flex: 1, marginTop: 10, paddingHorizontal: 10},
+              ]}
+              
+              data={roomSpaces.map(space => ({
+                label: space.RoomSpaceName,
+                value: space.Id,
+              }))}
+              search
+              maxHeight={300}
+              labelField="label"
+              valueField="value"
+              placeholder="Select Room Space"
+              searchPlaceholder="Search..."
+              value={selectedRoomSpaceId}
               onChange={item => {
-                setProductFType(item.Id as never);
-                setIsFocus(false);
+                setSelectedRoomSpaceId(item.value);
               }}
               itemTextStyle={{color: 'black'}}
               selectedTextStyle={{color: 'gray'}}
@@ -233,27 +248,32 @@ const AddCategoryScreen = ({navigation}: any) => {
           </View>
         </View>
       </>
-      <View style={styles.spaceContainer} />
-      <View style={styles.spaceContainer} />
-      <View style={styles.spaceContainer} />
-      <CustomButton label={'Save'} onPress={handleCreateNewCategory} />
+
+      <Button
+        className="mt-6 bg-orange-500 rounded-xl border border-orange-800 text-white text-xl font-semibold"
+        textColor="white"
+        icon="format-color-fill"
+        onPress={handleAddFType}>
+        Save Furniture Type
+      </Button>
       <Dialog
         style={{backgroundColor: '#F0FFF4'}}
         visible={visible}
         onDismiss={hideDialog}>
         <Dialog.Icon icon="sticker-check-outline" size={35} color="green" />
         <Dialog.Title className="text-center text-green-600 font-semibold">
-          Category added successfully!
+          FType added successfully!
         </Dialog.Title>
         <Dialog.Content>
           <Text className="text-center text-green-600">
-            Congratulation! You have successfully added a new category!
+            Congratulation! You have successfully added a new FType!
           </Text>
         </Dialog.Content>
       </Dialog>
     </SafeAreaView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -276,75 +296,19 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     width: '100%',
-    borderRadius: 10,
+    borderRadius: 15,
     borderWidth: 1,
     flexDirection: 'column',
+    color: 'gray',
   },
   unitTitleContainer: {
     flex: 1,
     alignItems: 'center',
     flexDirection: 'row',
   },
-  //titleInputStyle: {},
-  comboxContainer: {
-    width: '100%',
-    borderRadius: 10,
-    borderWidth: 1,
-    flexDirection: 'row',
-  },
-  unitComboContainer: {
-    height: '100%',
-    alignItems: 'center',
-    flexDirection: 'row',
-  },
-  comboType: {
-    width: '85%',
-    height: '70%',
-    borderColor: CUSTOM_COLOR.MineShaft,
-    borderWidth: 0.5,
-    borderRadius: 1,
-    paddingHorizontal: '5%',
-  },
-  placeholderStyle: {
-    fontSize: 16,
-  },
-  selectedTextStyle: {
-    fontSize: 16,
-  },
-  iconStyle: {
-    width: 20,
-    height: 20,
-  },
-  dateContainer: {
-    width: '100%',
-    elevation: 1.5,
-    borderRadius: 0.5,
-    shadowColor: CUSTOM_COLOR.Black,
-    flexDirection: 'column',
-  },
-  unitDateContainer: {
-    width: '100%',
-    height: 60,
-    flexDirection: 'row',
-  },
-  dateStyle: {
-    width: '85%',
-    height: '70%',
-    borderColor: CUSTOM_COLOR.MineShaft,
-    borderWidth: 0.5,
-    borderRadius: 1,
-    paddingHorizontal: '5%',
-    justifyContent: 'center',
-    // alignItems: 'center',
-  },
-  buttonContainer: {
-    width: '100%',
-    height: 55,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   titleInputStyle: {
     color: 'gray',
   },
 });
-export default AddCategoryScreen;
+
+export default AddFTypeScreen;

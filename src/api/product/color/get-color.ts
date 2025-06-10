@@ -23,8 +23,8 @@ export const GetAllColor = async (): Promise<Color[]> => {
       },
     };
 
-    const response = await axios.request<Color[]>(config);
-    return response.data;
+    const response = await axios.request(config);
+    return response.data.data;
   } catch (error) {
     console.error(error);
     throw new Error('Get all color failed');

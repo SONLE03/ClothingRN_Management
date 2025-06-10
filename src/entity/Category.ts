@@ -28,5 +28,48 @@ export interface Category {
     Id: string;
     FurnitureTypeId: string;
     Description: string | null;
-    Image: string | null;
+    ImageSource: string | null;
+    CategoryName: string;
+}
+
+export interface CreateCategory {
+    FurnitureTypeId?: string;
+    Description?: string | null;
+    Image?: ImageFile | null;
+    CategoryName: string;
+}
+
+export interface FurnitureType {
+    Id: string;
+    FurnitureTypeName: string;
+    Description: string | null;
+    ImageSource: string | null;
+}
+
+export interface CreateFurnitureType {
+    FurnitureTypeName: string;
+    Description?: string | null;
+    Image?: ImageFile | null;
+    RoomSpaceId?: string;
+}
+
+export interface RoomSpace {
+    Id: string;
+    RoomSpaceName: string;
+    Description: string | null;
+    ImageSource: string | null;
+}
+
+export interface Material {
+    Id: string;
+    MaterialName: string;
+    Description: string | null;
+    ImageSource: string | null;
+}
+
+export interface Designer {
+    Id: string;
+    DesignerName: string;
+    Description: string | null;
+    ImageSource: string | null;
 }

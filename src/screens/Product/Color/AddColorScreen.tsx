@@ -8,16 +8,15 @@ import {
     Alert,
     TextInput,
   } from 'react-native';
-import { AddColors } from '../../../api/product/color/AddColor';
+import { AddColors } from '../../../api/product/color/add-color';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-import { CUSTOM_COLOR } from '../../../theme/theme';
-import CustomButton from '../../../components/CustomButton';
 
 import MaterialComunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'; 
 import { Button, Dialog } from 'react-native-paper';
 
 const AddColorScreen = ({navigation} : any) => {
     const [name, setCateName] = useState('');
+    const [colorCode, setColorCode] = useState('');
     const [visible, setVisible] = useState(false);
 
     const hideDialog = () => setVisible(false);
@@ -28,9 +27,13 @@ const AddColorScreen = ({navigation} : any) => {
             if (name === '') {
                 Alert.alert('Lack of information');
             }else{
-                await AddColors(name);
+                await AddColors({
+                    ColorName: name,
+                    ColorCode: colorCode,
+                });
                 setVisible(true);
                 setCateName('');
+                setColorCode('');
                 //Alert.alert('Color created successfully');
             }
         } catch (error) {
@@ -63,6 +66,24 @@ const AddColorScreen = ({navigation} : any) => {
                         setCateName(text);
                     }}
                     value={name}
+                  />
+                  
+                </View>
+              </View>
+              <View className='flex flex-col w-full p-2 border border-gray-400 rounded-xl h-24 bg-white mt-4'>
+                <View className='flex flex-row'>
+                  <Text className='font-semibold text-lg text-gray-600' >Color Code</Text>
+                </View>
+                <View style={{flex: 2, flexDirection: 'row'}}>
+                  
+                  <TextInput className=' border-b-gray-500 border border-x-white border-t-white mt-1 text-lg text-gray-600'
+                    style={{flex: 1, fontSize: 17}}
+                    placeholder='Enter color code..'
+                    placeholderTextColor='#D1D5DB'
+                    onChangeText={text => {
+                        setColorCode(text);
+                    }}
+                    value={colorCode}
                   />
                   
                 </View>
