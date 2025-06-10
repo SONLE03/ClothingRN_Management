@@ -2,11 +2,11 @@
 
 //Daily reports
 export interface DailyRevenueResponse {
-    date: string;
-    totalCustomers: number;
-    totalOrders: number;
-    totalProductsSold: number;
-    totalRevenue: number;
+    // date: string;
+    TotalCustomers: number;
+    TotalOrders: number;
+    TotalProducts: number;
+    TotalRevenue: number;
 }
 
 export interface DailyExpenseResponse {
@@ -48,4 +48,19 @@ export interface YearlyExpense {
     totalInvoices: number;
     totalProducts: number;
     totalExpense: number;
+}
+
+
+export interface Revenue {
+    Key: string;
+    TotalOrders: number;
+    TotalProductsSold: number;
+    TotalRevenue: number;
+    TotalCustomers: number;
+    ProductAnalyticDatas: ProductAnalyticData[];
+   
+}
+export interface ProductAnalyticData{
+    ProductName: string;
+    TotalProductsSold: number;
 }
