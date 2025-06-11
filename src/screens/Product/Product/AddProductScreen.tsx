@@ -386,7 +386,7 @@ const AddProductScreen = ({navigation}: any) => {
             </DataTable.Title>
             <DataTable.Title
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>
-              Size
+              Price
             </DataTable.Title>
             <DataTable.Title
               textStyle={{color: 'orange', fontSize: 16, fontWeight: 'bold'}}>

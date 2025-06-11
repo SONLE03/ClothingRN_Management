@@ -42,7 +42,7 @@ const OrderHistoryScreen = () => {
 
   const handleCancelOrder = async () => {
     if (selectedOrder) {
-      await UpdateOrderStatus(selectedOrder.Id, 1);
+      await UpdateOrderStatus(selectedOrder.Id, 3);
       const orders = await GetAllOrder();
       setOrders(orders);
       setModalVisible(false);
@@ -51,7 +51,7 @@ const OrderHistoryScreen = () => {
 
   const handleCompleteOrder = async () => {
     if (selectedOrder) {
-      await UpdateOrderStatus(selectedOrder.Id, 3);
+      await UpdateOrderStatus(selectedOrder.Id, 5);
       const orders = await GetAllOrder();
       setOrders(orders);
       setModalVisible(false);
@@ -162,7 +162,7 @@ const OrderHistoryScreen = () => {
           title={<Text className="text-green-500">Completed</Text>}
           className="h-20 text-green-500"
           icon={<Ionicons name="checkmark-circle" size={24} color="green" />}>
-          {renderTabContent('PAID')}
+          {renderTabContent('COMPLETED')}
         </Tab>
         <Tab
           title="Pending"
@@ -171,10 +171,10 @@ const OrderHistoryScreen = () => {
           {renderTabContent('PENDING')}
         </Tab>
         <Tab
-          title="Paid"
+          title="Confirmed" 
           className="h-20"
           icon={<Ionicons name="cash-outline" size={24} color="#b7791f" />}>
-          {renderTabContent('PAID')}
+          {renderTabContent('CONFIRMED')}
         </Tab>
         <Tab
           title="Delivering"
